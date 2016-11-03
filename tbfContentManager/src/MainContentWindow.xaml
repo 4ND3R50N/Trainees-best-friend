@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tbfContentManager"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="MainContentWindow" Height="300" Width="300">
-    <Grid>
-        
+        Title="MainContentWindow" Height="459" Width="650">
+    <Grid Margin="0,0,0,26">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="338" VerticalAlignment="Top" Width="642" Margin="0,54,0,0">
+
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+                    <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="16" />
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Status" BorderThickness="0" Margin="0,0,-52,17">
+                <Grid Margin="105,-44,0,0" Background="#FFD0D1E5"/>
+            </TabItem>
+            <TabItem Header="User&#xD;&#xA;Management" Margin="-54,30,54,-36">
+                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0"/>
+            </TabItem>
+            <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Left" Width="107" Margin="-161,83,0,-83">
+                <Grid Background="#FFE5E5E5" Margin="105,-44,0,0"/>
+            </TabItem>
+        </TabControl>
+        <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
+            <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <StatusBar Height="23" Margin="0,404,0,-45" VerticalAlignment="Top" Background="White">
+            <StatusBarItem  Height="23" VerticalAlignment="Top">
+                <TextBlock Name="lblConnectionStatus" Text="lblConnectionStatus" Width="110" Foreground="Black" />
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem  Height="23" VerticalAlignment="Top">
+                <TextBlock Name="lblCursorPosition" Text="lblOtherInformation" Width="110" Foreground="Black" />
+            </StatusBarItem>
+        </StatusBar>
+        <Separator Height="13" Margin="0,397,0,-8" VerticalAlignment="Top"/>
+
     </Grid>
 </Controls:MetroWindow>
