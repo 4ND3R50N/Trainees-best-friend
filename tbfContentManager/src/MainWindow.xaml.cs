@@ -25,5 +25,12 @@ namespace tbfContentManager
         {
             InitializeComponent();
         }
+
+        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            MainContentWindow mainWindow = new MainContentWindow();
+            mainWindow.Show();
+            Hide();
+        }
     }
 }
