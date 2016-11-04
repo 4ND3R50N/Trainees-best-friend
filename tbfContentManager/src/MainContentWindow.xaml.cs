@@ -23,5 +23,12 @@ namespace tbfContentManager
         {
             InitializeComponent();
         }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            MainWindow newLogin = new MainWindow();
+            newLogin.Show();
+        }
     }
 }
