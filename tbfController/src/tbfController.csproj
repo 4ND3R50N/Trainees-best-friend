@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Database\DBInterface.cs" />
+    <Compile Include="Classes\Database\MssqlManager.cs" />
+    <Compile Include="Classes\Database\MysqlManager.cs" />
     <Compile Include="Classes\Network\SimpleNetworkServer.cs" />
     <Compile Include="Classes\Support\AESEncoding.cs" />
     <Compile Include="Program.cs" />
