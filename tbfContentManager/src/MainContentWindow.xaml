@@ -15,13 +15,16 @@
                 </Style>
             </TabControl.Resources>
             <TabItem Header="Status" BorderThickness="0" Margin="0,0,-52,17">
-                <Grid Margin="105,-44,0,0" Background="#FFD0D1E5" Width="530" Height="330"/>
+                <Grid Margin="104,-44,0,0" Background="#FFD0D1E5" Width="530" Height="330"/>
             </TabItem>
             <TabItem Header="User&#xD;&#xA;Management" Margin="-54,30,54,-36">
-                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0"/>
+                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0" Width="530" Height="330"/>
             </TabItem>
-            <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Left" Width="107" Margin="-161,83,0,-83">
-                <Grid Background="#FFE5E5E5" Margin="105,-44,0,0"/>
+            <TabItem Header="Room&#xA;Management" Margin="-161,83,0,-83" HorizontalAlignment="Left" Width="107">
+                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0" Width="530" Height="327"/>
+            </TabItem>
+            <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Right" Height="48" VerticalAlignment="Top" Width="107" Margin="-322,130,305,-131">
+                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0" Width="530" Height="330"/>
             </TabItem>
         </TabControl>
         <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
