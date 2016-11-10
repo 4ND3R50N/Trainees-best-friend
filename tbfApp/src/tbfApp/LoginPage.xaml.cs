@@ -10,14 +10,13 @@ namespace tbfApp
 {
     public partial class LoginPage : ContentPage
     {
-
         public LoginPage()
         {
             InitializeComponent();
         }
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            //await Navigation.PushAsync(new SignUpPage());
+           await Navigation.PushAsync(new SignUpPage());
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -31,9 +30,22 @@ namespace tbfApp
             var isValid = AreCredentialsCorrect(user);
             if (isValid)
             {
-                App.IsUserLoggedIn = true;
-                Navigation.InsertPageBefore(new MainPage(), this);
-                await Navigation.PopAsync();
+                //App.IsUserLoggedIn = true;
+                Application.Current.Properties["IsUserLoggedIn"] = true;
+
+                System.Diagnostics.Debug.WriteLine("Ab jetzt gibt es eine Exception wegen des Seitenwechsels");
+
+                //Navigation.InsertPageBefore(new MainPage(), this);
+                //await Navigation.PopAsync();
+
+                //await Navigation.PushModalAsync(new MainPage());
+
+                App.LogInSwitch();
+
+                //await Content.Navigation.InsertPageBefore(new MainPage());
+
+                //MainPage = new tbfApp.MainPage();
+
             }
             else
             {
