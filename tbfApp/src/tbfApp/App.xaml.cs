@@ -9,11 +9,19 @@ namespace tbfApp
 {
     public partial class App : Application
     {
+        public static bool IsUserLoggedIn { get; set; }
         public App()
         {
             InitializeComponent();
 
-            MainPage = new tbfApp.MainPage();
+            if (!IsUserLoggedIn)
+            {
+				MainPage = new NavigationPage (new LoginPage ());
+			}
+            else
+            {
+				//MainPage = new NavigationPage (new LoginNavigation.MainPage ());
+			}
         }
 
         protected override void OnStart()
