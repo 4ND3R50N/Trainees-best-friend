@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tbfContentManager"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="MainContentWindow" Height="459" Width="650">
-    <Grid Margin="0,0,0,26">
+        Title="MainContentWindow" Height="485.667" Width="650">
+    <Grid Margin="0,0,0,1" >
+
+        <Label x:Name="lblWelcomeMessage" Content="Welcome, lblNameOfUser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0" Width="226" FontSize="15" Height="30" FontWeight="Bold"/>
+
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="338" VerticalAlignment="Top" Width="642" Margin="0,54,0,0">
 
             <TabControl.Resources>
@@ -15,34 +18,100 @@
                 </Style>
             </TabControl.Resources>
             <TabItem Header="Status" BorderThickness="0" Margin="0,0,-52,17">
-                <Grid Margin="104,-44,0,0" Background="#FFD0D1E5" Width="530" Height="330"/>
+                <Grid Margin="104,-50,0,0" Width="530" Height="330">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <Grid>
+                                <GroupBox x:Name="groupBox" Header="Connection Status" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="143" Width="225">
+                                    <Grid>
+                                        <Label x:Name="label" Content="Database Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,40,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="label_Copy" Content="Controller Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,71,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="lblInternetOnline" Content="Online" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Margin="166,9,0,0" HorizontalContentAlignment="Right" Background="{x:Null}" Foreground="#FF17FF00"/>
+                                        <Label x:Name="lblDatabaseOnline" Content="Online" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Margin="166,40,0,0" HorizontalContentAlignment="Right" Background="{x:Null}" Foreground="#FF17FF00" RenderTransformOrigin="-0.781,0.538"/>
+                                        <Label x:Name="label_Copy3" Content="Internet Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,9,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="lblControllerOnline" Content="Online" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Margin="166,71,0,0" HorizontalContentAlignment="Right" Background="{x:Null}" Foreground="#FF17FF00"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox_Copy" Header="User Details" HorizontalAlignment="Left" Margin="285,0,0,0" VerticalAlignment="Top" Height="143" Width="225">
+                                    <Grid>
+                                        <Label x:Name="label1" Content="Forename:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,26,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="label_Copy1" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,52,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="label_Copy2" Content="Nickname:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" FontWeight="Bold"/>
+                                        <Label x:Name="label_Copy4" Content="&lt;NickName&gt;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="70,0,0,0" HorizontalContentAlignment="Right"/>
+                                        <Label x:Name="label_Copy5" Content="&lt;ForeName&gt;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="70,26,0,0" HorizontalContentAlignment="Right"/>
+                                        <Label x:Name="label_Copy6" Content="&lt;Name&gt;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="70,52,0,0" HorizontalContentAlignment="Right"/>
+                                        <Label x:Name="label_Copy7" Content="Email:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,78,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="label_Copy8" Content="&lt;Email&gt;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="70,78,0,0" HorizontalContentAlignment="Right"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox_Copy2" Header="Active Licences" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Height="77" Width="500">
+                                    <Grid>
+                                        <Label x:Name="label3" Content="Amount:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" FontWeight="Bold"/>
+                                        <Label x:Name="lblLicencesAmount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,2,0,0" RenderTransformOrigin="0.455,0.904" Width="65" Height="24"/>
+                                        <Label x:Name="label3_Copy" Content="Licences:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="130,2,0,0" FontWeight="Bold"/>
+                                        <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="190,2,0,0" Height="15"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox_Copy1" Header="Content Statistics" HorizontalAlignment="Left" Margin="10,130,0,-17" VerticalAlignment="Top" Height="144" Width="500">
+                                    <Grid>
+                                        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="79,9,0,0" VerticalAlignment="Top" Width="120"/>
+                                        <Label x:Name="label2" Content="Workouts:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,40,0,0"/>
+                                        <Label x:Name="label_Copy9" Content="Exercises:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,71,0,0"/>
+                                        <Label x:Name="label_Copy10" Content="Rooms:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="0,9,0,0"/>
+                                        <ComboBox x:Name="comboBox_Copy" HorizontalAlignment="Left" Margin="79,40,0,0" VerticalAlignment="Top" Width="120"/>
+                                        <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="79,71,0,0" VerticalAlignment="Top" Width="120"/>
+                                        <Separator Height="13" Margin="0,31,0,0" VerticalAlignment="Top"/>
+                                        <Separator Height="13" Margin="0,62,0,0" VerticalAlignment="Top"/>
+                                        <Separator Height="13" Margin="0,94,0,0" VerticalAlignment="Top"/>
+                                        <Label x:Name="label_Copy11" Content="Amount:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="204,9,0,0"/>
+                                    </Grid>
+                                </GroupBox>
+                                
+
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
-            <TabItem Header="User&#xD;&#xA;Management" Margin="-54,30,54,-36">
-                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0" Width="530" Height="330"/>
+            <TabItem Header="User&#xD;&#xA;Management" Margin="-54,30,54,-36" Background="{x:Null}">
+                <Grid Margin="104,-50,0,0" Width="530" Height="330"/>
             </TabItem>
-            <TabItem Header="Room&#xA;Management" Margin="-161,83,0,-83" HorizontalAlignment="Left" Width="107">
-                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0" Width="530" Height="327"/>
+            <TabItem Header="Room&#xA;Management" Margin="-161,84,0,-84" HorizontalAlignment="Left" Width="107">
+                <Grid Margin="104,-50,0,0" Width="530" Height="327"/>
             </TabItem>
-            <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Right" Height="48" VerticalAlignment="Top" Width="107" Margin="-322,130,305,-131">
-                <Grid Background="#FFE5E5E5" Margin="104,-44,0,0" Width="530" Height="330"/>
+            <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Right" Height="48" VerticalAlignment="Top" Width="107" Margin="-322,132,322,-132">
+                <Grid Margin="104,-50,0,0" Width="530" Height="330">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#FFFDD8D8" Opacity="0.2"/>
+                    </Grid.Background>
+                </Grid>
             </TabItem>
         </TabControl>
         <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
             <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Left" Margin="557,10,0,0" VerticalAlignment="Top" Width="75" Height="31" Foreground="#CC0050EF" Click="btnLogout_Click"/>
             <Image x:Name="image" Height="44" Margin="270,0,248,0" VerticalAlignment="Top"/>
-        </Grid>
-        <StatusBar Height="23" Margin="0,404,0,-45" VerticalAlignment="Top" Background="White">
-            <StatusBarItem  Height="23" VerticalAlignment="Top">
-                <TextBlock Name="lblConnectionStatus" Text="lblConnectionStatus" Width="110" Foreground="Black" />
-            </StatusBarItem>
-            <Separator Grid.Column="1" />
-            <StatusBarItem  Height="23" VerticalAlignment="Top">
-                <TextBlock Name="lblCursorPosition" Text="lblOtherInformation" Width="110" Foreground="Black" />
-            </StatusBarItem>
-        </StatusBar>
-        <Separator Height="13" Margin="0,397,0,-8" VerticalAlignment="Top"/>
-        <Label x:Name="lblWelcomeMessage" Content="Welcome, lblNameOfUser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0" Width="226" FontSize="15" Height="30" FontWeight="Bold"/>
 
+        </Grid>
+        <Separator Margin="0,0,0,30" Height="3" VerticalAlignment="Bottom"/>
+        <DockPanel Height="30" VerticalAlignment="Bottom">
+
+            <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  Background="White" Height="24">
+                <StatusBarItem  Height="23" VerticalAlignment="Bottom">
+                    <TextBlock x:Name="lblConnectionStatus" Text="lblConnectionStatus" Width="110" Foreground="Black"/>
+                </StatusBarItem>
+                <Separator  Grid.Column="1" />
+                <StatusBarItem  Height="23" VerticalAlignment="Bottom">
+                    <TextBlock x:Name="lblCursorPosition" Text="lblOtherInformation" Width="110" Foreground="Black" VerticalAlignment="Bottom" />
+                </StatusBarItem>
+                <Separator Grid.Column="1" />
+                <StatusBarItem  Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <Grid Width="207">
+                        <TextBlock x:Name="lblLoadingInformation" Text="lblLoadingDescription" Foreground="Black" Margin="0,0,75,0" Width="122" VerticalAlignment="Bottom" />
+                        <ProgressBar Margin="137,0,0,2" Height="Auto"/>
+                    </Grid>
+                </StatusBarItem>
+            </StatusBar>
+        </DockPanel>
     </Grid>
 </Controls:MetroWindow>
