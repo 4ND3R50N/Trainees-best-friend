@@ -5,7 +5,7 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright		Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 1.0
  */
 
@@ -16,12 +16,12 @@ using System.Data.SqlClient;
 
 namespace Database
 {
-    class clsDBMysqlProtesManager: DBEngine
+    class DBMysqlProtesManager: DBEngine
     {
 
         
 
-        public clsDBMysqlProtesManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_protes, string sql_db_game)
+        public DBMysqlProtesManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_protes, string sql_db_game)
         {
 
         }

@@ -5,7 +5,7 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright		Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 1.0
  */
 using System.Data.SqlClient;
