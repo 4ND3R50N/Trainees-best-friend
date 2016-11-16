@@ -52,11 +52,8 @@
     <Compile Include="Classes\Database\MysqlManager.cs" />
     <Compile Include="Classes\Network\SimpleNetworkServer.cs" />
     <Compile Include="Classes\Support\AESEncoding.cs" />
-<<<<<<< HEAD
     <Compile Include="Classes\Support\IniHandler.cs" />
-=======
     <Compile Include="Classes\Support\logWriter.cs" />
->>>>>>> refs/remotes/origin/Develop
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
