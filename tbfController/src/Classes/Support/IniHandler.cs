@@ -424,5 +424,17 @@ namespace Support
         /// The maximum number of bytes in a section buffer.
         /// </summary>
         private const int MAX_ENTRY = 32768;
+
+        internal tbfController.Program Program
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
     }
 }

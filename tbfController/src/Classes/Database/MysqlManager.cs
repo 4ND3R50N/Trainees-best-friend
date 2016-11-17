@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 
 
-namespace Database
+namespace WCDatabaseEngine
 {
     class DBMysqlProtesManager: DBEngine
     {

@@ -20,6 +20,18 @@ namespace Support
 
         #endregion
 
+        internal static SimpleNetworkServer.networkServer networkServer
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public static string Encrypt(string value, string password)
         {
             return Encrypt<AesManaged>(value, password);

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleNetworkServer;
+using WCDatabaseEngine;
 using System.Net;
 using System.Net.Sockets;
+
 
 namespace tbfController.Classes.Core
 {
@@ -14,7 +16,7 @@ namespace tbfController.Classes.Core
 
         //Variablen
         networkServer tcpServer;
-        List<networkServer.networkClientInterface> activeConnections;
+        DBEngine databaseEngine;
         private string sAesKey;
 
 

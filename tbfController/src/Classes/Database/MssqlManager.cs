@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Database
+namespace WCDatabaseEngine
 {
     class DBMssqlProtesManager : DBEngine
     {
