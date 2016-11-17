@@ -12,16 +12,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-
+using MySql.Data.MySqlClient;
 
 namespace WCDatabaseEngine
 {
-    class DBMysqlProtesManager: DBEngine
-    {
-
-        
-
-        public DBMysqlProtesManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_protes, string sql_db_game)
+    class DBMysqlManager: DBEngine
+    { 
+        public DBMysqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_game) : 
+            base(host_ip, sql_user, sql_pass, sql_port, sql_db_game)
         {
 
         }
@@ -38,7 +36,21 @@ namespace WCDatabaseEngine
 
         public override bool testDBConnection()
         {
-            throw new NotImplementedException();
+            MySqlDataReader mysqlDataReader = null;
+
+            using (MySqlConnection mysqlConnection =
+                   new MySqlConnection("Server=" + host_ip + ";Database=" + sql_db_default + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
+            {
+                try
+                {
+                    mysqlConnection.Open();
+                }
+                catch (Exception)
+                
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

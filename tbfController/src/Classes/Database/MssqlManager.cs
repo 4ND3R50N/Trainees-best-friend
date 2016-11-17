@@ -18,27 +18,17 @@ using System.Threading.Tasks;
 
 namespace WCDatabaseEngine
 {
-    class DBMssqlProtesManager : DBEngine
+    class DBMssqlManager : DBEngine
     {
 
-        string host_ip;
-        string sql_user;
-        string sql_pass;
-        short sql_port;
-        string sql_db_protes;
-        string sql_db_game;
+       
 
         //Queries
 
 
-        public DBMssqlProtesManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_protes, string sql_db_game)
-        {
-            this.host_ip = host_ip;
-            this.sql_user = sql_user;
-            this.sql_pass = sql_pass;
-            this.sql_port = sql_port;
-            this.sql_db_protes = sql_db_protes;
-            this.sql_db_game = sql_db_game;
+        public DBMssqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
+             : base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
+        {    
         }
 
         public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
@@ -56,7 +46,7 @@ namespace WCDatabaseEngine
         public override bool testDBConnection()
         {
             using (SqlConnection mssqlConnection =
-              new SqlConnection("Server=" + host_ip + ";Database=" + sql_db_protes + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
+              new SqlConnection("Server=" + host_ip + ";Database=" + sql_db_default + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
             {
                 try
                 {
