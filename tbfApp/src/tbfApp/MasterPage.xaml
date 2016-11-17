@@ -14,11 +14,11 @@
              Icon="hamburger.png"
              Title="Personal Organiser">
   <ContentPage.Content>
-    <StackLayout VerticalOptions="FillAndExpand">
+    <StackLayout VerticalOptions="FillAndExpand" BackgroundColor = "#009acd">
       <ListView x:Name="listView" VerticalOptions="FillAndExpand" SeparatorVisibility="None">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ImageCell Text="{Binding Title}" ImageSource="{Binding IconSource}" />
+            <ImageCell Text="{Binding Title}" ImageSource="{Binding IconSource}" TextColor="#000000"/>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
