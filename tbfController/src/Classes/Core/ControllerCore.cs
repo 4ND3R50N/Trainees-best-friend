@@ -17,6 +17,7 @@ namespace tbfController.Classes.Core
         //Variablen
         networkServer tcpServer;
         DBEngine databaseEngine;
+        List<networkServer.networkClientInterface> activeConnections;
         private string sAesKey;
 
 
@@ -31,8 +32,7 @@ namespace tbfController.Classes.Core
             activeConnections = new List<networkServer.networkClientInterface>();
             sAesKey = _sAesKey;
             tcpServer = new networkServer(networkProtocol, _sAesKey, IPAddress.Any, _iPort, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            
+                       
         }
 
         public void start()
