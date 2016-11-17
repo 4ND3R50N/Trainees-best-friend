@@ -1,13 +1,24 @@
-﻿Feature: Workout license
+﻿Feature: Add license to trainee
 	
 @mytag
-Scenario: Add license to trainee
+Scenario: License avialable
 	Given Content Manager is open
 	Then navigate to "User Management"
 	Then chose a trainee
-	When license is available and user exists
+	When license is available 
+		And user exists
 	Then I should see "Successfull"
-	When licesene is not available or user doesn't exstis
+
+ Scenario:User doesn't exists
+	Given Content Manager is open
+	Then navigate to "User Management"
+	Then chose a trainee
+	When licesene is not available OR user doesn't exstis
 	Then I should see error page "User doesn't exist"
-	When licesene is not available or no license left
+	
+Scenario: No license left
+	Given Content Manager is open
+	Then navigate to "User Management"
+	Then chose a trainee
+	When licesene is not available OR no license left
 	Then I should see error page "No license left"

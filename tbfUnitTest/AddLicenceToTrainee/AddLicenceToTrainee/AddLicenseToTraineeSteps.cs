@@ -4,7 +4,7 @@ using TechTalk.SpecFlow;
 namespace UnitTestProject1
 {
     [Binding]
-    public class WorkoutLicenseSteps
+    public class AddLicenseToTraineeSteps
     {
         [Given(@"Content Manager is open")]
         public void GivenContentManagerIsOpen()
@@ -12,20 +12,26 @@ namespace UnitTestProject1
             ScenarioContext.Current.Pending();
         }
         
-        [When(@"license is available and user exists")]
-        public void WhenLicenseIsAvailableAndUserExists()
+        [When(@"license is available")]
+        public void WhenLicenseIsAvailable()
         {
             ScenarioContext.Current.Pending();
         }
         
-        [When(@"licesene is not available or user doesn't exstis")]
-        public void WhenLiceseneIsNotAvailableOrUserDoesnTExstis()
+        [When(@"user exists")]
+        public void WhenUserExists()
         {
             ScenarioContext.Current.Pending();
         }
         
-        [When(@"licesene is not available or no license left")]
-        public void WhenLiceseneIsNotAvailableOrNoLicenseLeft()
+        [When(@"licesene is not available OR user doesn't exstis")]
+        public void WhenLiceseneIsNotAvailableORUserDoesnTExstis()
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
+        [When(@"licesene is not available OR no license left")]
+        public void WhenLiceseneIsNotAvailableORNoLicenseLeft()
         {
             ScenarioContext.Current.Pending();
         }
