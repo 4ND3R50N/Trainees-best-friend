@@ -18,8 +18,8 @@ namespace WCDatabaseEngine
 {
     class DBMysqlManager: DBEngine
     { 
-        public DBMysqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_game) : 
-            base(host_ip, sql_user, sql_pass, sql_port, sql_db_game)
+        public DBMysqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default) : 
+            base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
         {
 
         }
@@ -45,7 +45,7 @@ namespace WCDatabaseEngine
                 {
                     mysqlConnection.Open();
                 }
-                catch (Exception)
+                catch (Exception) { 
                 
                     return false;
                 }
