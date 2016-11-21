@@ -12,7 +12,7 @@ namespace tbfApp
     public partial class WorkoutPage : ContentPage
     {
         static ActivityIndicator activityIndicator;
-        public WorkoutPage()
+        public WorkoutPage(String roomID)
         {
             InitializeComponent();
 

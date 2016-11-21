@@ -15,7 +15,7 @@ namespace tbfApp
             masterPage = new MasterPage()
             {
                 //Title = "Menü",
-                BackgroundColor = Color.FromHex("#009acd"),
+                BackgroundColor = Color.FromHex("#009acd"), //#009acd
             };
             Master = masterPage;
             Detail = new NavigationPage(new RoomPage()
@@ -23,7 +23,7 @@ namespace tbfApp
                 Title = "Räume",
             })
             {
-                BarBackgroundColor = Color.FromHex("#009acd"),
+                BarBackgroundColor = Color.FromHex("#009acd"), //#009acd
                 BarTextColor = Color.White,
             };
 
