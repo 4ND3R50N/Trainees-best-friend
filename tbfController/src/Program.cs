@@ -28,9 +28,8 @@ namespace tbfController
                 Console.ReadLine();
                 return;
             }
-            IniReader iniFile = new IniReader(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
-
-            
+            //iniManager iniFile = new iniManager(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
+            //Console.WriteLine(iniFile.IniReadValue("Test", "test"));
             displayCommands();
            
 
@@ -45,11 +44,10 @@ namespace tbfController
                         break;
                     case "/start":
                         //Start Server
+                        controllerManagement = new ControllerCore(1234, "m932B)§()d",
+                            "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "tbf_users");
 
-                        Console.WriteLine(iniFile.ReadString("Network", "Port"));
-                        //controllerManagement = new ControllerCore(
-                            //Convert.ToInt16(), 
-                            //iniFile.ReadString("Network", "AesKey"));
+
                         break;
                     default:
                         break;
