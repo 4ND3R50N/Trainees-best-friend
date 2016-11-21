@@ -22,11 +22,22 @@ namespace tbfController.Classes.Core
 
 
         //Konstruktor
-        public ControllerCore(short _iPort, string _sAesKey)
+        public ControllerCore(short _iPort, string _sAesKey, string _sDatabaseDriver,
+            string _sDBHostIp, short _sDBPort, string _sDBUser, string _sDBPass, string _sDBDefaultDB)
         {
             //Logging initialisations
 
             //Database Initialisations
+            if(_sDatabaseDriver == "mysql")
+            {
+                databaseEngine = new DBMysqlManager(_sDBHostIp,_sDBUser,_sDBPass,_sDBPort,_sDBDefaultDB);
+            }else if(_sDatabaseDriver == "mssql")
+            {
+                databaseEngine = new DBMssqlManager(_sDBHostIp, _sDBUser, _sDBPass, _sDBPort, _sDBDefaultDB);
+            }else
+            {
+                
+            }
 
             //Network Initialisations
             activeConnections = new List<networkServer.networkClientInterface>();
