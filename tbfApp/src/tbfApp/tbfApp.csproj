@@ -64,6 +64,8 @@
     <Compile Include="SignUpPage.xaml.cs">
       <DependentUpon>SignUpPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SimpleNetworkClient.cs" />
+    <Compile Include="Support\AESEncoding.cs" />
     <Compile Include="User.cs" />
     <Compile Include="WorkoutPage.xaml.cs">
       <DependentUpon>WorkoutPage.xaml</DependentUpon>
