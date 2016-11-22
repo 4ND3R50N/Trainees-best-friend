@@ -59,7 +59,7 @@ namespace tbfApp
             }
             else
             {
-                app.MainPage = new tbfApp.MainPage();
+                //app.MainPage = new tbfApp.MainPage();
             }
         }
     }

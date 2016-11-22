@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Network;
 using Xamarin.Forms;
+using Sockets.Plugin;
 
 namespace tbfApp
 {
@@ -27,11 +28,11 @@ namespace tbfApp
                 Password = passwordEntry.Text
             };
 
-            //Network test
-            SimpleNetworkClient endpointConnection = new SimpleNetworkClient(networkProtocol,"noch nicht benötigt!", "127.0.0.1",12345);
-
+            #region Network test
+            SimpleNetworkClient endpointConnection = new SimpleNetworkClient(networkProtocol, "noch nicht benötigt!", "62.138.6.50", 12345, 1024, 2);
             await endpointConnection.connect();
-
+            await endpointConnection.sendMessage("#101", false);
+            #endregion
 
             var isValid = AreCredentialsCorrect(user);
             if (isValid)

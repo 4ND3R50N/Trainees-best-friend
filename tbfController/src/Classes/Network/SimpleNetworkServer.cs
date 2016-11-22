@@ -81,6 +81,7 @@ namespace SimpleNetworkServer
         {
 
             networkClientInterface connection = new networkClientInterface((Socket)result.AsyncState, result);
+            Console.WriteLine("System@WhiteCode-Controller: Connection income");
             try
             { 
                
@@ -110,19 +111,18 @@ namespace SimpleNetworkServer
         private void ReceiveCallback(IAsyncResult result)
         {
             networkClientInterface connection = (networkClientInterface)result.AsyncState;
+            Console.WriteLine("System@WhiteCode-Controller: Message received!");
             try
             {
                 //bytesread = count of bytes
                 int bytesRead = connection.networkSocket.EndReceive(result);
+                Console.WriteLine("System@WhiteCode-Controller: bytesRead: " + bytesRead);
                 if (0 != bytesRead)
                 {
-
-                    
-                    protAnalyseFunction(Cryptography.Decrypt(Encoding.UTF8.GetString(connection.buffer, 0, bytesRead), network_AKey), ref connection);
+                    protAnalyseFunction(Encoding.UTF8.GetString(connection.buffer, 0, bytesRead), ref connection);
                     connection.networkSocket.BeginReceive(connection.buffer, 0,
                       connection.buffer.Length, SocketFlags.None,
                       new AsyncCallback(ReceiveCallback), connection);
-
                 }
                 else closeConnection(connection);
             }
@@ -140,7 +140,7 @@ namespace SimpleNetworkServer
         {
             try
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(Cryptography.Encrypt(message, network_AKey));
+                byte[] bytes = Encoding.UTF8.GetBytes(message);
                 client.networkSocket.Send(bytes, bytes.Length,
                                 SocketFlags.None);
             }

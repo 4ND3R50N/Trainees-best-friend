@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Sockets.Plugin;
+using System.Diagnostics;
+using Sockets.Plugin.Abstractions;
 
 namespace Network
 {
@@ -14,13 +16,14 @@ namespace Network
         //Variables
         //--Public
         public delegate void protocolFunction(string prot);
-
+        public bool bMessageReceived = false;
         //--Private
         private TcpSocketClient socket;
         private byte[] buffer {get;}
         private string ip;
         private short port;
         private string network_AKey;
+        private short waitingTimeSeconds;
         private event protocolFunction protAnalyseFunction;
 
 
@@ -30,14 +33,15 @@ namespace Network
 
         }
 
-        public SimpleNetworkClient(protocolFunction protAnalyseFunction, string network_AKey, string ip, short port)
+        public SimpleNetworkClient(protocolFunction protAnalyseFunction, string network_AKey, string ip, short port, short bufferSize, short waitingTimeSeconds)
         {
             this.protAnalyseFunction = protAnalyseFunction;
             this.network_AKey = network_AKey;
             socket = new TcpSocketClient();
             this.ip = ip;
             this.port = port;
-
+            buffer = new byte[bufferSize];
+            this.waitingTimeSeconds = waitingTimeSeconds;
         }
 
         //Functions
@@ -46,7 +50,8 @@ namespace Network
         {
             try
             {
-                await socket.ConnectAsync(ip, port);
+                await socket.ConnectAsync(ip, port);               
+               
             }
             catch (Exception)
             {
@@ -56,9 +61,11 @@ namespace Network
 
         }
 
-        public bool sendMessage(string message, bool enableEncryption)
+        public async Task<bool> sendMessage(string message, bool enableEncryption)
         {
             byte[] bytes;
+            bMessageReceived = false;
+
             if (enableEncryption)
             {
                 bytes = Encoding.UTF8.GetBytes(message);
@@ -68,29 +75,26 @@ namespace Network
                 bytes = Encoding.UTF8.GetBytes(message);
             }
 
-            try
-            {
-                socket.WriteStream.Write(bytes, 0, bytes.Length);
-                //Temporary usage (Must be tested)
-                Task.Delay(1000);
-                receiveData();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            
+            socket.WriteStream.Write(bytes, 0, bytes.Length);
+            await Task.Delay(4000);
+           
+            await socket.ReadStream.ReadAsync(buffer, 0, buffer.Length);
+
+
+            await Task.Delay(new TimeSpan(0, 0, waitingTimeSeconds));
+            protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
+   
+           
+            //Temporary usage (Must be tested)
+            //protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
+            //bMessageReceived = true;
+
             return true;
         }
 
-        //Receive function (triggern durch message vom server
-        void receiveData()
-        {
-            while (socket.ReadStream.Read(buffer, 0, buffer.Length) == 0)
-            {
-                protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
-            }
-        }
-
+    
+        
         public async void closeConnection()
         {
             await socket.DisconnectAsync();

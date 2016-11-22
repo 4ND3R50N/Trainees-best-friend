@@ -46,7 +46,6 @@ namespace tbfController.Classes.Core
             }
 
 
-
             //Network Initialisations
             activeConnections = new List<networkServer.networkClientInterface>();
             sAesKey = _sAesKey;
@@ -57,16 +56,18 @@ namespace tbfController.Classes.Core
         public void start()
         {
             tcpServer.startListening();
-
+            Console.WriteLine("TFB Controller started!");
         }
         
         private void networkProtocol(string message, ref networkServer.networkClientInterface relatedClient)
         {
             string protocolShortcut = getProtocolShortcut(message);
-            Console.WriteLine(protocolShortcut);
+            string realMessage = getProtocolMessage(message);
+            Console.WriteLine("System@WhiteCode-Controller: Data revceived: " + message);
             switch (protocolShortcut)
             {
                 case "#101":
+                    Console.WriteLine("System@WhiteCode-Controller: Got #101, send answer back!");
                     tcpServer.sendMessage("Greetings from controller ^.^", relatedClient);
                     break;
                 default:
@@ -78,7 +79,11 @@ namespace tbfController.Classes.Core
         #region Support functions
         private string getProtocolShortcut(string message)
         {
-            return message.Substring(0, 3);
+            return message.Substring(0, 4);
+        }
+        private string getProtocolMessage(string message)
+        {
+            return message.Substring(4);
         }
         #endregion
 

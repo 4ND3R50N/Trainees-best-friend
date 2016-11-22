@@ -44,10 +44,11 @@ namespace tbfController
                         break;
                     case "/start":
                         //Start Server
-                        controllerManagement = new ControllerCore(1234, "m932B)§()d",
-                            "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "tbf_users");
+                        controllerManagement = new ControllerCore(12345, "m932B)§()d",
+                            "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "traineesbestfriend");
 
                         controllerManagement.start();
+                        
                         break;
                     default:
                         break;

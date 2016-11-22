@@ -39,14 +39,14 @@ namespace WCDatabaseEngine
             MySqlDataReader mysqlDataReader = null;
 
             using (MySqlConnection mysqlConnection =
-                   new MySqlConnection("Server=" + host_ip + ";Database=" + sql_db_default + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
+                   new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
             {
                 try
                 {
                     mysqlConnection.Open();
                 }
-                catch (Exception) { 
-                
+                catch (Exception e) {
+                    Console.WriteLine(e.ToString());
                     return false;
                 }
                 return true;
