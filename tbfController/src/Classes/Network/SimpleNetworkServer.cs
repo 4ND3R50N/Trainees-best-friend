@@ -5,7 +5,7 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright	Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 2.1
  */
 using System;
@@ -19,7 +19,7 @@ using System.Diagnostics;
 using Support;
 namespace SimpleNetworkServer
 {
-    class network_Server
+    class networkServer
     {
         //Variables
         //--Public
@@ -33,13 +33,13 @@ namespace SimpleNetworkServer
 
 
         //Constructor
-        public network_Server(protocolFunction protAnalyseFunction, string network_AKey)
+        public networkServer(protocolFunction protAnalyseFunction, string network_AKey)
         { 
             this.network_AKey = network_AKey;
             this.protAnalyseFunction = protAnalyseFunction;
         }
 
-        public network_Server(protocolFunction protAnalyseFunction, string network_AKey, IPAddress ip, short port, 
+        public networkServer(protocolFunction protAnalyseFunction, string network_AKey, IPAddress ip, short port, 
             AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
             this.network_AKey = network_AKey;
@@ -167,29 +167,17 @@ namespace SimpleNetworkServer
             public Socket networkSocket;
             public byte[] buffer;
             //Protes Values
-            public Stopwatch connectionTime;
-            public Stopwatch ping;
-            public Stopwatch voteReminder; //using?
-            public Guid guid;
+            public string UserName = "";
+            public bool isTrainer = false;
 
-            public string gameUser;
-            public string ip;
-            public string mssql_ip;
-            public string os;
-            public string architecture;
-            //public int dataCounter;
-            //public int currentStart;
-            public bool wasLoggedIn;
+ 
 
 
             public networkClientInterface(Socket connection, IAsyncResult result)
             {
-                connectionTime = new Stopwatch();
-                ping = new Stopwatch();
-                voteReminder = new Stopwatch();
                 networkSocket = connection.EndAccept(result);
                 networkSocket.Blocking = false;
-                buffer = new byte[1023];
+                buffer = new byte[1024];
             }
         }
 

@@ -5,23 +5,21 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright		Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 1.0
  */
 
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
-
-namespace Database
+namespace WCDatabaseEngine
 {
-    class clsDBMysqlProtesManager: DBEngine
-    {
-
-        
-
-        public clsDBMysqlProtesManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_protes, string sql_db_game)
+    class DBMysqlManager: DBEngine
+    { 
+        public DBMysqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default) : 
+            base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
         {
 
         }
@@ -38,7 +36,21 @@ namespace Database
 
         public override bool testDBConnection()
         {
-            throw new NotImplementedException();
+            MySqlDataReader mysqlDataReader = null;
+
+            using (MySqlConnection mysqlConnection =
+                   new MySqlConnection("Server=" + host_ip + ";Database=" + sql_db_default + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
+            {
+                try
+                {
+                    mysqlConnection.Open();
+                }
+                catch (Exception) { 
+                
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }
