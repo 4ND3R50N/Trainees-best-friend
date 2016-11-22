@@ -15,6 +15,7 @@
       <Entry x:Name="passwordEntry" IsPassword="true" />
       <Button Text="Login" Clicked="OnLoginButtonClicked" />
       <Label x:Name="messageLabel" />
+      <Image Source="tbf.png" />
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

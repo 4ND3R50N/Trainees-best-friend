@@ -15,7 +15,8 @@ namespace tbfApp
         public MasterPage()
         {
             InitializeComponent();
-            
+            Content.BackgroundColor = Color.FromHex("009acd");
+
             var masterPageItems = new List<MasterPageItem>();
             masterPageItems.Add(new MasterPageItem
             {

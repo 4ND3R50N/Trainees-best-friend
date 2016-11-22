@@ -12,9 +12,20 @@ namespace tbfApp
         //MasterPage masterPage;
         public MainPage()
         {
-            masterPage = new MasterPage();
+            masterPage = new MasterPage()
+            {
+                //Title = "Menü",
+                BackgroundColor = Color.FromHex("#009acd"), //#009acd
+            };
             Master = masterPage;
-            Detail = new NavigationPage(new RoomPage());
+            Detail = new NavigationPage(new RoomPage()
+            {
+                Title = "Räume",
+            })
+            {
+                BarBackgroundColor = Color.FromHex("#009acd"), //#009acd
+                BarTextColor = Color.White,
+            };
 
             masterPage.ListView.ItemSelected += OnItemSelected;
         }
@@ -24,7 +35,11 @@ namespace tbfApp
             var item = e.SelectedItem as MasterPageItem;
             if (item != null)
             {
-                Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
+                Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType))
+                {
+                    BarBackgroundColor = Color.FromHex("#009acd"),
+                    BarTextColor = Color.White,
+                };
                 masterPage.ListView.SelectedItem = null;
                 IsPresented = false;
             }

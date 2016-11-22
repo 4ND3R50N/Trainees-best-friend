@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Network;
 using Xamarin.Forms;
 
 namespace tbfApp
@@ -26,6 +26,12 @@ namespace tbfApp
                 Username = usernameEntry.Text,
                 Password = passwordEntry.Text
             };
+
+            //Network test
+            SimpleNetworkClient endpointConnection = new SimpleNetworkClient(networkProtocol,"noch nicht benötigt!", "127.0.0.1",12345);
+
+            await endpointConnection.connect();
+
 
             var isValid = AreCredentialsCorrect(user);
             if (isValid)
@@ -58,6 +64,12 @@ namespace tbfApp
         {
             //return user.Username == Constants.Username && user.Password == Constants.Password;
             return true;
+        }
+
+
+        void networkProtocol(string message)
+        {
+            messageLabel.Text = message;
         }
     }
 }

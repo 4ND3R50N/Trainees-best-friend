@@ -11,15 +11,14 @@ namespace tbfApp
 {
     public partial class WorkoutPage : ContentPage
     {
-        bool isRunning = true;
-        ActivityIndicator activityIndicator;
-        public WorkoutPage()
+        static ActivityIndicator activityIndicator;
+        public WorkoutPage(String roomID)
         {
             InitializeComponent();
 
             activityIndicator = new ActivityIndicator
             {
-                IsRunning = isRunning,
+                IsRunning = true,
                 Color = Color.Accent,
                 WidthRequest = 50,
                 HeightRequest = 50,
@@ -33,28 +32,20 @@ namespace tbfApp
                 Children =
                 {
                     activityIndicator
-                }
+                },
+                BackgroundColor = Color.Black
             };
 
-            Task.Delay(3000);
-            isRunning = false;
-            //OnAppearing();
-            Update("TextToChange");
+            Load();
         }
 
-        public void Update(string text)
+        public static async void Load()
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                this.Content = new StackLayout
-                {
-                    Children =
-                    {
-                        //new Label { Text = text }
-                        activityIndicator
-                    }
-                };
-            });
+            System.Diagnostics.Debug.WriteLine("Task go to sleep");
+            await Task.Delay(3000); //Simulates a 3 second wait
+            System.Diagnostics.Debug.WriteLine("Task awake");
+            activityIndicator.IsRunning = false;
+            System.Diagnostics.Debug.WriteLine("on appearing done");
         }
     }
 }

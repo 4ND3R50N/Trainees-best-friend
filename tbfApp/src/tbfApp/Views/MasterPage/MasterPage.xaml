@@ -15,10 +15,19 @@
              Title="Personal Organiser">
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
+      <!--#009acd   BackgroundColor = "#0076A7"   #FF3373F2
+      <StackLayout.BackgroundColor>
+        <OnPlatform x:TypeArguments="Color"
+                                Android="#009acd"
+                                WinPhone="#009acd"
+                                iOS="#009acd">
+        </OnPlatform>
+      </StackLayout.BackgroundColor>
+      -->
       <ListView x:Name="listView" VerticalOptions="FillAndExpand" SeparatorVisibility="None">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ImageCell Text="{Binding Title}" ImageSource="{Binding IconSource}" />
+            <ImageCell Text="{Binding Title}" ImageSource="{Binding IconSource}" TextColor="#ffffff"/>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
