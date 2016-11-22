@@ -13,13 +13,14 @@ namespace Network
     {
         //Variables
         //--Public
-        public bool endpointCommunicationIsDeclared = false;
-
         public delegate void protocolFunction(string prot);
 
         //--Private
+        private TcpSocketClient socket;
+        private byte[] buffer {get;}
+        private string ip;
+        private short port;
         private string network_AKey;
-        private socketEndpointCommunication endpoint;
         private event protocolFunction protAnalyseFunction;
 
 
@@ -29,34 +30,23 @@ namespace Network
 
         }
 
-        public SimpleNetworkClient(protocolFunction protAnalyseFunction, string network_AKey)
-        {
-            this.protAnalyseFunction = protAnalyseFunction;
-            this.network_AKey = network_AKey;
-        }
-
         public SimpleNetworkClient(protocolFunction protAnalyseFunction, string network_AKey, string ip, short port)
         {
             this.protAnalyseFunction = protAnalyseFunction;
             this.network_AKey = network_AKey;
-            endpoint = new socketEndpointCommunication(ip, port);
-            endpointCommunicationIsDeclared = true;
+            socket = new TcpSocketClient();
+            this.ip = ip;
+            this.port = port;
 
         }
 
         //Functions
-        public void setSocketEndpointCommunication(string ip, short port)
-        {
-            //Enpoint deklaration
 
-            endpointCommunicationIsDeclared = true;
-        }
-
-        public bool connect()
+        public async Task<bool> connect()
         {
             try
             {
-                //Connect with endpoint
+                await socket.ConnectAsync(ip, port);
             }
             catch (Exception)
             {
@@ -80,7 +70,10 @@ namespace Network
 
             try
             {
-                //Send
+                socket.WriteStream.Write(bytes, 0, bytes.Length);
+                //Temporary usage (Must be tested)
+                Task.Delay(1000);
+                receiveData();
             }
             catch (Exception)
             {
@@ -90,11 +83,17 @@ namespace Network
         }
 
         //Receive function (triggern durch message vom server
-
-
-        public void closeConnection()
+        void receiveData()
         {
+            while (socket.ReadStream.Read(buffer, 0, buffer.Length) == 0)
+            {
+                protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
+            }
+        }
 
+        public async void closeConnection()
+        {
+            await socket.DisconnectAsync();
         }
 
         public bool isConnected()
@@ -103,24 +102,6 @@ namespace Network
         }
 
 
-        //Classes
-        private class socketEndpointCommunication
-        {
-            //Variables
-
-            public byte[] buffer { get; }
-
-
-            //Constructor
-            public socketEndpointCommunication(string ip, short port)
-            {
-                {
-
-                    buffer = new byte[255]; //Variable eingabe der Buffer größe????
-                }
-                //Function
-            }
-
-        }
+       
     }
 }
