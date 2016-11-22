@@ -31,13 +31,21 @@ namespace tbfController.Classes.Core
             if(_sDatabaseDriver == "mysql")
             {
                 databaseEngine = new DBMysqlManager(_sDBHostIp,_sDBUser,_sDBPass,_sDBPort,_sDBDefaultDB);
+                if(!databaseEngine.testDBConnection())
+                {
+                    //Db is not working
+                }
             }else if(_sDatabaseDriver == "mssql")
             {
                 databaseEngine = new DBMssqlManager(_sDBHostIp, _sDBUser, _sDBPass, _sDBPort, _sDBDefaultDB);
-            }else
-            {
-                
             }
+
+            if (!databaseEngine.testDBConnection())
+            {
+                //Db is not working
+            }
+
+
 
             //Network Initialisations
             activeConnections = new List<networkServer.networkClientInterface>();
@@ -49,7 +57,7 @@ namespace tbfController.Classes.Core
         public void start()
         {
             tcpServer.startListening();
-            
+
         }
         
         private void networkProtocol(string message, ref networkServer.networkClientInterface relatedClient)
@@ -59,7 +67,7 @@ namespace tbfController.Classes.Core
             switch (protocolShortcut)
             {
                 case "#101":
-
+                    tcpServer.sendMessage("Greetings from controller ^.^", relatedClient);
                     break;
                 default:
                     Console.WriteLine(message);

@@ -47,7 +47,7 @@ namespace tbfController
                         controllerManagement = new ControllerCore(1234, "m932B)§()d",
                             "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "tbf_users");
 
-
+                        controllerManagement.start();
                         break;
                     default:
                         break;
