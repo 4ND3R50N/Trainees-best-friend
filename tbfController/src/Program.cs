@@ -45,7 +45,7 @@ namespace tbfController
                     case "/start":
                         //Start Server
                         controllerManagement = new ControllerCore(12345, "m932B)§()d",
-                            "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "traineesbestfriend");
+                            "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "traineesbestfriend", AppDomain.CurrentDomain.BaseDirectory + "logs\\mainlog.log");
 
                         controllerManagement.start();
                         

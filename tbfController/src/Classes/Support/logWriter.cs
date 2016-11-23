@@ -8,13 +8,13 @@ namespace Support
 {
     class logWriter{
 
-        String path;
+        string path;
 
-        public logWriter(String path) {
+        public logWriter(string path) {
             this.path = path;    
         }
 
-        public void logFunc(Boolean consoleOutput, String text)
+        public void writeInLog(bool consoleOutput, string text)
         {
             if (consoleOutput)
             {
@@ -27,14 +27,13 @@ namespace Support
             }
         }
 
-        private void conOut(String text)
+        private void conOut(string text)
         {
             DateTime DateTime = DateTime.Now;
             Console.WriteLine("[" + DateTime + "]: " + text);
-            Console.ReadKey();
         }
 
-        private void logFile(String text)
+        private void logFile(string text)
         {
             DateTime DateTime = DateTime.Now;
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
