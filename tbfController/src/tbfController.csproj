@@ -54,6 +54,7 @@
     <Compile Include="Classes\Network\SimpleNetworkServer.cs" />
     <Compile Include="Classes\Support\AESEncoding.cs" />
     <Compile Include="Classes\Support\IniEngine.cs" />
+    <Compile Include="Classes\Support\logWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
