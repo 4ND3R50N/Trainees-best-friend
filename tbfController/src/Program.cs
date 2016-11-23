@@ -15,7 +15,7 @@ namespace tbfController
         static string sChoice="";
         static bool bProgramIsRunning = true;
         static ControllerCore controllerManagement;
-
+        iniManager iniEngine;
 
         static void Main(string[] args)
         {
