@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleNetworkServer;
+using Support;
 using WCDatabaseEngine;
 using System.Net;
 using System.Net.Sockets;
@@ -17,16 +18,19 @@ namespace tbfController.Classes.Core
         //Variablen
         networkServer tcpServer;
         DBEngine databaseEngine;
+        logWriter logger;
         List<networkServer.networkClientInterface> activeConnections;
+        
         private string sAesKey;
 
 
         //Konstruktor
         public ControllerCore(short _iPort, string _sAesKey, string _sDatabaseDriver,
-            string _sDBHostIp, short _sDBPort, string _sDBUser, string _sDBPass, string _sDBDefaultDB)
+            string _sDBHostIp, short _sDBPort, string _sDBUser, string _sDBPass, string _sDBDefaultDB, string _sLogPath)
         {
             //Logging initialisations
-
+            logger = new logWriter(_sLogPath);
+            logger.writeInLog(true, "Logging class initialized!");
             //Database Initialisations
             if(_sDatabaseDriver == "mysql")
             {
