@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows;
 
 
 namespace tbfContentManager
@@ -26,11 +27,26 @@ namespace tbfContentManager
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
+            if (txtPassword.Password == "miua123")
+            {
+                MainContentWindow Hauptmain = new MainContentWindow();
+                Hauptmain.Show();
+                Hide();
+            }
+            else
+            {
+                MessageBox.Show("Wrong user or password!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
         {
-            MainContentWindow mainWindow = new MainContentWindow();
-            mainWindow.Show();
-            Hide();
+            if (e.Key == Key.Enter)
+            {
+                btnLogin_Click(null, null);
+            }
         }
     }
 }

@@ -30,5 +30,10 @@ namespace tbfContentManager
             MainWindow newLogin = new MainWindow();
             newLogin.Show();
         }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

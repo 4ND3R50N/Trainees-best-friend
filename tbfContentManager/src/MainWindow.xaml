@@ -16,11 +16,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label x:Name="label" Content="USERNAME:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="82" Margin="10,10,0,0"/>
-                        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245"/>
+                        <TextBox x:Name="txtUser" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245"/>
                         <Label x:Name="label_Copy" Content="PASSWORD:" VerticalAlignment="Top" Margin="10,67,0,0" HorizontalAlignment="Left" Width="82"/>
-                        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Width="245"/>
-                        <Button  x:Name="btnLogin" Content="LOGIN" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="245" Height="31" Click="btnLogin_Click" Foreground="#CC0050EF"/>
-                        <Label x:Name="label1" Content="Please login first!" HorizontalAlignment="Left" Margin="10,190,0,0" Width="245" Height="29" VerticalAlignment="Top"/>
+                        <PasswordBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Width="245" KeyDown="txtPassword_KeyDown"/>
+                        <Button  x:Name="btnLogin" Content="LOGIN" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="245" Height="31" Foreground="#CC0050EF" Click="btnLogin_Click"/>
+                        <Label x:Name="lblInfo" Content="Please login!" HorizontalAlignment="Left" Margin="10,190,0,0" Width="245" Height="29" VerticalAlignment="Top"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Register">
