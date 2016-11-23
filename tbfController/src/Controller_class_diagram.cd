@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="©4nd3r50n from team WhiteCode">
+    <Position X="0.5" Y="8.292" Height="0.292" Width="10.346" />
+  </Comment>
   <Class Name="WCDatabaseEngine.DBEngine">
     <Position X="6.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
