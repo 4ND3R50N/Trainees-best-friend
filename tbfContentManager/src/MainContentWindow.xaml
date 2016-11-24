@@ -80,12 +80,46 @@
             <TabItem Header="User&#xD;&#xA;Management" Margin="-54,30,54,-36" Background="{x:Null}">
                 <Grid Margin="104,-50,0,0" Width="530" Height="330"/>
             </TabItem>
-            <TabItem Header="Room&#xA;Management" Margin="-161,84,0,-84" HorizontalAlignment="Left" Width="107">
-                <Grid Margin="104,-50,0,0" Width="530" Height="327"/>
+            <TabItem Header="Room&#xA;Management" Margin="-161.6,82,0,-82" HorizontalAlignment="Left" Width="107">
+                <Grid Margin="104,-50,0,0" Width="530" Height="330">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid>
+                                    <Button Width="240" Height="35" VerticalAlignment="Top" Margin="5,5,280,0" >
+                                    <StackPanel>
+                                        <Image Margin="-15,0,180,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" />
+                                        <TextBlock Margin="15,-23,0,0" Text="Neuen Raum hinzufügen" FontSize="15" />
+                                    </StackPanel>
+                                    </Button>
+                                </Grid>
+                                <Grid>
+                                    <Button Width="250" Height="35" VerticalAlignment="Top" Margin="230,5,0,0" >
+                                    <StackPanel>
+                                        <Image Margin="0,0,200,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" />
+                                            <TextBlock Margin="30,-23,10,0" Text="Raum löschen" FontSize="15" />
+                                        </StackPanel>
+                                </Button>
+                                </Grid>
+                            </Grid>
+                            <Grid>
+                                <GroupBox x:Name="groupBox4" Header="Rooms" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="250" Width="240">
+                                    
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox5" Header="Raum Informationen" HorizontalAlignment="Left" Margin="255,5,0,0" VerticalAlignment="Top" Height="250" Width="250">
+
+                                </GroupBox>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
             <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Right" Height="48" VerticalAlignment="Top" Width="107" Margin="-322,132,322,-132">
                 <Grid Margin="104,-50,0,0" Width="530" Height="330"/>
             </TabItem>
+            <DockPanel Height="68" LastChildFill="False" Width="235">
+                <DockPanel Height="0" LastChildFill="False" VerticalAlignment="Top" Width="100"/>
+            </DockPanel>
         </TabControl>
         <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>

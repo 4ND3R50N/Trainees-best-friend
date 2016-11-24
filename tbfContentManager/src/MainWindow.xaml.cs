@@ -28,7 +28,7 @@ namespace tbfContentManager
         }
 
         private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
-            if (txtPassword.Password == "miua123")
+            if (txtPassword.Password == "")
             {
                 MainContentWindow Hauptmain = new MainContentWindow();
                 Hauptmain.Show();
