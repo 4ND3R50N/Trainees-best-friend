@@ -81,7 +81,7 @@ namespace SimpleNetworkServer
         {
 
             networkClientInterface connection = new networkClientInterface((Socket)result.AsyncState, result);
-            Console.WriteLine("System@WhiteCode-Controller: Connection income");
+            Console.WriteLine("[" + DateTime.Now + "] system@tbf-controller: Connection income");
             try
             { 
                
@@ -111,12 +111,10 @@ namespace SimpleNetworkServer
         private void ReceiveCallback(IAsyncResult result)
         {
             networkClientInterface connection = (networkClientInterface)result.AsyncState;
-            Console.WriteLine("System@WhiteCode-Controller: Message received!");
             try
             {
                 //bytesread = count of bytes
                 int bytesRead = connection.networkSocket.EndReceive(result);
-                Console.WriteLine("System@WhiteCode-Controller: bytesRead: " + bytesRead);
                 if (0 != bytesRead)
                 {
                     protAnalyseFunction(Encoding.UTF8.GetString(connection.buffer, 0, bytesRead), ref connection);
@@ -169,10 +167,7 @@ namespace SimpleNetworkServer
             //Protes Values
             public string UserName = "";
             public bool isTrainer = false;
-
- 
-
-
+            
             public networkClientInterface(Socket connection, IAsyncResult result)
             {
                 networkSocket = connection.EndAccept(result);

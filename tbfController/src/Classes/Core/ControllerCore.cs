@@ -59,20 +59,33 @@ namespace tbfController.Classes.Core
 
         public void start()
         {
-            tcpServer.startListening();
-            Console.WriteLine("TFB Controller started!");
+            if(tcpServer.startListening())
+            {
+                logger.writeInLog(true, "Server has been started successfully!");
+            }
+            else
+            {
+
+                logger.writeInLog(true, "ERROR: The server was not able to start!");
+            }
+           
         }
         
         private void networkProtocol(string message, ref networkServer.networkClientInterface relatedClient)
         {
             string protocolShortcut = getProtocolShortcut(message);
             string realMessage = getProtocolMessage(message);
-            Console.WriteLine("System@WhiteCode-Controller: Data revceived: " + message);
+            Console.WriteLine("["+ DateTime.Now + "] system@tbf-controller: Data revceived: " + message);
             switch (protocolShortcut)
             {
                 case "#101":
-                    Console.WriteLine("System@WhiteCode-Controller: Got #101, send answer back!");
-                    tcpServer.sendMessage("Greetings from controller ^.^", relatedClient);
+                    Console.WriteLine("[" + DateTime.Now + "] system@tbf-controller: Got #101, send answer back!");
+                    string test = "";
+                    for (int i = 0; i < 20; i++)
+                    {
+                        test = test + "Daten Packet. Xamarin + Controller + Content manager = Cool!---------------------------------------------------------------------------------fhgfchfhffhfvfgvchfhvhfhvfhvfhvhvfhfzzree5e5frzrfzrzfrzrfzrtzrzrzrzrzrzzrzrvrtreteswrwr\n";
+                    }
+                    tcpServer.sendMessage(test, relatedClient);
                     break;
                 default:
                     Console.WriteLine(message);
