@@ -38,39 +38,43 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExcercisePage\ExercisePage.xaml.cs">
+    <Compile Include="ExercisePage.xaml.cs">
       <DependentUpon>ExercisePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LevelPage\LevelPage.xaml.cs">
+    <Compile Include="LevelPage.xaml.cs">
       <DependentUpon>LevelPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoginPage\LoginPage.xaml.cs">
+    <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoginPage\LogOut.cs" />
-    <Compile Include="Views\MainPage\MainPage.xaml.cs">
+    <Compile Include="LogOut.cs" />
+    <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterPage\MasterPage.xaml.cs">
+    <Compile Include="MasterPage.xaml.cs">
       <DependentUpon>MasterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterPage\MasterPageItem.cs" />
+    <Compile Include="MasterPageItem.cs" />
+    <Compile Include="Network\SimpleNetworkClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\RoomPage\RoomButton.cs" />
-    <Compile Include="Views\RoomPage\RoomPage.xaml.cs">
+    <Compile Include="LevelButton.cs" />
+    <Compile Include="RoomButton.cs" />
+    <Compile Include="RoomPage.xaml.cs">
       <DependentUpon>RoomPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SignUpPage\SignUpPage.xaml.cs">
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SignUpPage.xaml.cs">
       <DependentUpon>SignUpPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Network\SimpleNetworkClient.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="Views\WorkoutPage\WorkoutPage.xaml.cs">
+    <Compile Include="WorkoutPage.xaml.cs">
       <DependentUpon>WorkoutPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MainPage\MainPage.xaml">
+    <EmbeddedResource Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -107,49 +111,52 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\LoginPage\LoginPage.xaml">
+    <EmbeddedResource Include="LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\SignUpPage\SignUpPage.xaml">
+    <EmbeddedResource Include="SignUpPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\RoomPage\RoomPage.xaml">
+    <EmbeddedResource Include="RoomPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\LevelPage\LevelPage.xaml">
+    <EmbeddedResource Include="LevelPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ExcercisePage\ExercisePage.xaml">
+    <EmbeddedResource Include="ExercisePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MasterPage\MasterPage.xaml">
+    <EmbeddedResource Include="MasterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\WorkoutPage\WorkoutPage.xaml">
+    <EmbeddedResource Include="WorkoutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Support\" />
+    <EmbeddedResource Include="SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

@@ -11,11 +11,13 @@ namespace tbfApp
     public partial class MasterPage : ContentPage
     {
         public ListView ListView { get { return listView; } }
+        public String listColor;
 
         public MasterPage()
         {
             InitializeComponent();
-            Content.BackgroundColor = Color.FromHex("009acd");
+
+            listView.BackgroundColor = Color.FromHex(App.getMenueColor());
 
             var masterPageItems = new List<MasterPageItem>();
             masterPageItems.Add(new MasterPageItem
@@ -28,7 +30,7 @@ namespace tbfApp
             {
                 Title = "Einstellungen",
                 IconSource = "todo.png",
-                TargetType = typeof(LevelPage)
+                TargetType = typeof(SettingsPage)
             });
             masterPageItems.Add(new MasterPageItem
             {

@@ -38,7 +38,7 @@ namespace tbfApp
             }
             else
             {
-                messageLabel.Text = "Sign up failed";
+                messageLabel.Text = "Sign up failed!";
             }
         }
 

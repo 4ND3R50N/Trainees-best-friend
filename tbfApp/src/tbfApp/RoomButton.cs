@@ -13,14 +13,14 @@ namespace tbfApp
         private ContentPage Page;
 
         private String description;
-        private String roomID;
-        public RoomButton(String text, INavigation navigation, ContentPage page, String description, String roomID)
+        private String _roomID;
+        public RoomButton(String text, INavigation navigation, ContentPage page, String description, String roomID, String iconURL)
         {
             Navigation = navigation;
             Page = page;
 
             this.description = description;
-            this.roomID = roomID;
+            this._roomID = roomID;
 
             Label lableButton = new Label
             {
@@ -50,20 +50,12 @@ namespace tbfApp
                 //Image = "contacts.png",
                 WidthRequest = 700,//700
                 HeightRequest = 140,//140
-                BackgroundColor = Color.Gray,
+                BackgroundColor = Color.FromHex("EEEBEA"),
             };
-            button.Clicked += OnButtonClicked;
+            //button.Clicked += OnButtonClicked;
 
             var info = new Image { Aspect = Aspect.AspectFit };
             info.Source = "info.png";
-
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += (object sender, EventArgs e) =>
-            {
-                // handle the tap
-                OnInfoClicked(sender, e);
-            };
-            info.GestureRecognizers.Add(tapGestureRecognizer);
 
             var indicator = new ActivityIndicator { Color = new Color(.5), };
             indicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsLoading");
@@ -87,12 +79,28 @@ namespace tbfApp
 
             grid.Children.Add(gridButton, 0, 0);
 
+            var tapGestureRecognizerButton = new TapGestureRecognizer();
+            tapGestureRecognizerButton.Tapped += (object sender, EventArgs e) =>
+            {
+                // handle the tap
+                OnButtonClicked(sender, e);
+            };
+            gridButton.GestureRecognizers.Add(tapGestureRecognizerButton);
+
+            var tapGestureRecognizerInfo = new TapGestureRecognizer();
+            tapGestureRecognizerInfo.Tapped += (object sender, EventArgs e) =>
+            {
+                // handle the tap
+                OnInfoClicked(sender, e);
+            };
+            info.GestureRecognizers.Add(tapGestureRecognizerInfo);
+
             this.Children.Add(grid);
         }
 
         void OnButtonClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new WorkoutPage(roomID)
+            Navigation.PushAsync(new WorkoutPage(_roomID)
             {
                 Title = "Workouts"
             });

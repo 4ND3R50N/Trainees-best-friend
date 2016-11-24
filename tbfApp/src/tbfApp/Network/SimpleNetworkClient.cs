@@ -11,7 +11,7 @@ using Sockets.Plugin.Abstractions;
 
 namespace Network
 {
-    class SimpleNetworkClient
+    public class SimpleNetworkClient
     {
         //Variables
         //--Public
@@ -35,7 +35,6 @@ namespace Network
 
         public SimpleNetworkClient(protocolFunction protAnalyseFunction, string network_AKey, string ip, short port, short bufferSize, short waitingTimeSeconds)
         {
-            this.protAnalyseFunction = protAnalyseFunction;
             this.network_AKey = network_AKey;
             socket = new TcpSocketClient();
             this.ip = ip;
@@ -46,11 +45,16 @@ namespace Network
 
         //Functions
 
+        public void SetProtocolFunction(protocolFunction protAnalyseFunction)
+        {
+            this.protAnalyseFunction = protAnalyseFunction;
+        }
+
         public async Task<bool> connect()
         {
             try
             {
-                await socket.ConnectAsync(ip, port);               
+                await socket.ConnectAsync(ip, port);
                
             }
             catch (Exception)
@@ -77,7 +81,7 @@ namespace Network
 
             
             socket.WriteStream.Write(bytes, 0, bytes.Length);
-            await Task.Delay(4000);
+            //await Task.Delay(500);
            
             await socket.ReadStream.ReadAsync(buffer, 0, buffer.Length);
 
@@ -97,12 +101,16 @@ namespace Network
         
         public async void closeConnection()
         {
-            await socket.DisconnectAsync();
+            //if (isConnected())
+            //{
+                await socket.DisconnectAsync();
+            //}
         }
 
         public bool isConnected()
         {
-            return false;
+            //TODO
+            return true;
         }
 
 

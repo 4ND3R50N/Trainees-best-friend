@@ -5,21 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Network;
 using Xamarin.Forms;
-using Sockets.Plugin;
 
 namespace tbfApp
 {
     public partial class LoginPage : ContentPage
     {
+        private SimpleNetworkClient networkClient;
         public LoginPage()
         {
             InitializeComponent();
-        }
-        async void OnSignUpButtonClicked(object sender, EventArgs e)
-        {
-           await Navigation.PushAsync(new SignUpPage());
-        }
 
+            App.endpointConnection.SetProtocolFunction(ServerAnswer);
+        }
+        
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
             var user = new User
@@ -28,11 +26,11 @@ namespace tbfApp
                 Password = passwordEntry.Text
             };
 
-            #region Network test
-            SimpleNetworkClient endpointConnection = new SimpleNetworkClient(networkProtocol, "noch nicht benötigt!", "62.138.6.50", 12345, 1024, 2);
-            await endpointConnection.connect();
-            await endpointConnection.sendMessage("#101", false);
-            #endregion
+            //await App.endpointConnection.connect();
+            //await App.endpointConnection.sendMessage("#101;"+user.Username+";"+user.Password, false);
+            //App.endpointConnection.closeConnection();
+
+            App.setMenueColor("009acd");
 
             var isValid = AreCredentialsCorrect(user);
             if (isValid)
@@ -67,10 +65,22 @@ namespace tbfApp
             return true;
         }
 
-
-        void networkProtocol(string message)
+        async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            messageLabel.Text = message;
+            //await Navigation.PushAsync(new SignUpPage());
+
+            //App.NavigateToSignUp();
+
+            await App.endpointConnection.connect();
+            await App.endpointConnection.sendMessage("#101", false);
+            //App.endpointConnection.closeConnection();
+            
+        }
+
+        private void ServerAnswer(string protocol)
+        {
+            DisplayAlert("Servermessage", protocol, "OK");
+            App.endpointConnection.closeConnection();
         }
     }
 }
