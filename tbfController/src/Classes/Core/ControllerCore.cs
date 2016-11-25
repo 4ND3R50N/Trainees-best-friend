@@ -35,26 +35,26 @@ namespace tbfController.Classes.Core
             if(_sDatabaseDriver == "mysql")
             {
                 databaseEngine = new DBMysqlManager(_sDBHostIp,_sDBUser,_sDBPass,_sDBPort,_sDBDefaultDB);
-                if(!databaseEngine.testDBConnection())
-                {
-                    //Db is not working
-                }
+
             }else if(_sDatabaseDriver == "mssql")
             {
                 databaseEngine = new DBMssqlManager(_sDBHostIp, _sDBUser, _sDBPass, _sDBPort, _sDBDefaultDB);
             }
 
-            if (!databaseEngine.testDBConnection())
+            if (databaseEngine.testDBConnection())
             {
-                //Db is not working
+                logger.writeInLog(true, "Database test successfull!");
+            }else
+            {
+                logger.writeInLog(true, "ERROR: Database test was not successfull!");
+                return;
             }
-
 
             //Network Initialisations
             activeConnections = new List<networkServer.networkClientInterface>();
             sAesKey = _sAesKey;
             tcpServer = new networkServer(networkProtocol, _sAesKey, IPAddress.Any, _iPort, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                       
+            logger.writeInLog(true, "TCP Server ready for start!");           
         }
 
         public void start()
