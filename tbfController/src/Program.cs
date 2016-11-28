@@ -28,8 +28,8 @@ namespace tbfController
                 Console.ReadLine();
                 return;
             }
-            //iniManager iniFile = new iniManager(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
-            //Console.WriteLine(iniFile.IniReadValue("Test", "test"));
+            iniManager iniFile = new iniManager(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
+            Console.WriteLine(iniFile.IniReadValue("Database", "IP"));
             displayCommands();
            
 
@@ -44,7 +44,7 @@ namespace tbfController
                         break;
                     case "/start":
                         //Start Server
-                        controllerManagement = new ControllerCore(13001, "m932B)§()d",
+                        controllerManagement = new ControllerCore(13001,';', "m932B)§()d",
                             "mysql", "62.138.6.50", 1433, "whitecode", "bringWHITECODEoflv45", "traineesbestfriend", AppDomain.CurrentDomain.BaseDirectory + "logs\\mainlog.log");
 
                         controllerManagement.start();
