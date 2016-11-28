@@ -167,13 +167,20 @@ namespace SimpleNetworkServer
             //Protes Values
             public string UserName = "";
             public bool isTrainer = false;
-            
+
+            public networkClientInterface()
+            {
+
+            }
+
             public networkClientInterface(Socket connection, IAsyncResult result)
             {
                 networkSocket = connection.EndAccept(result);
                 networkSocket.Blocking = false;
                 buffer = new byte[1024];
+
             }
+           
         }
 
 
