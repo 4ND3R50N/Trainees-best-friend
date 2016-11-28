@@ -8,13 +8,8 @@
  * @link		http://white-code.org
  * @since		Version 1.0
  */
-
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace WCDatabaseEngine
 {
@@ -41,12 +36,13 @@ namespace WCDatabaseEngine
 
         //Support
 
-        public abstract object executeQuery(object mysqlConnection, string query);
-        public abstract SqlDataReader executeQuery(SqlConnection mssqlConnection, string query);
+        public abstract MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query);
+        public abstract SqlDataReader executeQuery(SqlConnection MssqlConnection, string query);
         public abstract bool testDBConnection();
-        
-       
 
+        //Content
+
+        public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false);
 
     }
     

@@ -19,9 +19,7 @@ using System.Threading.Tasks;
 namespace WCDatabaseEngine
 {
     class DBMssqlManager : DBEngine
-    {
-
-       
+    {      
 
         //Queries
 
@@ -38,7 +36,12 @@ namespace WCDatabaseEngine
             return mssqlCommand.ExecuteReader();
         }
 
-        public override object executeQuery(object mysqlConnection, string query)
+        public override MySql.Data.MySqlClient.MySqlDataReader executeQuery(MySql.Data.MySqlClient.MySqlConnection mysqlConnection, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false)
         {
             throw new NotImplementedException();
         }
