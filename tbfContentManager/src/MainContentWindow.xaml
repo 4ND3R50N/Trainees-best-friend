@@ -16,7 +16,7 @@
                     <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="16" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Status" BorderThickness="0" Margin="0,0,-52,17">
+            <TabItem Header="Status" BorderThickness="0" Margin="0,0,-51.8,0" Height="31" VerticalAlignment="Top">
                 <Grid Margin="104,-50,0,0" Width="530" Height="330">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -33,9 +33,6 @@
                                 </GroupBox>
                                 <GroupBox x:Name="groupBox_Copy" Header="User Details" HorizontalAlignment="Left" Margin="285,5,0,0" VerticalAlignment="Top" Height="143" Width="225">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
                                         <Label x:Name="label1" Content="Forename:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,26,0,0" FontWeight="Bold"/>
                                         <Label x:Name="label_Copy1" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,52,0,0" FontWeight="Bold"/>
                                         <Label x:Name="label_Copy2" Content="Nickname:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" FontWeight="Bold"/>
@@ -80,35 +77,88 @@
             <TabItem Header="User&#xD;&#xA;Management" Margin="-54,30,54,-36" Background="{x:Null}">
                 <Grid Margin="104,-50,0,0" Width="530" Height="330"/>
             </TabItem>
-            <TabItem Header="Room&#xA;Management" Margin="-161.6,82,0,-82" HorizontalAlignment="Left" Width="107">
+            <TabItem Header="Room&#xA;Management" Margin="-161.6,85,0,-85" HorizontalAlignment="Left" Width="107">
                 <Grid Margin="104,-50,0,0" Width="530" Height="330">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid>
                                 <Grid>
                                     <Button Width="240" Height="35" VerticalAlignment="Top" Margin="5,5,280,0" >
-                                    <StackPanel>
-                                        <Image Margin="-15,0,180,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" />
-                                        <TextBlock Margin="15,-23,0,0" Text="Neuen Raum hinzufügen" FontSize="15" />
-                                    </StackPanel>
+                                        <StackPanel>
+                                            <!--<Image Margin="-20,0,180,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" RenderTransformOrigin="0.264,0.612" />-->
+                                            <TextBlock Margin="-3,-8,180,0" Text="+" FontSize="25"/>
+                                            <TextBlock Margin="20,-26,0,0" Text="Neuen Raum hinzufügen" FontSize="15" Width="176" />
+                                        </StackPanel>
                                     </Button>
                                 </Grid>
-                                <Grid>
+                                <!--<Grid>
                                     <Button Width="250" Height="35" VerticalAlignment="Top" Margin="230,5,0,0" >
-                                    <StackPanel>
-                                        <Image Margin="0,0,200,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" />
+                                        <StackPanel>
+                                            <Image Margin="0,0,200,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" />
                                             <TextBlock Margin="30,-23,10,0" Text="Raum löschen" FontSize="15" />
                                         </StackPanel>
-                                </Button>
-                                </Grid>
+                                    </Button>
+                                </Grid>-->
                             </Grid>
                             <Grid>
                                 <GroupBox x:Name="groupBox4" Header="Rooms" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="250" Width="240">
-                                    
+                                    <ListBox>
+                                        <TextBox x:Name="suchenRooms1" Margin="-7,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="225"/>
+                                        <ListBoxItem Content="Testraum" Margin="0,1,0,5"/>
+                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                            <TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                        </Button>
+                                        <ListBoxItem Content="Raum2" Margin="0,-25,0,5"/>
+                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                            <TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                        </Button>
+                                        <ListBoxItem Content="Raum3" Margin="0,-25,0,5"/>
+                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                            <TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                        </Button>
+                                    </ListBox>
                                 </GroupBox>
-                                <GroupBox x:Name="groupBox5" Header="Raum Informationen" HorizontalAlignment="Left" Margin="255,5,0,0" VerticalAlignment="Top" Height="250" Width="250">
-
-                                </GroupBox>
+                                <Grid>
+                                    <GroupBox x:Name="groupBox5" Header="Raum Informationen" HorizontalAlignment="Left" Margin="255,5,0,0" VerticalAlignment="Top" Height="550" Width="240">
+                                        <Grid>
+                                            <Label x:Name="name_headline" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
+                                            <Label x:Name="txt_name" Content="Testraum" HorizontalAlignment="Left" VerticalAlignment="Top" Width="141" Margin="84,0,0,0" HorizontalContentAlignment="Right"/>
+                                            <Label x:Name="beschreibung_headline" Content="Beschreibung:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,26,0,0" FontWeight="Bold"/>
+                                            <TextBox x:Name="txt_beschreibung" VerticalAlignment="Top" Margin="0,52,0,0" Height="78">Beschreibung hier!</TextBox>
+                                            <Label x:Name="private_headline" Content="Privater Raum?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,130,0,0" FontWeight="Bold"/>
+                                            <CheckBox x:Name="checkBox" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,134,10,0"/>
+                                            <TextBox x:Name="bild_url"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="0,156,0,0" FontWeight="Bold" RenderTransformOrigin="0.526,2.086"/>
+                                            <Button Margin="127,156,1,779.8" Width="100" Height="10">
+                                                <TextBlock Text="Bild hochladen" FontSize="12" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                            </Button>
+                                            <GroupBox x:Name="groupBox10" Header="Trainee's" HorizontalAlignment="Left" Margin="0,190,0,0" VerticalAlignment="Top" Height="250" Width="225">
+                                                    <ListBox>
+                                                        <TextBox x:Name="suchen" Margin="-12,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="205"/>
+                                                        <ListBoxItem Content="Lars Pickelin"  Margin="0,1,0,5"/>
+                                                        <Button Margin="160,-50,0,5" Width="25" Height="10">
+                                                            <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                                        </Button>
+                                                        <ListBoxItem Content="Avelina Ott" Margin="0,-25,0,5"/>
+                                                        <Button Margin="160,-50,0,5" Width="25" Height="10">
+                                                            <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                                        </Button>
+                                                        <ListBoxItem Content="Niko Scheuermann" Margin="0,-25,0,5"/>
+                                                        <Button Margin="160,-50,0,5" Width="25" Height="10">
+                                                            <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                                        </Button>
+                                                    </ListBox>
+                                                </GroupBox>
+                                            <Grid>
+                                                <Button Margin="6,400,128,86.2" Height="10" RenderTransformOrigin="-3.004,0.476">
+                                                <TextBlock Text="Speichern" FontSize="20" Margin="0,-7,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                                </Button>
+                                                <Button Margin="124,400,10,86.2" Height="10" RenderTransformOrigin="-3.004,0.476">
+                                                    <TextBlock Text="Abbrechen" FontSize="20" Margin="0,-7,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
@@ -117,6 +167,43 @@
             <TabItem Header="Workout&#xD;&#xA;Management" HorizontalAlignment="Right" Height="48" VerticalAlignment="Top" Width="107" Margin="-322,132,322,-132">
                 <Grid Margin="104,-50,0,0" Width="530" Height="330"/>
             </TabItem>
+            <TabItem Header="Trainee&#xA;Management" Margin="-430,182,430,-182" HorizontalAlignment="Right" Width="107">
+                <Grid Margin="104,-50,0,0" Width="530" Height="330">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <Grid>
+                                <GroupBox x:Name="groupBox9" Header="Rooms" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="250" Width="240">
+                                    <ListBox>
+                                        <TextBox x:Name="suchenRooms" Margin="-7,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="225"/>
+                                        <ListBoxItem Content="Raum1"/>
+                                        <ListBoxItem Content="Raum2"/>
+                                        <ListBoxItem Content="Raum3"/>
+                                    </ListBox>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox100" Header="Trainee's" HorizontalAlignment="Left" Margin="255,5,0,0" VerticalAlignment="Top" Height="250" Width="250">
+                                    <ListBox>
+                                        <TextBox x:Name="suchen1" Margin="-10,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="230"/>
+                                        <ListBoxItem Content="Lars Pickelin"  Margin="0,1,0,5"/>
+                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                            <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                        </Button>
+                                        <ListBoxItem Content="Avelina Ott" Margin="0,-25,0,5"/>
+                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                            <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                        </Button>
+                                        <ListBoxItem Content="Niko Scheuermann" Margin="0,-25,0,5"/>
+                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                            <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
+                                        </Button>
+                                    </ListBox>
+                                </GroupBox>
+
+
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
             <DockPanel Height="68" LastChildFill="False" Width="235">
                 <DockPanel Height="0" LastChildFill="False" VerticalAlignment="Top" Width="100"/>
             </DockPanel>
@@ -124,7 +211,6 @@
         <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
             <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Left" Margin="557,10,0,0" VerticalAlignment="Top" Width="75" Height="31" Foreground="#CC0050EF" Click="btnLogout_Click"/>
-            <Image x:Name="image" Height="44" Margin="270,0,248,0" VerticalAlignment="Top"/>
 
         </Grid>
         <Separator Margin="0,0,0,30" Height="3" VerticalAlignment="Bottom"/>
