@@ -18,7 +18,7 @@ namespace Support
         {
             if (consoleOutput)
             {
-                conOut("system@tbf-controller: " + text);
+                conOut(text);
                 logFile(text);
             }
             else
