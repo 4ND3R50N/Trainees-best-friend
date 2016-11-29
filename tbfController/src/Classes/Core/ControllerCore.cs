@@ -61,7 +61,7 @@ namespace tbfController.Classes.Core
             //TESTCASE
             //networkServer.networkClientInterface dummy = new networkServer.networkClientInterface();
             //networkProtocol("#104;Anderson2;Lars;Pickelin;miau1234;l.pickelin@web.de", ref dummy);
-                       
+            //networkProtocol("#102;Anderson2;miau1x234", ref dummy);
         }
 
         public void start()
@@ -90,10 +90,11 @@ namespace tbfController.Classes.Core
                     prot_001_TestPackage(ref relatedClient); break;
                 case "#003":
                     prot_003_TestPackage(lDataList, ref relatedClient); break;
-
+                case "#102":
+                    prot_102_loginUser(lDataList, ref relatedClient); break;
                 case "#104":
                     prot_104_registerUser(lDataList, ref relatedClient); break;
-
+               
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -132,6 +133,25 @@ namespace tbfController.Classes.Core
             //send message to client
             TcpServer.sendMessage("#105" + cProtocolDelimiter + iSignUpStatusCode, relatedClient);
             Logger.writeInLog(true, "Answered #105 with SignUpCode "+ iSignUpStatusCode + "!");
+        }
+        //Login
+        private void prot_102_loginUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            //log
+            Logger.writeInLog(true, "Message #102 (LOGIN) received from a client!");
+            //Try to login user
+            int iUserID = 0;
+            int iLoginStatusCode = DatabaseEngine.loginUser(lDataList[0], lDataList[1], ref iUserID);
+            //Send message to client
+            if(iLoginStatusCode != 1)
+            {
+                TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode, relatedClient);
+            }
+            else
+            {
+                TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode + cProtocolDelimiter + iUserID, relatedClient);
+            }
+            Logger.writeInLog(true, "Answered #103 with LoginCode " + iLoginStatusCode + ". The user id is "+ iUserID +"!");
         }
         #endregion
 
