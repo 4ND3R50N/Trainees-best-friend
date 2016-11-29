@@ -43,7 +43,7 @@ namespace WCDatabaseEngine
         //Content
 
         public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false);
-
+        public abstract int loginUser(string sUserName, string sPassword, ref int iUserID);
     }
     
 

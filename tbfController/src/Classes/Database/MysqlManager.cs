@@ -36,6 +36,35 @@ namespace WCDatabaseEngine
             return MysqlCommand.ExecuteReader();
         }
 
+        public override int loginUser(string sUserName, string sPassword, ref int iUserID)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                MySqlDataReader MysqlData = null;
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 3;
+                }
+
+                MysqlData = executeQuery(MysqlConn, "Select user_id from tbf_users where nickname = '"+ sUserName +"' and password = MD5('"+ sPassword +"') ");
+                //Check, if the data is correct
+                while (MysqlData.Read())
+                {
+                    iUserID = Convert.ToInt32(MysqlData.GetValue(0));
+                    return 1;
+                }
+                MysqlData.Close();
+                return 2;
+
+            }
+        }
+
         public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false)
         {
             using (MySqlConnection MysqlConn =
@@ -59,14 +88,13 @@ namespace WCDatabaseEngine
                 }
                 MysqlData.Close();
 
-
                 //Create new user
                 MysqlData = executeQuery(MysqlConn,
                     "INSERT INTO `" + sql_db_default + "`.`tbf_users` (`nickname`, `name`, `forename`, `password`, `email`, `is_trainer`) VALUES ('"
                     + sUserName + "', '"
                     + sSecondName + "', '"
-                    + sForeName + "', '"
-                    + sPassword + "', '"
+                    + sForeName + "', MD5('"
+                    + sPassword + "'), '"
                     + sEmail + "', b'"
                     + Convert.ToString((isTrainer) ? 1 : 0) + "');");
             }

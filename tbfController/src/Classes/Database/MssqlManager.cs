@@ -41,6 +41,12 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
+
+        public override int loginUser(string sUserName, string sPassword, ref int iUserID)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false)
         {
             throw new NotImplementedException();
