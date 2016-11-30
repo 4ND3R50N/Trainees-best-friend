@@ -17,13 +17,13 @@ namespace tbfApp
         {
             InitializeComponent();
 
-            listView.BackgroundColor = Color.FromHex(App.getMenueColor());
+            listView.BackgroundColor = Color.FromHex(App.GetMenueColor());
 
             var masterPageItems = new List<MasterPageItem>();
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Räume",
-                IconSource = "contacts.png",
+                IconSource = "rooms.png",
                 TargetType = typeof(RoomPage)
             });
             masterPageItems.Add(new MasterPageItem
