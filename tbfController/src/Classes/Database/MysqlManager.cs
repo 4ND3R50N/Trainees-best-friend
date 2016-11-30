@@ -36,6 +36,45 @@ namespace WCDatabaseEngine
             return MysqlCommand.ExecuteReader();
         }
 
+        public override List<List<string>> getRoomOverViewData()
+        {
+            //This is a list of lists. 
+            //Each list in the list stands for 1 room entry. The global list contains all rooms in form of a list
+            List<List<string>> llRoomOverViewData = new List<List<string>>();
+
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                MySqlDataReader MysqlData = null;
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get tbl_rooms matrix
+                MysqlData = executeQuery(MysqlConn, "Select room_id, name, description, is_private, room_icon_url from tbf_rooms");
+                //Save the data in the list<list<string>> variable
+                int iRowCounter = 0;
+                //Each iteration = 1 row
+                while(MysqlData.Read())
+                {
+                    List<string> lRoom = new List<string>();
+                    //Each iteration = 1 field in the current row
+                    for (int i = 0; i < MysqlData.FieldCount; i++)
+                    {
+                        lRoom.Add(MysqlData.GetValue(i).ToString());
+                    }
+                    llRoomOverViewData.Add(lRoom);
+                    iRowCounter++;
+                }
+                return llRoomOverViewData;
+                
+            }
+        }
         public override int loginUser(string sUserName, string sPassword, ref int iUserID)
         {
             using (MySqlConnection MysqlConn =

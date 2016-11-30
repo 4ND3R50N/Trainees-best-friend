@@ -41,6 +41,10 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
+        public override List<List<string>> getRoomOverViewData()
+        {
+            throw new NotImplementedException();
+        }
 
         public override int loginUser(string sUserName, string sPassword, ref int iUserID)
         {

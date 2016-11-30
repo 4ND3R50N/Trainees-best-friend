@@ -10,6 +10,7 @@
  */
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace WCDatabaseEngine
 {
@@ -44,6 +45,8 @@ namespace WCDatabaseEngine
 
         public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false);
         public abstract int loginUser(string sUserName, string sPassword, ref int iUserID);
+
+        public abstract List<List<string>> getRoomOverViewData();
     }
     
 
