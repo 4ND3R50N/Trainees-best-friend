@@ -23,9 +23,10 @@ namespace tbfController.Classes.Core
         
         private string sAesKey;
         private char   cProtocolDelimiter;
+        private char   cDataDelimiter;
 
         //Konstruktor
-        public ControllerCore(short _iPort, char _cProtocolDelimiter, string _sAesKey, string _sDatabaseDriver,
+        public ControllerCore(short _iPort, char _cProtocolDelimiter, char _cDataDelimiter, string _sAesKey, string _sDatabaseDriver,
             string _sDBHostIp, short _sDBPort, string _sDBUser, string _sDBPass, string _sDBDefaultDB, string _sLogPath)
         {
             //Logging initialisations
@@ -87,9 +88,9 @@ namespace tbfController.Classes.Core
             switch (sProtocolShortcut)
             {
                 case "#001":
-                    prot_001_TestPackage(ref relatedClient); break;
+                    prot_001_testPackage(ref relatedClient); break;
                 case "#003":
-                    prot_003_TestPackage(lDataList, ref relatedClient); break;
+                    prot_003_testPackage(lDataList, ref relatedClient); break;
                 case "#102":
                     prot_102_loginUser(lDataList, ref relatedClient); break;
                 case "#104":
@@ -103,13 +104,13 @@ namespace tbfController.Classes.Core
 
         #region Protocol functions
         //Testpackages
-        private void prot_001_TestPackage(ref networkServer.networkClientInterface relatedClient)
+        private void prot_001_testPackage(ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #001 (TESTPACKET_NORMAL) received from a client!");
             TcpServer.sendMessage("#002;Greetings from Controller :)", relatedClient);
             Logger.writeInLog(true, "Answered #002 with the greetings message!");
         }
-        private void prot_003_TestPackage(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void prot_003_testPackage(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #003 (TESTPACKET_LARGE) received from a client!");
             string sDataPackage = "#004;";
@@ -121,8 +122,7 @@ namespace tbfController.Classes.Core
             TcpServer.sendMessage(sDataPackage, relatedClient);
             Logger.writeInLog(true, "Answered #004 with the large datapacket!");
         }
-        //login
-
+        
         //Signup
         private void prot_104_registerUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
@@ -152,6 +152,35 @@ namespace tbfController.Classes.Core
                 TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode + cProtocolDelimiter + iUserID, relatedClient);
             }
             Logger.writeInLog(true, "Answered #103 with LoginCode " + iLoginStatusCode + ". The user id is "+ iUserID +"!");
+        }
+        //Content
+        private void prot_201_requestRoomOverview(ref networkServer.networkClientInterface relatedClient)
+        {
+            //log
+            Logger.writeInLog(true, "Message #201 (REQ_ROOMOVERVIEWDATA) received from a client!");
+            //Get room data
+            List<List<string>> llRoomData = new List<List<string>>();
+            llRoomData = DatabaseEngine.getRoomOverViewData();
+            //Build protocol
+            string sProtocol = "#202" + cProtocolDelimiter;
+            sProtocol += llRoomData.Count + cProtocolDelimiter;
+            for (int i = 0; i < llRoomData.Count; i++)
+            {
+                for (int d = 0; d < llRoomData[i].Count; d++)
+                {
+                    sProtocol += llRoomData[i][d] + cDataDelimiter;
+                }
+                //Remove the last cDataDelimiter
+                sProtocol.Remove(sProtocol.Length - 1);
+                
+                sProtocol += cProtocolDelimiter;
+            }
+            //Remove last cProtocolDelimiter
+            sProtocol.Remove(sProtocol.Length - 1);
+
+            //Send message to client
+            TcpServer.sendMessage(sProtocol, relatedClient);
+            Logger.writeInLog(true, "Answered #202 with all room data. " + llRoomData.Count +" room entries sent!");
         }
         #endregion
 
