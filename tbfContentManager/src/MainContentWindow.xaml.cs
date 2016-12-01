@@ -48,5 +48,12 @@ namespace tbfContentManager
         {
 
         }
+        //void button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MainWindow window = new MainWindow();
+        //    window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        //    window.WindowState = WindowState.Maximized;
+        //    window.Show();
+        //}
     }
 }

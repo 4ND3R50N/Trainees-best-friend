@@ -75,10 +75,8 @@ namespace tbfContentManager
                     MessageBox.Show("Verbindung mit dem Server konnte nicht aufgebaut werden!");
                     return;
                 }
-                //string loginRequest;
                 TCPClient.sendMessage("#102;" + txtUser.Text +";" + txtPassword.Password, true);
-                //TCPClient.closeConnection();
-            }
+                }
             else
             {
                 MessageBox.Show("Benutzername oder Passwort ist zu kurz! (mindestens 4 Zeichen)", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
