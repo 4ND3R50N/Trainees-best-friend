@@ -74,7 +74,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Room&#xD;&#xA;Management" Margin="-55,0,55.4,-30" Height="48" VerticalAlignment="Bottom">
+            <TabItem Header="Room&#xD;&#xA;Manager" Margin="-55,30,55.4,-30" Height="48" Width="107" VerticalAlignment="Top">
                 <Grid Margin="104,-100,0,0" Width="530" Height="330">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -94,26 +94,26 @@
                             <Grid>
                                 <GroupBox x:Name="groupBox4" Header="Rooms" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="550" Width="240">
                                     <ListBox>
-                                        <Button x:Name="btn_raum_hinzu" Width="220" Height="20" VerticalAlignment="Top" Margin="-8,5,0,10">
+                                        <Button x:Name="btn_add_room" Width="220" Height="20" VerticalAlignment="Top" Margin="-8,5,0,10" Click="btn_add_room_Click">
                                             <StackPanel>
                                                 <!--<Image Margin="-20,0,180,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" RenderTransformOrigin="0.264,0.612" />-->
                                                 <TextBlock Margin="-3,-10,180,0" Text="+" FontSize="20"/>
                                                 <TextBlock Margin="20,-22,0,0" Text="Neuen Raum hinzufügen" FontSize="13" Width="176" />
                                             </StackPanel>
                                         </Button>
-                                        <TextBox x:Name="txt_suchenRooms_room" Margin="-7,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="225"/>
+                                        <TextBox x:Name="txt_suchRooms_room" Margin="-7,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="225"/>
                                         <ListBoxItem Content="Testraum" Margin="0,1,0,5"/>
-                                        <Button Margin="185,-50,0,5" Width="30" Height="30">
+                                        <Button x:Name="btn_delete" Margin="185,-50,0,5" Width="30" Height="30">
                                             <Image Margin="0" Source="/Images/muelleimer_schwarz.png" Stretch="Fill" RenderTransformOrigin="0.264,0.612" />
                                             <!--<TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>-->
                                         </Button>
                                         <ListBoxItem Content="Raum2" Margin="0,-20,0,5"/>
-                                        <Button Margin="185,-43,0,5" Width="30" Height="30">
+                                        <Button x:Name="btn_delete1" Margin="185,-43,0,5" Width="30" Height="30">
                                             <Image Margin="0" Source="/Images/muelleimer_schwarz.png" Stretch="Fill" RenderTransformOrigin="0.264,0.612" />
                                             <!--<TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>-->
                                         </Button>
                                         <ListBoxItem Content="Raum3" Margin="0,-20,0,5"/>
-                                        <Button Margin="185,-43,0,5" Width="30" Height="30">
+                                        <Button x:Name="btn_delete2" Margin="185,-43,0,5" Width="30" Height="30">
                                             <Image Margin="0" Source="/Images/muelleimer_schwarz.png" Stretch="Fill" RenderTransformOrigin="0.264,0.612" />
                                         </Button>
                                     </ListBox>
@@ -148,19 +148,15 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Workout&#xA;Management"  Margin="-161.4,80,0,-80" HorizontalAlignment="Left" Width="107">
+            <TabItem Header="Workout&#xA;Manager"  Margin="-162,80,130,-80" HorizontalAlignment="Left" Width="107" Height="48" VerticalAlignment="Top">
                 <Grid Margin="104,-100,0,0" Width="530" Height="330">
                 </Grid>
             </TabItem>
-            <TabItem Header="Level&#xD;&#xA;Management" HorizontalAlignment="Right" Height="48" VerticalAlignment="Top" Width="107" Margin="-322,130,322.2,-130">
+            <TabItem Header="Level&#xD;&#xA;Manager" Height="48" Width="107" VerticalAlignment="Top" Margin="-277,130,260,-130">
                 <Grid Margin="104,-100,0,0" Width="530" Height="330"/>
             </TabItem>
-            <TabItem Header="Exercise&#xA;Management" Margin="-428.4,179,428.6,-179" HorizontalAlignment="Right" Width="107">
+            <TabItem Header="Exercise&#xA;Management" Margin="-419,176,330,-176" Height="48" Width="107" VerticalAlignment="Top">
                 <Grid Margin="104,-100,-5,0" Width="530" Height="330">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="101*"/>
-                        <ColumnDefinition Width="164*"/>
-                    </Grid.ColumnDefinitions>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid>
@@ -176,15 +172,15 @@
                                     <ListBox>
                                         <TextBox x:Name="txt_suchen_trainee_exe" Margin="-10,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="230"/>
                                         <ListBoxItem Content="Lars Pickelin"  Margin="0,1,0,5"/>
-                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                        <Button x:Name="btn_add_trainee" Margin="195,-50,0,5" Width="25" Height="10">
                                             <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
                                         </Button>
                                         <ListBoxItem Content="Avelina Ott" Margin="0,-25,0,5"/>
-                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                        <Button x:Name="btn_add_trainee1" Margin="195,-50,0,5" Width="25" Height="10">
                                             <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
                                         </Button>
                                         <ListBoxItem Content="Niko Scheuermann" Margin="0,-25,0,5"/>
-                                        <Button Margin="195,-50,0,5" Width="25" Height="10">
+                                        <Button x:Name="btn_add_trainee2" Margin="195,-50,0,5" Width="25" Height="10">
                                             <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
                                         </Button>
                                         <!--<Button Margin="6,400,128,86.2" Height="10" RenderTransformOrigin="-3.004,0.476">
@@ -200,15 +196,18 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-
-            <!--<TabItem Header="Trainee&#xA;Management" Margin="-367,220,444,-222" HorizontalAlignment="Right" Width="107" RenderTransformOrigin="0.536,1.096">
-                <Grid Margin="104,-50,0,0" Width="530" Height="330">
-                 </Grid>
+            <TabItem Margin="-483,225,476,-225" Header="Trainee&#xA;Managemen" Height="48"  VerticalAlignment="Top">
+                <Grid Margin="104,-100,-5,0" Width="530" Height="330" Background="#FFE5E5E5"/>
+            </TabItem>
+            <!--<TabItem Header="Trainee&#xA;Management" Margin="-161.4,80,0,-80" HorizontalAlignment="Left" Width="107">
+                <Grid Margin="104,-100,0,0" Width="530" Height="330">
+                </Grid>
             </TabItem>-->
 
-            <DockPanel Height="68" LastChildFill="False" Width="235">
+            <!--<DockPanel Height="68" LastChildFill="False" Width="235">
                 <DockPanel Height="0" LastChildFill="False" VerticalAlignment="Top" Width="100"/>
-            </DockPanel>
+            </DockPanel>-->
+
         </TabControl>
         <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>

@@ -48,5 +48,10 @@ namespace tbfContentManager
                 btnLogin_Click(null, null);
             }
         }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

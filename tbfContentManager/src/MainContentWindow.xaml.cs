@@ -35,5 +35,10 @@ namespace tbfContentManager
         {
             Application.Current.Shutdown();
         }
+
+        private void btn_add_room_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
