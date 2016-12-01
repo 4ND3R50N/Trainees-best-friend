@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows;
+using WhiteCode.Network;
+using System.Net;
+using System.Net.Sockets;
+
 
 
 namespace tbfContentManager
@@ -22,21 +26,62 @@ namespace tbfContentManager
     /// </summary>
     public partial class MainWindow
     {
+        simpleNetwork_Client TCPClient;
+        MainContentWindow mainContentWindow = new MainContentWindow();
         public MainWindow()
         {
             InitializeComponent();
+            TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"), 
+                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
+
+        private void server_response(string message) {
+            TCPClient.closeConnection();
+            List<string> lServerData = new List<string>();
+            lServerData = message.Split(';').ToList();
+            switch (lServerData[0].ToString())
+            {
+                  case "#103":
+                    //MessageBox.Show(message);
+                    if (lServerData[1] == "1")
+                    {
+                       
+                        mainContentWindow.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
+                        this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
+                    }
+                    if (lServerData[1] == "2") {
+                        MessageBox.Show("Benutzername oder Password ist falsch!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    if (lServerData[1] == "3")
+                    {
+                        MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    txtUser.Dispatcher.BeginInvoke((Action)(() => txtUser.Text = ""));
+                    txtPassword.Dispatcher.BeginInvoke((Action)(() => txtPassword.Password = ""));
+                    break;
+                default :
+                    break;
+            }
+           
+
         }
 
         private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
-            if (txtPassword.Password == "")
+            TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"),
+                                                13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            if (txtPassword.Password.Length > 3 && txtUser.Text.Length > 3)
             {
-                MainContentWindow Hauptmain = new MainContentWindow();
-                Hauptmain.Show();
-                Hide();
+                if (!TCPClient.connect()) {
+                    MessageBox.Show("Verbindung mit dem Server konnte nicht aufgebaut werden!");
+                    return;
+                }
+                //string loginRequest;
+                TCPClient.sendMessage("#102;" + txtUser.Text +";" + txtPassword.Password, true);
+                //TCPClient.closeConnection();
             }
             else
             {
-                MessageBox.Show("Wrong user or password!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Benutzername oder Passwort ist zu kurz! (mindestens 4 Zeichen)", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }

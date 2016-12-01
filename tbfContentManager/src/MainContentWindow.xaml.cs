@@ -11,9 +11,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WhiteCode.Network;
 
 namespace tbfContentManager
 {
+   
+
     /// <summary>
     /// Interaktionslogik für MainContentWindow.xaml
     /// </summary>
@@ -37,6 +40,11 @@ namespace tbfContentManager
         }
 
         private void btn_add_room_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
         {
 
         }

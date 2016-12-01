@@ -5,19 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tbfContentManager"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         Title="MainContentWindow" Height="485.667" Width="650" Closing="MetroWindow_Closing">
+
+
     <Grid Margin="0,0,0,1" >
 
-        <Label x:Name="lblWelcomeMessage" Content="Welcome, lblNameOfUser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0" Width="226" FontSize="15" Height="30" FontWeight="Bold"/>
+        <Label x:Name="lblWelcomeMessage" Content="Willkommen, lblNameOfUser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0" Width="226" FontSize="15" Height="30" FontWeight="Bold"/>
+        <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
+            <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Left" Margin="557,10,0,0" VerticalAlignment="Top" Width="75" Height="31" Foreground="#CC0050EF" Click="btnLogout_Click"/>
+            <Separator Height="13" Margin="0,95,-2,-54" VerticalAlignment="Top"/>
+        </Grid>
+        <Separator Margin="0,0,0,30" Height="3" VerticalAlignment="Bottom"/>
+        <DockPanel Height="30" VerticalAlignment="Bottom">
 
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="370" VerticalAlignment="Top" Width="642" Margin="0,54,0,0">
+            <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  Background="White" Height="24">
+                <StatusBarItem  Height="23" VerticalAlignment="Bottom">
+                    <TextBlock x:Name="lblConnectionStatus" Text="lblConnectionStatus" Width="110" Foreground="Black"/>
+                </StatusBarItem>
+                <Separator  Grid.Column="1" />
+                <StatusBarItem  Height="23" VerticalAlignment="Bottom">
+                    <TextBlock x:Name="lblCursorPosition" Text="lblOtherInformation" Width="110" Foreground="Black" VerticalAlignment="Bottom" />
+                </StatusBarItem>
+                <Separator Grid.Column="1" />
+                <StatusBarItem  Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <Grid Width="207">
+                        <TextBlock x:Name="lblLoadingInformation" Text="lblLoadingDescription" Foreground="Black" Margin="0,0,75,0" Width="122" VerticalAlignment="Bottom" />
+                        <ProgressBar Margin="137,0,0,2" Height="Auto"/>
+                    </Grid>
+                </StatusBarItem>
+            </StatusBar>
+        </DockPanel>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="371" VerticalAlignment="Top" Width="642" Margin="0,54,0,0">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
                     <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="16" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Status" BorderThickness="0" Margin="0,0,-54,0" Height="31" VerticalAlignment="Top">
-                <Grid Margin="104,-100,0,0" Width="530" Height="330">
+            <TabItem Header="Status">
+                <Grid>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid>
@@ -63,9 +90,6 @@
                                         <Label x:Name="label_Copy10" Content="Rooms:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="0,9,0,0"/>
                                         <ComboBox x:Name="comboBox_Copy" HorizontalAlignment="Left" Margin="79,40,0,0" VerticalAlignment="Top" Width="120"/>
                                         <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="79,71,0,0" VerticalAlignment="Top" Width="120"/>
-                                        <Separator Height="13" Margin="0,31,0,0" VerticalAlignment="Top"/>
-                                        <Separator Height="13" Margin="0,62,0,0" VerticalAlignment="Top"/>
-                                        <Separator Height="13" Margin="0,94,0,0" VerticalAlignment="Top"/>
                                         <Label x:Name="label_Copy11" Content="Amount:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="204,9,0,0"/>
                                     </Grid>
                                 </GroupBox>
@@ -74,8 +98,8 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Room&#xD;&#xA;Manager" Margin="-55,30,55.4,-30" Height="48" Width="107" VerticalAlignment="Top">
-                <Grid Margin="104,-100,0,0" Width="530" Height="330">
+            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" HorizontalAlignment="Left" Margin="-0.2,0,0,0.4" Width="75" Loaded="tiRoomManager_Loaded">
+                <Grid>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid>
@@ -148,15 +172,17 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Workout&#xA;Manager"  Margin="-162,80,130,-80" HorizontalAlignment="Left" Width="107" Height="48" VerticalAlignment="Top">
-                <Grid Margin="104,-100,0,0" Width="530" Height="330">
-                </Grid>
+            <TabItem Header="Workout &#xD;&#xA;Manager">
+                <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Level&#xD;&#xA;Manager" Height="48" Width="107" VerticalAlignment="Top" Margin="-277,130,260,-130">
-                <Grid Margin="104,-100,0,0" Width="530" Height="330"/>
+            <TabItem Header="Level&#xD;&#xA;Manager">
+                <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Exercise&#xA;Management" Margin="-419,176,330,-176" Height="48" Width="107" VerticalAlignment="Top">
-                <Grid Margin="104,-100,-5,0" Width="530" Height="330">
+            <TabItem Header="Exercise&#xD;&#xA;Manager" HorizontalAlignment="Left" Margin="-0.2,0,0,0.4" Width="75">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Trainee&#xD;&#xA;Manager">
+                <Grid>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid>
@@ -196,43 +222,6 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Margin="-483,225,476,-225" Header="Trainee&#xA;Managemen" Height="48"  VerticalAlignment="Top">
-                <Grid Margin="104,-100,-5,0" Width="530" Height="330" Background="#FFE5E5E5"/>
-            </TabItem>
-            <!--<TabItem Header="Trainee&#xA;Management" Margin="-161.4,80,0,-80" HorizontalAlignment="Left" Width="107">
-                <Grid Margin="104,-100,0,0" Width="530" Height="330">
-                </Grid>
-            </TabItem>-->
-
-            <!--<DockPanel Height="68" LastChildFill="False" Width="235">
-                <DockPanel Height="0" LastChildFill="False" VerticalAlignment="Top" Width="100"/>
-            </DockPanel>-->
-
         </TabControl>
-        <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642">
-            <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
-            <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Left" Margin="557,10,0,0" VerticalAlignment="Top" Width="75" Height="31" Foreground="#CC0050EF" Click="btnLogout_Click"/>
-
-        </Grid>
-        <Separator Margin="0,0,0,30" Height="3" VerticalAlignment="Bottom"/>
-        <DockPanel Height="30" VerticalAlignment="Bottom">
-
-            <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  Background="White" Height="24">
-                <StatusBarItem  Height="23" VerticalAlignment="Bottom">
-                    <TextBlock x:Name="lblConnectionStatus" Text="lblConnectionStatus" Width="110" Foreground="Black"/>
-                </StatusBarItem>
-                <Separator  Grid.Column="1" />
-                <StatusBarItem  Height="23" VerticalAlignment="Bottom">
-                    <TextBlock x:Name="lblCursorPosition" Text="lblOtherInformation" Width="110" Foreground="Black" VerticalAlignment="Bottom" />
-                </StatusBarItem>
-                <Separator Grid.Column="1" />
-                <StatusBarItem  Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Grid Width="207">
-                        <TextBlock x:Name="lblLoadingInformation" Text="lblLoadingDescription" Foreground="Black" Margin="0,0,75,0" Width="122" VerticalAlignment="Bottom" />
-                        <ProgressBar Margin="137,0,0,2" Height="Auto"/>
-                    </Grid>
-                </StatusBarItem>
-            </StatusBar>
-        </DockPanel>
     </Grid>
 </Controls:MetroWindow>
