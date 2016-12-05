@@ -55,14 +55,18 @@ namespace tbfController.Classes.Core
             ActiveConnections = new List<networkServer.networkClientInterface>();
             sAesKey = _sAesKey;
             this.cProtocolDelimiter = _cProtocolDelimiter;
+            this.cDataDelimiter = _cDataDelimiter;
             TcpServer = new networkServer(networkProtocol, _sAesKey, IPAddress.Any, _iPort, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             Logger.writeInLog(true, "TCP Server ready for start!");
 
 
             //TESTCASE
-            //networkServer.networkClientInterface dummy = new networkServer.networkClientInterface();
+            networkServer.networkClientInterface dummy = new networkServer.networkClientInterface();
+            //Auth
             //networkProtocol("#104;Anderson2;Lars;Pickelin;miau1234;l.pickelin@web.de", ref dummy);
             //networkProtocol("#102;Anderson2;miau1x234", ref dummy);
+            //Content
+            //networkProtocol("#201", ref dummy);
         }
 
         public void start()
@@ -88,29 +92,34 @@ namespace tbfController.Classes.Core
             switch (sProtocolShortcut)
             {
                 case "#001":
-                    prot_001_testPackage(ref relatedClient); break;
+                    tel_001_testPackage(ref relatedClient); break;
                 case "#003":
-                    prot_003_testPackage(lDataList, ref relatedClient); break;
+                    tel_003_testPackage(lDataList, ref relatedClient); break;
                 case "#102":
-                    prot_102_loginUser(lDataList, ref relatedClient); break;
+                    tel_102_loginUser(lDataList, ref relatedClient); break;
                 case "#104":
-                    prot_104_registerUser(lDataList, ref relatedClient); break;
-               
+                    tel_104_registerUser(lDataList, ref relatedClient); break;
+                case "#201":
+                    tel_201_requestRoomOverview(ref relatedClient); break;
+                case "#203":
+
+                    break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
             }
         }
 
-        #region Protocol functions
+        #region telegram functions
         //Testpackages
-        private void prot_001_testPackage(ref networkServer.networkClientInterface relatedClient)
+        private void tel_001_testPackage(ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #001 (TESTPACKET_NORMAL) received from a client!");
             TcpServer.sendMessage("#002;Greetings from Controller :)", relatedClient);
             Logger.writeInLog(true, "Answered #002 with the greetings message!");
         }
-        private void prot_003_testPackage(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+
+        private void tel_003_testPackage(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #003 (TESTPACKET_LARGE) received from a client!");
             string sDataPackage = "#004;";
@@ -124,64 +133,92 @@ namespace tbfController.Classes.Core
         }
         
         //Signup
-        private void prot_104_registerUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void tel_104_registerUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
-            //log
-            Logger.writeInLog(true, "Message #104 (SIGNUP) received from a client!");
-            //register user
-            int iSignUpStatusCode = DatabaseEngine.signUpRegisterUser(lDataList[0], lDataList[1], lDataList[2], lDataList[3], lDataList[4]);
-            //send message to client
-            TcpServer.sendMessage("#105" + cProtocolDelimiter + iSignUpStatusCode, relatedClient);
-            Logger.writeInLog(true, "Answered #105 with SignUpCode "+ iSignUpStatusCode + "!");
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #104 (SIGNUP) received from a client!");
+                //register user
+                int iSignUpStatusCode = DatabaseEngine.signUpRegisterUser(lDataList[0], lDataList[1], lDataList[2], lDataList[3], lDataList[4], Convert.ToBoolean(lDataList[5]));
+                //send message to client
+                TcpServer.sendMessage("#105" + cProtocolDelimiter + iSignUpStatusCode, relatedClient);
+                Logger.writeInLog(true, "Answered #105 with SignUpCode " + iSignUpStatusCode + "!");
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (SIGNUP)! Message: " + e.ToString());
+                return;
+            }
+            
         }
         //Login
-        private void prot_102_loginUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void tel_102_loginUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
-            //log
-            Logger.writeInLog(true, "Message #102 (LOGIN) received from a client!");
-            //Try to login user
-            int iUserID = 0;
-            int iLoginStatusCode = DatabaseEngine.loginUser(lDataList[0], lDataList[1], ref iUserID);
-            //Send message to client
-            if(iLoginStatusCode != 1)
+            try
             {
-                TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode, relatedClient);
+                //log
+                Logger.writeInLog(true, "Message #102 (LOGIN) received from a client!");
+                //Try to login user
+                int iUserID = 0;
+                int iLoginStatusCode = DatabaseEngine.loginUser(lDataList[0], lDataList[1], ref iUserID);
+                //Send message to client
+                if (iLoginStatusCode != 1)
+                {
+                    TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode, relatedClient);
+                }
+                else
+                {
+                    TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode + cProtocolDelimiter + iUserID, relatedClient);
+                }
+                Logger.writeInLog(true, "Answered #103 with LoginCode " + iLoginStatusCode + ". The user id is " + iUserID + "!");
             }
-            else
+            catch (Exception e)
             {
-                TcpServer.sendMessage("#103" + cProtocolDelimiter + iLoginStatusCode + cProtocolDelimiter + iUserID, relatedClient);
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (LOGIN)! Message: " + e.ToString());
+                return;
             }
-            Logger.writeInLog(true, "Answered #103 with LoginCode " + iLoginStatusCode + ". The user id is "+ iUserID +"!");
+            
         }
         //Content
-        private void prot_201_requestRoomOverview(ref networkServer.networkClientInterface relatedClient)
+        private void tel_201_requestRoomOverview(ref networkServer.networkClientInterface relatedClient)
         {
-            //log
-            Logger.writeInLog(true, "Message #201 (REQ_ROOMOVERVIEWDATA) received from a client!");
-            //Get room data
-            List<List<string>> llRoomData = new List<List<string>>();
-            llRoomData = DatabaseEngine.getRoomOverViewData();
-            //Build protocol
-            string sProtocol = "#202" + cProtocolDelimiter;
-            sProtocol += llRoomData.Count + cProtocolDelimiter;
-            for (int i = 0; i < llRoomData.Count; i++)
+            try
             {
-                for (int d = 0; d < llRoomData[i].Count; d++)
+                //log
+                Logger.writeInLog(true, "Message #201 (REQ_ROOMOVERVIEWDATA) received from a client!");
+                //Get room data
+                List<List<string>> llRoomData = new List<List<string>>();
+                llRoomData = DatabaseEngine.getRoomOverViewData();
+                //Build protocol
+                string sProtocol = "#202" + cProtocolDelimiter.ToString();
+                sProtocol += llRoomData.Count + cProtocolDelimiter.ToString();
+                for (int i = 0; i < llRoomData.Count; i++)
                 {
-                    sProtocol += llRoomData[i][d] + cDataDelimiter;
-                }
-                //Remove the last cDataDelimiter
-                sProtocol.Remove(sProtocol.Length - 1);
-                
-                sProtocol += cProtocolDelimiter;
-            }
-            //Remove last cProtocolDelimiter
-            sProtocol.Remove(sProtocol.Length - 1);
+                    for (int d = 0; d < llRoomData[i].Count; d++)
+                    {
+                        sProtocol += llRoomData[i][d] + cDataDelimiter.ToString();
+                    }
+                    //Remove the last cDataDelimiter
+                    sProtocol = sProtocol.Remove(sProtocol.Length - 1);
 
-            //Send message to client
-            TcpServer.sendMessage(sProtocol, relatedClient);
-            Logger.writeInLog(true, "Answered #202 with all room data. " + llRoomData.Count +" room entries sent!");
+                    sProtocol += cProtocolDelimiter.ToString();
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #202 with all room data. " + llRoomData.Count + " room entries sent!");
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMOVERVIEWDATA)! Message: " + e.ToString());
+                return;
+            }
         }
+        
         #endregion
 
 
@@ -197,8 +234,15 @@ namespace tbfController.Classes.Core
         }
         private string getProtocolMessage(string message)
         {
-            Console.WriteLine(message.Substring(getProtocolShortcut(message).Length));
-            return message.Substring(getProtocolShortcut(message).Length + 1);
+            try
+            {
+                return message.Substring(getProtocolShortcut(message).Length + 1);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return "-";
+            }
+            
         }
         #endregion
         

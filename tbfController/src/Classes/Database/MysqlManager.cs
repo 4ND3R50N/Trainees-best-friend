@@ -75,6 +75,7 @@ namespace WCDatabaseEngine
                 
             }
         }
+
         public override int loginUser(string sUserName, string sPassword, ref int iUserID)
         {
             using (MySqlConnection MysqlConn =
@@ -91,7 +92,7 @@ namespace WCDatabaseEngine
                     return 3;
                 }
 
-                MysqlData = executeQuery(MysqlConn, "Select user_id from tbf_users where nickname = '"+ sUserName +"' and password = MD5('"+ sPassword +"') ");
+                MysqlData = executeQuery(MysqlConn, "Select user_id from tbf_users where nickname = '"+ sUserName +"' and password = MD5('"+ sPassword +"')");
                 //Check, if the data is correct
                 while (MysqlData.Read())
                 {
@@ -136,6 +137,7 @@ namespace WCDatabaseEngine
                     + sPassword + "'), '"
                     + sEmail + "', b'"
                     + Convert.ToString((isTrainer) ? 1 : 0) + "');");
+                MysqlData.Close();
             }
             return 1;
         }
