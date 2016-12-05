@@ -13,7 +13,7 @@ using System.IO;
 
 namespace WhiteCode.Network
 {
-    class simpleNetwork_Client
+   public class simpleNetwork_Client
     {
         //Variables
         //--Public

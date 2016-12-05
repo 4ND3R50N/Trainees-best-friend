@@ -10,19 +10,18 @@
 
 
     <Grid Margin="0,0,0,1" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="19*"/>
-            <ColumnDefinition Width="4*"/>
-        </Grid.ColumnDefinitions>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44*"/>
+            <RowDefinition Height="47*"/>
+        </Grid.RowDefinitions>
         <Label x:Name="lblWelcomeMessage" Content="Willkommen, lblNameOfUser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0" Width="226" FontSize="15" Height="30" FontWeight="Bold"/>
-        <Grid HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="642" Grid.ColumnSpan="2">
+        <Grid HorizontalAlignment="Left" Width="642" Margin="0,0,0,165.8">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
             <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Left" Margin="557,10,0,0" VerticalAlignment="Top" Width="75" Height="31" Foreground="#CC0050EF" Click="btnLogout_Click"/>
             <Separator Height="13" Margin="0,95,-2,-54" VerticalAlignment="Top"/>
         </Grid>
-        <Separator Margin="0,0,0.2,30" Height="3" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
-        <DockPanel Height="30" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0,0,0.2,0">
+        <Separator Margin="0,0,0.2,30" Height="3" VerticalAlignment="Bottom" Grid.Row="1"/>
+        <DockPanel Height="30" VerticalAlignment="Bottom" Margin="0,0,0.2,0" Grid.Row="1">
 
             <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  Background="White" Height="24">
                 <StatusBarItem  Height="23" VerticalAlignment="Bottom">
@@ -41,18 +40,18 @@
                 </StatusBarItem>
             </StatusBar>
         </DockPanel>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="371" VerticalAlignment="Top" Width="642" Margin="0,54,0,0" Grid.ColumnSpan="2">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="371" VerticalAlignment="Top" Width="642" Margin="0,54,0,0" Grid.RowSpan="2">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
                     <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="16" />
                 </Style>
             </TabControl.Resources>
             <TabItem Header="Status">
-                <Grid>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <Grid Margin="0,0,0,0.2">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,0.2">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid Width="620">
-                                <GroupBox x:Name="groupBox" Header="Connection Status" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="143" Width="285">
+                                <GroupBox x:Name="groupBox" Header="Connection Status" HorizontalAlignment="Left" Margin="10,5,0,0" Width="285">
                                     <Grid>
                                         <Label x:Name="label" Content="Database Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,40,0,0" FontWeight="Bold"/>
                                         <Label x:Name="label_Copy" Content="Controller Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,71,0,0" FontWeight="Bold"/>
@@ -63,7 +62,7 @@
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox x:Name="groupBox_Copy" Header="User Details" HorizontalAlignment="Left" Margin="325,5,0,0" VerticalAlignment="Top" Height="143" Width="285">
-                                    <Grid>
+                                    <Grid Margin="0,0,-0.2,0">
                                         <Label x:Name="label1" Content="Forename:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,26,0,0" FontWeight="Bold"/>
                                         <Label x:Name="label_Copy1" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="0,52,0,0" FontWeight="Bold"/>
                                         <Label x:Name="label_Copy2" Content="Nickname:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" FontWeight="Bold"/>
@@ -76,8 +75,12 @@
                                 </GroupBox>
                             </Grid>
                             <Grid>
-                                <GroupBox x:Name="groupBox_Copy2" Header="Active Licences" Margin="10,5,10,0" VerticalAlignment="Top" Height="70">
+                                <GroupBox x:Name="groupBox_Copy2" Header="Active Licences" Margin="10,5,10,0">
                                     <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="26*"/>
+                                            <ColumnDefinition Width="23*"/>
+                                        </Grid.ColumnDefinitions>
                                         <Label x:Name="label3" Content="Amount:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" FontWeight="Bold"/>
                                         <Label x:Name="lblLicencesAmount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,2,0,0" RenderTransformOrigin="0.455,0.904" Width="65" Height="24"/>
                                         <Label x:Name="label3_Copy" Content="Licences:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="130,2,0,0" FontWeight="Bold"/>
@@ -86,7 +89,7 @@
                                 </GroupBox>
                             </Grid>
                             <Grid>
-                                <GroupBox x:Name="groupBox_Copy1" Header="Content Statistics" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="139" Width="600">
+                                <GroupBox x:Name="groupBox_Copy1" Header="Content Statistics" HorizontalAlignment="Left" Margin="10,5,0,0" Width="600">
                                     <Grid>
                                         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="79,9,0,0" VerticalAlignment="Top" Width="120"/>
                                         <Label x:Name="label2" Content="Workouts:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="166" Margin="0,40,0,0"/>
@@ -121,30 +124,14 @@
                             </Grid>
                             <Grid>
                                 <GroupBox x:Name="groupBox4" Header="Rooms" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="550" Width="290">
-                                    <ListBox>
-                                        <Button x:Name="btn_add_room" Width="275" Height="20" VerticalAlignment="Top" Margin="-5,10,0,10" Click="btn_add_room_Click">
-                                            <StackPanel>
-                                                <!--<Image Margin="-20,0,180,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" RenderTransformOrigin="0.264,0.612" />-->
-                                                <TextBlock Margin="-3,-10,180,0" Text="+" FontSize="20"/>
-                                                <TextBlock Margin="20,-22,0,0" Text="Neuen Raum hinzufügen" FontSize="13" Width="176" />
-                                            </StackPanel>
-                                        </Button>
-                                        <TextBox x:Name="txt_suchRooms_room" Margin="-7,5,0,5" Height="23" TextWrapping="Wrap" Text="Suchen" Width="275"/>
-                                        <ListBoxItem Content="Testraum" Margin="0,0,0,5"/>
-                                        <Button x:Name="btn_delete" Margin="230,-50,0,5" Width="30" Height="30">
-                                            <Image Margin="0" Source="/Images/muelleimer_schwarz.png" Stretch="Fill" RenderTransformOrigin="0.264,0.612" />
-                                            <!--<TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>-->
-                                        </Button>
-                                        <ListBoxItem Content="Raum2" Margin="0,-20,0,5"/>
-                                        <Button x:Name="btn_delete1" Margin="230,-50,0,5" Width="30" Height="30">
-                                            <Image Margin="0" Source="/Images/muelleimer_schwarz.png" Stretch="Fill" RenderTransformOrigin="0.264,0.612" />
-                                            <!--<TextBlock Text="-" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>-->
-                                        </Button>
-                                        <ListBoxItem Content="Raum3" Margin="0,-20,0,5"/>
-                                        <Button x:Name="btn_delete2" Margin="230,-50,0,5" Width="30" Height="30">
-                                            <Image Margin="0" Source="/Images/muelleimer_schwarz.png" Stretch="Fill" RenderTransformOrigin="0.264,0.612" />
-                                        </Button>
-                                    </ListBox>
+                                    
+                                    <ListView x:Name="lvRoomList">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Name}"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
                                 </GroupBox>
                                 <Grid>
                                     <GroupBox x:Name="groupBox5" Header="Raum Informationen" HorizontalAlignment="Left" Margin="325,5,0,0" VerticalAlignment="Top" Height="550" Width="290">
@@ -179,7 +166,7 @@
             <TabItem Header="Workout &#xD;&#xA;Manager" HorizontalAlignment="Right" Margin="-0.4,0,0,0.4" Width="78">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Level&#xD;&#xA;Manager">
+            <TabItem Header="Level&#xD;&#xA;Manager" HorizontalAlignment="Left" Margin="0.2,0,0,0.4" Width="75">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="Exercise&#xD;&#xA;Manager" HorizontalAlignment="Left" Margin="-0.2,0,0,0.4" Width="75">

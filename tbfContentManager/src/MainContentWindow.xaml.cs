@@ -15,16 +15,13 @@ using WhiteCode.Network;
 
 namespace tbfContentManager
 {
-   
-
-    /// <summary>
-    /// Interaktionslogik für MainContentWindow.xaml
-    /// </summary>
     public partial class MainContentWindow
     {
-        public MainContentWindow()
+       
+        public MainContentWindow(simpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
-            InitializeComponent();
+
+            InitializeComponent();  
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
@@ -41,19 +38,33 @@ namespace tbfContentManager
 
         private void btn_add_room_Click(object sender, RoutedEventArgs e)
         {
+            //;
+            //{ Int: UserID}
+            //{ String: RoomName}
 
+            //TCPClient.sendMessage("#203;" + txtUser.Text + ";" + txtPassword.Password, true);
         }
 
         private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
         {
+            var gridView = new GridView();
 
+            gridView.Columns.Add(new GridViewColumn
+            {
+                Header = "Name",
+                DisplayMemberBinding = new Binding("Name")
+            });
+
+            // Populate list
+            this.lvRoomList.Items.Add(new lRoomNameEntry {Name = "David" });
         }
-        //void button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MainWindow window = new MainWindow();
-        //    window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        //    window.WindowState = WindowState.Maximized;
-        //    window.Show();
-        //}
+        #region Support classes
+        public class lRoomNameEntry
+        {
+            public string Name { get; set; }
+        }
+        #endregion
+
+
     }
 }

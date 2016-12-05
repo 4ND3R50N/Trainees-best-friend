@@ -26,8 +26,9 @@ namespace tbfContentManager
     /// </summary>
     public partial class MainWindow
     {
+        //MainContentWindow mainContentWindow;
         simpleNetwork_Client TCPClient;
-        MainContentWindow mainContentWindow = new MainContentWindow();
+        MainContentWindow mainContentWindow;
         public MainWindow()
         {
             InitializeComponent();
@@ -45,11 +46,15 @@ namespace tbfContentManager
                     //MessageBox.Show(message);
                     if (lServerData[1] == "1")
                     {
-                       
-                        mainContentWindow.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
+                        int iUserID = Convert.ToInt32(lServerData[2]);
+                        string sUserName="";
+                        txtUser.Dispatcher.BeginInvoke((Action)(() =>sUserName = txtUser.Text));
+                        mainContentWindow.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(null, null, 0)));
+                        mainContentWindow.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));                        
                         this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
                     }
-                    if (lServerData[1] == "2") {
+                    if (lServerData[1] == "2")
+                    {
                         MessageBox.Show("Benutzername oder Password ist falsch!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     if (lServerData[1] == "3")
@@ -62,8 +67,6 @@ namespace tbfContentManager
                 default :
                     break;
             }
-           
-
         }
 
         private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
