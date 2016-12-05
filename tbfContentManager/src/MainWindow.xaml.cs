@@ -16,8 +16,7 @@ using System.Windows;
 using WhiteCode.Network;
 using System.Net;
 using System.Net.Sockets;
-
-
+using System.Threading;
 
 namespace tbfContentManager
 {
@@ -28,7 +27,11 @@ namespace tbfContentManager
     {
         //MainContentWindow mainContentWindow;
         simpleNetwork_Client TCPClient;
-        MainContentWindow mainContentWindow;
+        MainContentWindow mainContentWindow = null;
+        //Buffer of txt boxes
+        string sUserBuffer = "";
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,12 +49,12 @@ namespace tbfContentManager
                     //MessageBox.Show(message);
                     if (lServerData[1] == "1")
                     {
-                        int iUserID = Convert.ToInt32(lServerData[2]);
-                        string sUserName="";
-                        txtUser.Dispatcher.BeginInvoke((Action)(() =>sUserName = txtUser.Text));
-                        mainContentWindow.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(null, null, 0)));
-                        mainContentWindow.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));                        
-                        this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
+                        txtUser.Dispatcher.BeginInvoke((Action)(() => sUserBuffer = txtUser.Text));
+                        ParameterizedThreadStart pts = new ParameterizedThreadStart(this.startMainWindow);
+                        Thread thread = new Thread(pts);
+                        thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+                        thread.Start(lServerData[2]);
+                        
                     }
                     if (lServerData[1] == "2")
                     {
@@ -98,6 +101,14 @@ namespace tbfContentManager
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+        [STAThread]
+        private void startMainWindow(object sUserID)
+        {
+            int iUserID = Convert.ToInt32(sUserID);           
+            txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(TCPClient, sUserBuffer, iUserID)));
+            txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
+            this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
         }
     }
 }

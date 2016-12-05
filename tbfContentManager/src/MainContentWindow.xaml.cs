@@ -20,8 +20,9 @@ namespace tbfContentManager
        
         public MainContentWindow(simpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
-
             InitializeComponent();  
+            //Variablen zuweisen!
+
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
