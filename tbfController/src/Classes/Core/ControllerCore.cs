@@ -102,7 +102,7 @@ namespace tbfController.Classes.Core
                 case "#201":
                     tel_201_requestRoomOverview(ref relatedClient); break;
                 case "#203":
-
+                    
                     break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
@@ -218,7 +218,20 @@ namespace tbfController.Classes.Core
                 return;
             }
         }
-        
+
+        private void tel_203_requestRoomAdd(ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+               
+            }
+            catch (Exception)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMADD)! Message: " + e.ToString());
+                return;
+            }
+        }
+
         #endregion
 
 
