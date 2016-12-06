@@ -36,6 +36,50 @@ namespace WCDatabaseEngine
             return MysqlCommand.ExecuteReader();
         }
 
+        public override int addNewRoom(int iUserID, string sName, string sDecription, short iIsPrivate,string sIconURL)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                MySqlDataReader MysqlData = null;
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 3;
+                }
+
+                //Check, if roomname already exist
+                MysqlData = executeQuery(MysqlConn, "SELECT room_id from tbf_rooms where Name = '"+ sName +"'");
+                while (MysqlData.Read())
+                {
+                    return 2;
+                }
+                MysqlData.Close();
+                //Add new room
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO `"+ sql_db_default + "`.`tbf_rooms` (`name`, `description`, `is_private`, `room_icon_url`) VALUES ('"
+                    + sName + "', '"
+                    + sDecription +"', b'" + iIsPrivate +"', '"
+                    + sIconURL +"')");
+                MysqlData.Close();
+
+                //Add user to room
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO `" 
+                    + sql_db_default + "`.`tbf_user_room_relation` (`room_id`, `user_id`) VALUES((SELECT room_id from tbf_rooms where Name = '"
+                    + sName +"'), '"
+                    + iUserID.ToString() +"') ");             
+                MysqlData.Close();
+
+                return 1;
+
+            }
+
+
+        }
+
         public override List<List<string>> getRoomOverViewData()
         {
             //This is a list of lists. 
@@ -105,7 +149,7 @@ namespace WCDatabaseEngine
             }
         }
 
-        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false)
+        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short iIsTrainer = 0)
         {
             using (MySqlConnection MysqlConn =
                   new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
@@ -136,7 +180,7 @@ namespace WCDatabaseEngine
                     + sForeName + "', MD5('"
                     + sPassword + "'), '"
                     + sEmail + "', b'"
-                    + Convert.ToString((isTrainer) ? 1 : 0) + "');");
+                    + iIsTrainer + "');");
                 MysqlData.Close();
             }
             return 1;

@@ -81,7 +81,6 @@ namespace SimpleNetworkServer
         {
 
             networkClientInterface connection = new networkClientInterface((Socket)result.AsyncState, result);
-            Console.WriteLine("[" + DateTime.Now + "] system@tbf-controller: Connection income");
             try
             { 
                

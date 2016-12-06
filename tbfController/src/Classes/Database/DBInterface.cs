@@ -43,10 +43,11 @@ namespace WCDatabaseEngine
 
         //Content
 
-        public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false);
+        public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short bIs_Trainer = 0);
         public abstract int loginUser(string sUserName, string sPassword, ref int iUserID);
 
         public abstract List<List<string>> getRoomOverViewData();
+        public abstract int addNewRoom(int iUserID, string sName, string sDecription,short bIs_Private, string sIconURL);
     }
     
 

@@ -29,6 +29,11 @@ namespace WCDatabaseEngine
         {    
         }
 
+        public override int addNewRoom(int iUserID, string sName, string sDecription, short bIs_Private, string sIconURL)
+        {
+            throw new NotImplementedException();
+        }
+
         public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
         {
             SqlCommand mssqlCommand = null;
@@ -51,7 +56,7 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
-        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, bool isTrainer = false)
+        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short isTrainer = 0)
         {
             throw new NotImplementedException();
         }

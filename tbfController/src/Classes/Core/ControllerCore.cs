@@ -67,6 +67,7 @@ namespace tbfController.Classes.Core
             //networkProtocol("#102;Anderson2;miau1x234", ref dummy);
             //Content
             //networkProtocol("#201", ref dummy);
+            //networkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
         }
 
         public void start()
@@ -102,8 +103,7 @@ namespace tbfController.Classes.Core
                 case "#201":
                     tel_201_requestRoomOverview(ref relatedClient); break;
                 case "#203":
-                    
-                    break;
+                    tel_203_requestRoomAdd(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -140,7 +140,7 @@ namespace tbfController.Classes.Core
                 //log
                 Logger.writeInLog(true, "Message #104 (SIGNUP) received from a client!");
                 //register user
-                int iSignUpStatusCode = DatabaseEngine.signUpRegisterUser(lDataList[0], lDataList[1], lDataList[2], lDataList[3], lDataList[4], Convert.ToBoolean(lDataList[5]));
+                int iSignUpStatusCode = DatabaseEngine.signUpRegisterUser(lDataList[0], lDataList[1], lDataList[2], lDataList[3], lDataList[4], Convert.ToInt16(lDataList[5]));
                 //send message to client
                 TcpServer.sendMessage("#105" + cProtocolDelimiter + iSignUpStatusCode, relatedClient);
                 Logger.writeInLog(true, "Answered #105 with SignUpCode " + iSignUpStatusCode + "!");
@@ -219,13 +219,21 @@ namespace tbfController.Classes.Core
             }
         }
 
-        private void tel_203_requestRoomAdd(ref networkServer.networkClientInterface relatedClient)
+        private void tel_203_requestRoomAdd(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             try
             {
-               
+                //log
+                Logger.writeInLog(true, "Message #203 (REQ_ROOMADD) received from a client!");
+                //Try to add room + add trainer to room
+                int iRoomAddStatus = DatabaseEngine.addNewRoom(Convert.ToInt32(lDataList[0]), 
+                                                               lDataList[1], lDataList[2], 
+                                                               Convert.ToInt16(lDataList[3]), 
+                                                               lDataList[4]);
+                //Send message to client
+                TcpServer.sendMessage("#204" + cProtocolDelimiter + iRoomAddStatus, relatedClient);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMADD)! Message: " + e.ToString());
                 return;
