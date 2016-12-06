@@ -6,14 +6,11 @@
         xmlns:local="clr-namespace:tbfContentManager"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="MainContentWindow" Height="485.667" Width="650" Closing="MetroWindow_Closing">
+        Title="MainContentWindow" Height="485.667" Width="650" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded">
 
 
     <Grid Margin="0,0,0,1" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="44*"/>
-            <RowDefinition Height="47*"/>
-        </Grid.RowDefinitions>
+
         <Label x:Name="lblWelcomeMessage" Content="Willkommen, lblNameOfUser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0" Width="226" FontSize="15" Height="30" FontWeight="Bold"/>
         <Grid HorizontalAlignment="Left" Width="642" Margin="0,0,0,165.8">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
@@ -105,7 +102,8 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" HorizontalAlignment="Left" Margin="-0.2,0,0,0.4" Width="75" Loaded="tiRoomManager_Loaded">
+
+            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" HorizontalAlignment="Left" Margin="-0.2,0,0,0.4" Width="75">
                 <Grid>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -124,7 +122,7 @@
                             </Grid>
                             <Grid>
                                 <GroupBox x:Name="groupBox4" Header="Rooms" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="550" Width="290">
-                                    
+
                                     <ListView x:Name="lvRoomList">
                                         <ListView.View>
                                             <GridView>

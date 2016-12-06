@@ -44,6 +44,11 @@ namespace WhiteCode.Network
            
         }
         
+        public void changeProtocolFunction(protocolFunction protAnalyseFunction)
+        {
+            this.protAnalyseFunction = protAnalyseFunction;
+        }
+
         //Functions
         public void setSocketEndpointCommunication(IPAddress ip, short port, AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {

@@ -25,7 +25,6 @@ namespace tbfContentManager
     /// </summary>
     public partial class MainWindow
     {
-        //MainContentWindow mainContentWindow;
         simpleNetwork_Client TCPClient;
         MainContentWindow mainContentWindow = null;
         //Buffer of txt boxes
@@ -40,7 +39,6 @@ namespace tbfContentManager
         }
 
         private void server_response(string message) {
-            TCPClient.closeConnection();
             List<string> lServerData = new List<string>();
             lServerData = message.Split(';').ToList();
             switch (lServerData[0].ToString())
@@ -73,6 +71,10 @@ namespace tbfContentManager
         }
 
         private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
+
+            //IsHitTestVisible
+            btnLogin.IsEnabled = false;
+
             TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             if (txtPassword.Password.Length > 3 && txtUser.Text.Length > 3)
@@ -87,6 +89,7 @@ namespace tbfContentManager
             {
                 MessageBox.Show("Benutzername oder Passwort ist zu kurz! (mindestens 4 Zeichen)", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+           
 
         }
 
@@ -106,7 +109,7 @@ namespace tbfContentManager
         private void startMainWindow(object sUserID)
         {
             int iUserID = Convert.ToInt32(sUserID);           
-            txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(TCPClient, sUserBuffer, iUserID)));
+            txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(ref TCPClient, sUserBuffer, iUserID)));
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
             this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
         }
