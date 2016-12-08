@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Support;
+
 namespace SimpleNetworkServer
 {
     class networkServer
@@ -81,7 +82,6 @@ namespace SimpleNetworkServer
         {
 
             networkClientInterface connection = new networkClientInterface((Socket)result.AsyncState, result);
-            Console.WriteLine("[" + DateTime.Now + "] system@tbf-controller: Connection income");
             try
             { 
                
@@ -167,13 +167,20 @@ namespace SimpleNetworkServer
             //Protes Values
             public string UserName = "";
             public bool isTrainer = false;
-            
+
+            public networkClientInterface()
+            {
+
+            }
+
             public networkClientInterface(Socket connection, IAsyncResult result)
             {
                 networkSocket = connection.EndAccept(result);
                 networkSocket.Blocking = false;
                 buffer = new byte[1024];
+
             }
+           
         }
 
 

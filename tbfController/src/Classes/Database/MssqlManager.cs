@@ -19,9 +19,7 @@ using System.Threading.Tasks;
 namespace WCDatabaseEngine
 {
     class DBMssqlManager : DBEngine
-    {
-
-       
+    {      
 
         //Queries
 
@@ -31,6 +29,11 @@ namespace WCDatabaseEngine
         {    
         }
 
+        public override int addNewRoom(int iUserID, string sName, string sDecription, short bIs_Private, string sIconURL)
+        {
+            throw new NotImplementedException();
+        }
+
         public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
         {
             SqlCommand mssqlCommand = null;
@@ -38,7 +41,22 @@ namespace WCDatabaseEngine
             return mssqlCommand.ExecuteReader();
         }
 
-        public override object executeQuery(object mysqlConnection, string query)
+        public override MySql.Data.MySqlClient.MySqlDataReader executeQuery(MySql.Data.MySqlClient.MySqlConnection mysqlConnection, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getRoomOverViewData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int loginUser(string sUserName, string sPassword, ref int iUserID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short isTrainer = 0)
         {
             throw new NotImplementedException();
         }
