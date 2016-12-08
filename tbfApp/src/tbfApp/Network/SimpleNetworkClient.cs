@@ -87,7 +87,7 @@ namespace Network
 
 
             await Task.Delay(new TimeSpan(0, 0, waitingTimeSeconds));
-            protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
+            protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length).Replace("\0",string.Empty));
    
            
             //Temporary usage (Must be tested)

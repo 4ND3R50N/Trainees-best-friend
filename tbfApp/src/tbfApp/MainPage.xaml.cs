@@ -41,7 +41,7 @@ namespace tbfApp
                     BarBackgroundColor = Color.FromHex(App.GetMenueColor()),
                     BarTextColor = Color.White,
                 };
-                //page.Title = item.TargetType.Name; //Englisch anpassen
+                //page.Title = item.TargetType.Name; //Titel anpassen, funktionieren
                 masterPage.ListView.SelectedItem = null;
                 IsPresented = false;
             }

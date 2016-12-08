@@ -19,6 +19,7 @@ namespace tbfApp
 
             // Build the page.        
             var stack = new StackLayout();
+            stack.Padding = new Thickness(0,5,0,5);
             scroll.Content = stack;
 
             stack.Children.Add(new LevelButton("Level 1", Navigation, this, "Das erste Level ist für Ein- und Wiedereinsteiger geeignet.", "LevelID HERE ToDo", "stern1.png"));

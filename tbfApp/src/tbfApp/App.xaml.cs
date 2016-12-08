@@ -12,19 +12,21 @@ namespace tbfApp
     {
         protected static App app;
         public static SimpleNetworkClient endpointConnection;
+
         public App()
         {
             InitializeComponent();
 
             app = this;
 
-            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(), GetServerPort(), GetServerBufferlenght(), 2);
+            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(),
+                GetServerPort(), GetServerBufferlenght(), 2);
         }
 
         protected override void OnStart()
         {
             System.Diagnostics.Debug.WriteLine("App OnStart");
-            if(!Application.Current.Properties.ContainsKey("IsUserLoggedIn"))
+            if (!Application.Current.Properties.ContainsKey("IsUserLoggedIn"))
             {
                 Application.Current.Properties["IsUserLoggedIn"] = false;
                 System.Diagnostics.Debug.WriteLine("First Appstart, initialize Current.Properties");
@@ -118,7 +120,8 @@ namespace tbfApp
                     //await testConnection.sendMessage("GET",false);
                     */
 
-                    var answer = await page.DisplayAlert("Verbindungsproblem", "Server nicht erreichbar!", "OK", "Wiederholen");
+                    var answer =
+                        await page.DisplayAlert("Verbindungsproblem", "Server nicht erreichbar!", "OK", "Wiederholen");
                     if (!answer)
                     {
                         System.Diagnostics.Debug.WriteLine("Reload");
@@ -128,7 +131,8 @@ namespace tbfApp
                 }
                 catch (Exception)
                 {
-                    var answer = await page.DisplayAlert("Verbindungsproblem", "Keine Internetverbindung!", "OK", "Wiederholen");
+                    var answer =
+                        await page.DisplayAlert("Verbindungsproblem", "Keine Internetverbindung!", "OK", "Wiederholen");
                     if (!answer)
                     {
                         System.Diagnostics.Debug.WriteLine("Reload");
@@ -151,6 +155,7 @@ namespace tbfApp
             }
             return Convert.ToString(Application.Current.Properties["menueColor"]);
         }
+
         public static bool SetMenueColor(String newColor)
         {
             Application.Current.Properties["menueColor"] = newColor;
@@ -166,6 +171,7 @@ namespace tbfApp
             }
             return Convert.ToString(Application.Current.Properties["serverAdress"]);
         }
+
         public static bool SetServerAdress(String newServerAdress)
         {
             Application.Current.Properties["serverAdress"] = newServerAdress;
@@ -181,6 +187,7 @@ namespace tbfApp
             }
             return Convert.ToInt16(Application.Current.Properties["serverPort"]);
         }
+
         public static bool SetServerPort(int newServerPort)
         {
             Application.Current.Properties["serverPort"] = newServerPort;
@@ -196,6 +203,7 @@ namespace tbfApp
             }
             return Convert.ToInt16(Application.Current.Properties["serverBufferlenght"]);
         }
+
         public static bool SetServerBufferlenght(int newServerBufferlenght)
         {
             Application.Current.Properties["serverBufferlenght"] = newServerBufferlenght;
@@ -211,9 +219,33 @@ namespace tbfApp
             }
             return Convert.ToInt32(Application.Current.Properties["userID"]);
         }
+
         public static bool SetUserID(int newUserID)
         {
-            Application.Current.Properties["userID"] = newUserID;
+            try
+            {
+                Application.Current.Properties["userID"] = newUserID;
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("USER ID IS NOT SET!!!!!!!!");
+                //throw;
+            }
+            return true;
+        }
+
+        public static String GetUsername()
+        {
+            if (!Application.Current.Properties.ContainsKey("username"))
+            {
+                Application.Current.Properties["username"] = "Benutzername";
+                System.Diagnostics.Debug.WriteLine("First username set");
+            }
+            return Convert.ToString(Application.Current.Properties["username"]);
+        }
+        public static bool SetUsername(String newUsername)
+        {
+            Application.Current.Properties["username"] = newUsername;
             return true;
         }
     }

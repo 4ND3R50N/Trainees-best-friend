@@ -17,9 +17,9 @@
                           Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
           >
           <Image Source="tbf_180x180.png" WidthRequest="180" HeightRequest="180" HorizontalOptions="CenterAndExpand"/>
-            <Label Text="Username" />
-            <Entry x:Name="usernameEntry" Placeholder="username" />
-            <Label Text="Password" />
+            <Label Text="Benutzername" />
+            <Entry x:Name="usernameEntry" Placeholder="Benutzername" />
+            <Label Text="Passwort" />
             <Entry x:Name="passwordEntry" IsPassword="true" />
             <Button x:Name="buttonLoginin" Text="Login" Clicked="OnLoginButtonClicked" />
             <Label x:Name="messageLabel" TextColor="Red" FontSize="20" HorizontalOptions="CenterAndExpand"/>

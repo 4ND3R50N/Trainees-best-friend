@@ -13,8 +13,6 @@ namespace tbfApp
         public SignUpPage()
         {
             InitializeComponent();
-
-            App.endpointConnection.SetProtocolFunction(ServerAnswer);
         }
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
@@ -23,23 +21,27 @@ namespace tbfApp
 
             if (usernameEntry.Text == null || forenameEntry.Text == null || secondnameEntry.Text == null || passwordEntry.Text == null || passwordEntry2.Text == null || emailEntry.Text == null)
             {
-                await DisplayAlert("Eingabefehler", "Eingaben nicht vollständig", "OK");
+                //await DisplayAlert("Eingabefehler", "Eingaben nicht vollständig!", "OK");
+                messageLabel.Text = "Eingaben nicht vollständig!";
             }
             else if (!passwordEntry.Text.Equals(passwordEntry2.Text))
             {
-                await DisplayAlert("Eingabefehler", "Passwörter nicht identisch!", "OK");
+                //await DisplayAlert("Eingabefehler", "Passwörter nicht identisch!", "OK");
+                messageLabel.Text = "Passwörter nicht identisch!";
                 passwordEntry.Text = string.Empty;
                 passwordEntry2.Text = string.Empty;
             }
             else if (!emailEntry.Text.Contains("@") || !emailEntry.Text.Contains("."))
             {
-                await DisplayAlert("Eingabefehler", "Email Adresse ungültig!", "OK");
+                //await DisplayAlert("Eingabefehler", "Email Adresse ungültig!", "OK");
+                messageLabel.Text = "Email Adresse ungültig!";
                 emailEntry.Text = string.Empty;
             }
             else
             {
                 //Login Request
-                await App.Communicate("#104;" + usernameEntry.Text.ToLower() + ";" + secondnameEntry.Text + ";" + forenameEntry.Text + ";" + passwordEntry.Text + ";" + emailEntry.Text.ToLower() + "~", this);
+                App.endpointConnection.SetProtocolFunction(this.ServerAnswer);
+                await App.Communicate("#104;" + usernameEntry.Text + ";" + secondnameEntry.Text + ";" + forenameEntry.Text + ";" + passwordEntry.Text + ";" + emailEntry.Text.ToLower(), this);
             }
 
             buttonSignUp.IsEnabled = true;
@@ -51,6 +53,7 @@ namespace tbfApp
             DisplayAlert("Servermessage", protocol, "OK");
 
             List<string> list = new List<string>();
+            //string [] test  = protocol.Split(';');
             list = protocol.Split(';').ToList();
 
             if (list.ElementAt(0).Equals("#105"))

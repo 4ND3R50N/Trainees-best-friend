@@ -32,13 +32,27 @@ namespace tbfApp
                 IconSource = "todo.png",
                 TargetType = typeof(SettingsPage)
             });
+            /*
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = "",
+                //IconSource = "contacts.png",
+                TargetType = typeof(RoomPage),
+            });
+            */
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = App.GetUsername(),
+                IconSource = "contacts.png",
+                TargetType = typeof(RoomPage)
+            });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Abmelden",
-                IconSource = "reminders.png",
+                IconSource = "logoff.png",
                 TargetType = typeof(LogOut)
             });
-            
+
             listView.ItemsSource = masterPageItems;
         }
     }

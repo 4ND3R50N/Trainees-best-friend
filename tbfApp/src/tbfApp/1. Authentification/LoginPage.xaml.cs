@@ -15,8 +15,6 @@ namespace tbfApp
         public LoginPage()
         {
             InitializeComponent();
-
-            App.endpointConnection.SetProtocolFunction(ServerAnswer);
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -35,10 +33,11 @@ namespace tbfApp
             else
             {
                 //Login Request
-                await App.Communicate("#102;" + usernameEntry.Text.ToLower() + ";" + passwordEntry.Text + "~", this);
+                App.endpointConnection.SetProtocolFunction(this.ServerAnswer);
+                await App.Communicate("#102;" + usernameEntry.Text + ";" + passwordEntry.Text, this);
             }
 
-            Application.Current.Properties["IsUserLoggedIn"] = true;
+            //Application.Current.Properties["IsUserLoggedIn"] = true;
             App.LogInSwitch();
 
             buttonLoginin.IsEnabled = true;
@@ -64,7 +63,7 @@ namespace tbfApp
             DisplayAlert("Servermessage", protocol, "OK");
 
             List<string> list = new List<string>();
-            list = protocol.Split(';').ToList();
+            list = protocol.Split(new char[] { ';' } ).ToList();
 
             if (list.ElementAt(0).Equals("#103"))
             {
@@ -73,8 +72,10 @@ namespace tbfApp
                     int iD;
                     int.TryParse(list.ElementAt(2), out iD);
                     App.SetUserID(iD);
+                    App.SetUsername(usernameEntry.Text);
                     Application.Current.Properties["IsUserLoggedIn"] = true;
-                    App.LogInSwitch();
+                    //App.LogInSwitch();
+                    DisplayAlert("Login Erfolgreich!", "Hallo " + usernameEntry.Text + "!", "OK");
                 }
                 else if(list.ElementAt(1).Equals("2"))
                 {
