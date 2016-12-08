@@ -7,6 +7,9 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         Title="MainContentWindow" Height="485.667" Width="650" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded">
+        <!--Title="MainContentWindow"  DataContext="{x:Static local:PropertyClass.Instance}">-->
+        
+         
 
 
     <Grid Margin="0,0,0,1" >
@@ -122,7 +125,14 @@
                             </Grid>
                             <Grid>
                                 <GroupBox x:Name="groupBox4" Header="Rooms" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="550" Width="290">
-
+                                    <!--<ListBox x:Name="UserList" ItemsSource="{Binding Persons}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Firstname}" Margin="3" />
+                                                --><!--<TextBlock Text="{Binding Lastname}" Margin="3" />--><!--
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>-->
                                     <ListView x:Name="lvRoomList">
                                         <ListView.View>
                                             <GridView>

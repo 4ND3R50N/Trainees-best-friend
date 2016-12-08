@@ -48,15 +48,24 @@ namespace tbfContentManager
             {
                 case "#202":
                     //tel_202_Room_Data(tmp, lServerData);
+                    string[] room_names = new string[Convert.ToInt32(counter)];
                     for (int i = 2; i <= Convert.ToInt32(counter); i++)
                     {
                         lServerData.Add(tmp[i].Split('|').ToList());
                     }
-                    for (int j = 0; j < lServerData.Count; j++)
+                    for (int j = 0; j < (lServerData.Count); j++)
                     {
                             int room_ID = Convert.ToInt32(lServerData[j][0]);
-                            MessageBox.Show(Convert.ToString(room_ID));
+                            room_names[j] = lServerData[j][1];
+                        MessageBox.Show(room_names[j]);
+                        //string room_description = lServerData[j][2];
+                        //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
+                        //string room_icon_url = lServerData[j][4];
                     }
+                    for (int d = 0; d < (room_names.Length); d++) {
+                        create_RoomList_item(room_names[d]);
+                    }
+
                     break;
             default:
                     break;
@@ -82,7 +91,6 @@ namespace tbfContentManager
                     int room_ID = Convert.ToInt32(lServerData[j][i]);
                 }
             }
-
         }
 
 
@@ -100,33 +108,37 @@ namespace tbfContentManager
             //TCPClient.sendMessage("#203;" + txtUser.Text + ";" + txtPassword.Password, true);
         }
 
+        public void create_RoomList_item(string room_name) {
+            // Populate list
+            MessageBox.Show(room_name);
+            //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
+            this.lvRoomList.Items.Add(new lRoomNameEntry { Name = room_name });
+        }
+
         #region Support classes
         public class lRoomNameEntry
         {
             public string Name { get; set; }
         }
-
+        #endregion
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //RoomManger Room laden
             TCPClient.changeProtocolFunction(server_response);
             TCPClient.sendMessage("#201", true);
+
+            var gridView = new GridView();
+            gridView.Columns.Add(new GridViewColumn
+            {
+                Header = "Name",
+                DisplayMemberBinding = new Binding("Name")
+            });
         }
 
 
-        #endregion
-
         //private void tiRoomManager_MouseUp(object sender, MouseButtonEventArgs e)
         //{
-        //    if (!TCPClient.connect())
-        //    {
-        //        MessageBox.Show("test_Loaded");
-        //        return;
-        //    }
-        //    TCPClient.sendMessage("#201", true);
-
-
-        //    var gridView = new GridView();
+        //    //    var gridView = new GridView();
 
         //    gridView.Columns.Add(new GridViewColumn
         //    {
@@ -136,29 +148,7 @@ namespace tbfContentManager
 
         //    // Populate list
         //    this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-        //}
-
-        //private void btnRoomManager_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (!TCPClient.connect())
-        //    {
-        //        MessageBox.Show("test_Loaded");
-        //        return;
-        //    }
-        //    TCPClient.sendMessage("#201", true);
-
-
-        //    var gridView = new GridView();
-
-        //    gridView.Columns.Add(new GridViewColumn
-        //    {
-        //        Header = "Name",
-        //        DisplayMemberBinding = new Binding("Name")
-        //    });
-
-        //    // Populate list
-        //    this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-        //}
+        //
 
     }
 }
