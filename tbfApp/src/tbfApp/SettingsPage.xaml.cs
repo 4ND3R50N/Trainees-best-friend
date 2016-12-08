@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -31,7 +33,7 @@ namespace tbfApp
 
             Label lablePass = new Label()
             {
-                Text = "Bitte das Passwort für die Erweiterten Einstellungen eingeben",
+                Text = "Bitte das Passwort für die erweiterten Einstellungen eingeben",
                 Font = Font.BoldSystemFontOfSize(20),
             };
 
@@ -71,19 +73,19 @@ namespace tbfApp
 
             entryColor = new Entry()
             {
-                Placeholder = App.getMenueColor(),
+                Placeholder = App.GetMenueColor(),
             };
             //yourTextField.KeyboardType = UIKeyboardTypePhonePad
 
             Label lableServerAdresse = new Label()
             {
-                Text = "Serveradresse",
+                Text = "Server IP Adresse",
                 Font = Font.BoldSystemFontOfSize(15),
             };
 
             entryServerAdress = new Entry()
             {
-                //Placeholder = App.getServerAdress(),
+                Placeholder = App.GetServerAdress(),
             };
 
             Label lableServerPort = new Label()
@@ -94,7 +96,7 @@ namespace tbfApp
 
             entryServerPort = new Entry()
             {
-                //Placeholder = App.getServerPort()
+                Placeholder = Convert.ToString(App.GetServerPort())
             };
 
             Label lableServerBufferlenght = new Label()
@@ -105,15 +107,16 @@ namespace tbfApp
 
             entryServerBufferlenght = new Entry()
             {
-                //Placeholder = App.getServerBufferlenght(),
+                Placeholder = Convert.ToString(App.GetServerBufferlenght()),
             };
 
             Button buttonSaveChanges = new Button()
             {
                 Text = "Einstellungen speichern"
             };
-            buttonSaveChanges.Clicked += ChangeColorClicked;
+            buttonSaveChanges.Clicked += SaveChangesClicked;
 
+            // Build the page1.
             stackExpand = new StackLayout();
             stackExpand.Spacing = 1;
             stackExpand.Children.Add(boxSpace2);
@@ -130,8 +133,7 @@ namespace tbfApp
         }
         void OnButtonClicked(object sender, EventArgs e)
         {
-            
-            if (entryPass.Text.Equals("0815"))
+            if (entryPass.Text != null && entryPass.Text.Equals("0815"))
             {
                 scroll.Content = stackExpand;
             }
@@ -141,15 +143,73 @@ namespace tbfApp
             }
         }
 
-        void ChangeColorClicked(object sender, EventArgs e)
+        void SaveChangesClicked(object sender, EventArgs e)
         {
-            if (entryColor.Text.Length == 6)
+            if (entryColor.Text != null )
             {
-                App.setMenueColor(entryColor.Text);
+                if (entryColor.Text.Length == 6)
+                {
+                    App.SetMenueColor(entryColor.Text);
+                }
+                else if(entryColor.Text.Equals(""))
+                {
+                    
+                }
+                else
+                {
+                    DisplayAlert("Fehler", "Farbcode ungültig", "OK");
+                }
             }
-            else
+
+            if (entryServerAdress.Text != null)
             {
-                DisplayAlert("Fehler", "Farbcode ungültig", "OK");
+                int punkteAnzahl = Regex.Matches(entryServerAdress.Text, Regex.Escape(".")).Count;
+                if (entryServerAdress.Text.Length >= 6 && entryServerAdress.Text.Length <= 15 && punkteAnzahl == 3)
+                {
+                    App.SetServerAdress(entryServerAdress.Text);
+                }
+                else if (entryServerAdress.Text.Equals(""))
+                {
+
+                }
+                else
+                {
+                    DisplayAlert("Fehler", "Serveradresse ungültig", "OK");
+                }
+            }
+
+            if (entryServerPort.Text != null)
+            {
+                int port;
+                if (entryServerPort.Text.Length >= 1 && entryServerPort.Text.Length <= 5 && int.TryParse(entryServerPort.Text, out port))
+                {
+                    App.SetServerPort(port);
+                }
+                else if (entryServerPort.Text.Equals(""))
+                {
+
+                }
+                else
+                {
+                    DisplayAlert("Fehler", "Serverport ungültig", "OK");
+                }
+            }
+
+            if (entryServerBufferlenght.Text != null)
+            {
+                int bufferlenght;
+                if (entryServerBufferlenght.Text.Length >= 1 && entryServerBufferlenght.Text.Length <= 5 && int.TryParse(entryServerBufferlenght.Text, out bufferlenght))
+                {
+                    App.SetServerBufferlenght(bufferlenght);
+                }
+                else if (entryServerBufferlenght.Text.Equals(""))
+                {
+
+                }
+                else
+                {
+                    DisplayAlert("Fehler", "Pufferlänge des Servers ungültig", "OK");
+                }
             }
         }
     }

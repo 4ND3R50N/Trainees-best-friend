@@ -16,6 +16,9 @@ namespace tbfApp
         {
             InitializeComponent();
 
+            var scroll = new ScrollView();
+            Content = scroll;
+
             activityIndicator = new ActivityIndicator
             {
                 IsRunning = true,
@@ -23,9 +26,10 @@ namespace tbfApp
                 WidthRequest = 50,
                 HeightRequest = 50,
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.CenterAndExpand
+                VerticalOptions = LayoutOptions.CenterAndExpand,
             };
 
+            /*
             // Build the page.
             this.Content = new StackLayout
             {
@@ -37,6 +41,14 @@ namespace tbfApp
             };
 
             Load();
+            */
+
+            // Build the page.        
+            var stack = new StackLayout();
+            scroll.Content = stack;
+
+            stack.Children.Add(new WorkoutButton("Every Morning", Navigation, this, "Das Workout für jeden guten Start in den Tag", "workoutID HERE ToDo", "buttonBackground700x100.png"));
+
         }
 
         public static async void Load()
