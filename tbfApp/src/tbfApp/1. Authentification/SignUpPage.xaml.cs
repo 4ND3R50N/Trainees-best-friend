@@ -39,7 +39,9 @@ namespace tbfApp
             }
             else
             {
+
                 //SignUp Request
+
                 App.endpointConnection.SetProtocolFunction(this.ServerAnswer);
                 await App.Communicate("#104;" + usernameEntry.Text + ";" + secondnameEntry.Text + ";" + forenameEntry.Text + ";" + passwordEntry.Text + ";" + emailEntry.Text.ToLower() + ";0", this);
             }
