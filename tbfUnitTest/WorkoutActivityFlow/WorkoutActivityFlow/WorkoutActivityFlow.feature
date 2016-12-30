@@ -1,3 +1,4 @@
+
 ﻿Feature: WorkoutActivityFlow
 	
 @mytag
@@ -5,6 +6,7 @@ Scenario: Login -> Join room -> Chose level -> View content
 	Given TBF App is open
 	When Trainee is not loged in
 	Then I should see signupPage
+
 	When Trainee is loged in 
 	Then I should see roomPage
 	Then I navigate to a room
