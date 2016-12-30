@@ -5,31 +5,49 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright		Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 1.0
  */
-
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
-namespace Database
+namespace WCDatabaseEngine
 {
  
     abstract class DBEngine
     {
+
+        protected string host_ip;
+        protected string sql_user;
+        protected string sql_pass;
+        protected short sql_port;
+        protected string sql_db_default;
+        
+
+        public DBEngine(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
+        {
+            this.host_ip = host_ip;
+            this.sql_user = sql_user;
+            this.sql_pass = sql_pass;
+            this.sql_port = sql_port;
+            this.sql_db_default = sql_db_default;
+
+        }
+
         //Support
 
-        public abstract object executeQuery(object mysqlConnection, string query);
-        public abstract SqlDataReader executeQuery(SqlConnection mssqlConnection, string query);
+        public abstract MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query);
+        public abstract SqlDataReader executeQuery(SqlConnection MssqlConnection, string query);
         public abstract bool testDBConnection();
-        
-       
 
+        //Content
 
+        public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short bIs_Trainer = 0);
+        public abstract int loginUser(string sUserName, string sPassword, ref int iUserID);
+
+        public abstract List<List<string>> getRoomOverViewData();
+        public abstract int addNewRoom(int iUserID, string sName, string sDecription,short bIs_Private, string sIconURL);
     }
     
 

@@ -17,8 +17,10 @@ namespace WorkoutActivityFlow
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [TechTalk.SpecRun.FeatureAttribute("Login  Join room  Chose level  View content", SourceFile="WorkoutActivityFlow.feature", SourceLine=0)]
-    public partial class LoginJoinRoomChoseLevelViewContentFeature
+
+    [TechTalk.SpecRun.FeatureAttribute("WorkoutActivityFlow", SourceFile="WorkoutActivityFlow.feature", SourceLine=0)]
+    public partial class WorkoutActivityFlowFeature
+
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,7 +32,9 @@ namespace WorkoutActivityFlow
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Login  Join room  Chose level  View content", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "WorkoutActivityFlow", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -61,11 +65,13 @@ namespace WorkoutActivityFlow
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Not log in", new string[] {
+
+        [TechTalk.SpecRun.ScenarioAttribute("Login -> Join room -> Chose level -> View content", new string[] {
                 "mytag"}, SourceLine=3)]
-        public virtual void NotLogIn()
+        public virtual void Login_JoinRoom_ChoseLevel_ViewContent()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Not log in", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login -> Join room -> Chose level -> View content", new string[] {
+
                         "mytag"});
 #line 4
 this.ScenarioSetup(scenarioInfo);
@@ -75,29 +81,19 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("Trainee is not loged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
  testRunner.Then("I should see signupPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Log in", SourceLine=8)]
-        public virtual void LogIn()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Log in", ((string[])(null)));
-#line 9
-this.ScenarioSetup(scenarioInfo);
-#line 10
- testRunner.Given("TBF App is open", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
+
+#line 8
  testRunner.When("Trainee is loged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
+#line 9
  testRunner.Then("I should see roomPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
+#line 10
  testRunner.Then("I navigate to a room", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
+#line 11
  testRunner.Then("I should see levelPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
+#line 12
  testRunner.Then("I navigate to a level", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 16
+#line 13
+
  testRunner.Then("I should see Video and Description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

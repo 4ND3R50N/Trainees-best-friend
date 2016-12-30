@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="©4nd3r50n from team WhiteCode">
+    <Position X="0.5" Y="8.292" Height="0.292" Width="10.346" />
+  </Comment>
+  <Class Name="WCDatabaseEngine.DBEngine">
+    <Position X="6.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAACAAQCgAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Database\DBInterface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WCDatabaseEngine.DBMysqlManager">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="WCDatabaseEngine.DBEngine" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="3.124" />
+        <Point X="8.75" Y="3.124" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Database\MysqlManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleNetworkServer.networkServer">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="SimpleNetworkServer.networkServer.protocolFunction">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Network\SimpleNetworkServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Class Name="SimpleNetworkServer.networkServer.networkClientInterface">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Network\SimpleNetworkServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAACAAAAAAABABAAAgAiAQAAAIAAAgAAAgAAA=</HashCode>
+      <FileName>Classes\Network\SimpleNetworkServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Support.Cryptography">
+    <Position X="3.25" Y="5.5" Width="1.75" />
+    <AssociationLine Name="networkServer" Type="SimpleNetworkServer.networkServer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="7.062" />
+        <Point X="2.875" Y="7.062" />
+        <Point X="2.875" Y="5.311" />
+        <Point X="2.25" Y="5.311" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.112" Y="-0.352" Height="0.182" Width="1.107" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AUAAAAAAAAAAAAASAACAAAEAAAEAgABAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Support\AESEncoding.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="networkServer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="tbfController.Program">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <AssociationLine Name="controllerManagement" Type="tbfController.Classes.Core.ControllerCore" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.125" Y="2.44" />
+        <Point X="6.125" Y="3.5" />
+        <Point X="5" Y="3.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.137" Y="0.395" Height="0.182" Width="1.577" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="iniEngine" Type="Support.iniManager">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.062" Y="-0.221" Height="0.182" Width="0.798" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAIIAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEBAACAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="controllerManagement" />
+      <Field Name="iniEngine" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="tbfController.Classes.Core.ControllerCore">
+    <Position X="3.25" Y="2.75" Width="1.75" />
+    <AssociationLine Name="tcpServer" Type="SimpleNetworkServer.networkServer">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.08" Y="0.069" Height="0.182" Width="0.807" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="databaseEngine" Type="WCDatabaseEngine.DBEngine">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.358" Y="0.101" Height="0.182" Width="1.261" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="logger" Type="Support.logWriter" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="4.75" />
+        <Point X="5.375" Y="4.75" />
+        <Point X="5.375" Y="5.688" />
+        <Point X="5.75" Y="5.688" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.279" Y="0.522" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAiAEAAAIAABgAAAAAAAAAAAEAAAAE=</HashCode>
+      <FileName>Classes\Core\ControllerCore.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="tcpServer" />
+      <Field Name="databaseEngine" />
+      <Field Name="logger" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Support.logWriter">
+    <Position X="5.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAACAAAAAAAAAAAIAAAAABAAAAA=</HashCode>
+      <FileName>Classes\Support\logWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Support.iniManager">
+    <Position X="3.25" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAgAAAAAAACAAACAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Support\IniEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WCDatabaseEngine.DBMssqlManager">
+    <Position X="8.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Database\MssqlManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

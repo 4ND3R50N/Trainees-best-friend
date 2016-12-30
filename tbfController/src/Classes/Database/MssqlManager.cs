@@ -5,7 +5,7 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright		Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 1.0
  */
 using System.Data.SqlClient;
@@ -16,29 +16,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Database
+namespace WCDatabaseEngine
 {
-    class DBMssqlProtesManager : DBEngine
-    {
-
-        string host_ip;
-        string sql_user;
-        string sql_pass;
-        short sql_port;
-        string sql_db_protes;
-        string sql_db_game;
+    class DBMssqlManager : DBEngine
+    {      
 
         //Queries
 
 
-        public DBMssqlProtesManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_protes, string sql_db_game)
+        public DBMssqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
+             : base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
+        {    
+        }
+
+        public override int addNewRoom(int iUserID, string sName, string sDecription, short bIs_Private, string sIconURL)
         {
-            this.host_ip = host_ip;
-            this.sql_user = sql_user;
-            this.sql_pass = sql_pass;
-            this.sql_port = sql_port;
-            this.sql_db_protes = sql_db_protes;
-            this.sql_db_game = sql_db_game;
+            throw new NotImplementedException();
         }
 
         public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
@@ -48,7 +41,22 @@ namespace Database
             return mssqlCommand.ExecuteReader();
         }
 
-        public override object executeQuery(object mysqlConnection, string query)
+        public override MySql.Data.MySqlClient.MySqlDataReader executeQuery(MySql.Data.MySqlClient.MySqlConnection mysqlConnection, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getRoomOverViewData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int loginUser(string sUserName, string sPassword, ref int iUserID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short isTrainer = 0)
         {
             throw new NotImplementedException();
         }
@@ -56,7 +64,7 @@ namespace Database
         public override bool testDBConnection()
         {
             using (SqlConnection mssqlConnection =
-              new SqlConnection("Server=" + host_ip + ";Database=" + sql_db_protes + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
+              new SqlConnection("Server=" + host_ip + ";Database=" + sql_db_default + ";User Id=" + sql_user + ";Password=" + sql_pass + ";MultipleActiveResultSets=True;"))
             {
                 try
                 {

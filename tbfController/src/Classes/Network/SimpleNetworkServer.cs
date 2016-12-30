@@ -5,7 +5,7 @@
  *
  * @author		Anderson from WhiteCode
  * @copyright	Copyright (c) 2016
- * @link		http://whitecode.org
+ * @link		http://white-code.org
  * @since		Version 2.1
  */
 using System;
@@ -17,9 +17,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Support;
+
 namespace SimpleNetworkServer
 {
-    class network_Server
+    class networkServer
     {
         //Variables
         //--Public
@@ -33,13 +34,13 @@ namespace SimpleNetworkServer
 
 
         //Constructor
-        public network_Server(protocolFunction protAnalyseFunction, string network_AKey)
+        public networkServer(protocolFunction protAnalyseFunction, string network_AKey)
         { 
             this.network_AKey = network_AKey;
             this.protAnalyseFunction = protAnalyseFunction;
         }
 
-        public network_Server(protocolFunction protAnalyseFunction, string network_AKey, IPAddress ip, short port, 
+        public networkServer(protocolFunction protAnalyseFunction, string network_AKey, IPAddress ip, short port, 
             AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
             this.network_AKey = network_AKey;
@@ -116,13 +117,10 @@ namespace SimpleNetworkServer
                 int bytesRead = connection.networkSocket.EndReceive(result);
                 if (0 != bytesRead)
                 {
-
-                    
-                    protAnalyseFunction(Cryptography.Decrypt(Encoding.UTF8.GetString(connection.buffer, 0, bytesRead), network_AKey), ref connection);
+                    protAnalyseFunction(Encoding.UTF8.GetString(connection.buffer, 0, bytesRead), ref connection);
                     connection.networkSocket.BeginReceive(connection.buffer, 0,
                       connection.buffer.Length, SocketFlags.None,
                       new AsyncCallback(ReceiveCallback), connection);
-
                 }
                 else closeConnection(connection);
             }
@@ -140,7 +138,7 @@ namespace SimpleNetworkServer
         {
             try
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(Cryptography.Encrypt(message, network_AKey));
+                byte[] bytes = Encoding.UTF8.GetBytes(message);
                 client.networkSocket.Send(bytes, bytes.Length,
                                 SocketFlags.None);
             }
@@ -167,30 +165,22 @@ namespace SimpleNetworkServer
             public Socket networkSocket;
             public byte[] buffer;
             //Protes Values
-            public Stopwatch connectionTime;
-            public Stopwatch ping;
-            public Stopwatch voteReminder; //using?
-            public Guid guid;
+            public string UserName = "";
+            public bool isTrainer = false;
 
-            public string gameUser;
-            public string ip;
-            public string mssql_ip;
-            public string os;
-            public string architecture;
-            //public int dataCounter;
-            //public int currentStart;
-            public bool wasLoggedIn;
+            public networkClientInterface()
+            {
 
+            }
 
             public networkClientInterface(Socket connection, IAsyncResult result)
             {
-                connectionTime = new Stopwatch();
-                ping = new Stopwatch();
-                voteReminder = new Stopwatch();
                 networkSocket = connection.EndAccept(result);
                 networkSocket.Blocking = false;
-                buffer = new byte[1023];
+                buffer = new byte[1024];
+
             }
+           
         }
 
 
