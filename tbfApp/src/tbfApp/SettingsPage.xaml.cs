@@ -39,7 +39,7 @@ namespace tbfApp
 
             entryPass = new Entry()
             {
-                Keyboard = Keyboard.Telephone,
+                //Keyboard = Keyboard.Telephone,
                 Placeholder = "Password",
                 IsPassword = true,
             };

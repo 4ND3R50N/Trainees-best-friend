@@ -20,6 +20,7 @@ namespace tbfApp
             listView.BackgroundColor = Color.FromHex(App.GetMenueColor());
 
             var masterPageItems = new List<MasterPageItem>();
+            
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Räume",
@@ -35,7 +36,7 @@ namespace tbfApp
             /*
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "",
+                Title = "lo",
                 //IconSource = "contacts.png",
                 TargetType = typeof(RoomPage),
             });
@@ -52,7 +53,7 @@ namespace tbfApp
                 IconSource = "logoff.png",
                 TargetType = typeof(LogOut)
             });
-
+            
             listView.ItemsSource = masterPageItems;
         }
     }

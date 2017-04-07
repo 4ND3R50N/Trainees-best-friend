@@ -16,6 +16,9 @@ namespace tbfApp
         }
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
+            //await DisplayAlert("Sign Up erfolgreich!", "Sie können sich jetzt einloggen", "OK");
+            //Navigation.PopToRootAsync();
+
             activityIndicator.IsRunning = true;
             buttonSignUp.IsEnabled = false;
 
@@ -48,28 +51,34 @@ namespace tbfApp
             activityIndicator.IsRunning = false;
         }
 
-        private void ServerAnswer(string protocol)
+        async void ServerAnswer(string protocol)
         {
-            DisplayAlert("Servermessage", protocol, "OK");
+            await DisplayAlert("Servermessage", protocol, "OK");
 
             List<string> list = new List<string>();
             //string [] test  = protocol.Split(';');
             list = protocol.Split(';').ToList();
 
+            App.endpointConnection.closeConnection();
+
             if (list.ElementAt(0).Equals("#105"))
             {
                 if (list.ElementAt(1).Equals("1"))
                 {
-                    Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
+                    await DisplayAlert("Sign Up erfolgreich!", "Sie können sich jetzt einloggen", "OK");
                     Navigation.PopToRootAsync();
-                    DisplayAlert("Sign Up erfolgreich!","Sie können sich jetzt einloggen", "OK");
+
                 }
                 else if (list.ElementAt(1).Equals("2"))
                 {
-                    messageLabel.Text = "Sign Up fehlgeschlagen, Benutzername existiert bereits!";
+                    messageLabel.Text = "Sign Up fehlgeschlagen, Benutzername wird bereits verwendet!";
                     usernameEntry.Text = string.Empty;
                 }
                 else if (list.ElementAt(1).Equals("3"))
+                {
+                    messageLabel.Text = "Sign Up fehlgeschlagen, Emailadresse wird bereits verwendet!";
+                }
+                else if (list.ElementAt(1).Equals("4"))
                 {
                     messageLabel.Text = "Sign Up fehlgeschlagen, Serverproblem!";
                 }
@@ -82,7 +91,6 @@ namespace tbfApp
             {
                 messageLabel.Text = "Kommunikationsproblem, Undefinierte Antwort vom Server 2!";
             }
-            App.endpointConnection.closeConnection();
 
             /*
             if (true)
