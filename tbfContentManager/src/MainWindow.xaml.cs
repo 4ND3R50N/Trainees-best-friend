@@ -81,9 +81,9 @@ namespace tbfContentManager
 
             //-------------------- ohne login ---------------------//
 
-            //MainContentWindow w = new MainContentWindow(ref TCPClient, "test", 0);
-            //w.Show();
-            //return;
+            MainContentWindow w = new MainContentWindow(ref TCPClient, "test", 0);
+            w.Show();
+            return;
 
 
             if (txtPassword.Password.Length > 3 && txtUser.Text.Length > 3)
