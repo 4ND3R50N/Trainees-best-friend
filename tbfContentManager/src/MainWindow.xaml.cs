@@ -72,11 +72,20 @@ namespace tbfContentManager
 
         private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
 
+            
             //IsHitTestVisible
             btnLogin.IsEnabled = false;
 
             TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            //-------------------- ohne login ---------------------//
+
+            //MainContentWindow w = new MainContentWindow(ref TCPClient, "test", 0);
+            //w.Show();
+            //return;
+
+
             if (txtPassword.Password.Length > 3 && txtUser.Text.Length > 3)
             {
                 if (!TCPClient.connect()) {
@@ -108,7 +117,7 @@ namespace tbfContentManager
         [STAThread]
         private void startMainWindow(object sUserID)
         {
-            int iUserID = Convert.ToInt32(sUserID);           
+            int iUserID = Convert.ToInt32(sUserID);
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(ref TCPClient, sUserBuffer, iUserID)));
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
             this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
