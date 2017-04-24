@@ -10,7 +10,7 @@ namespace tbfApp
 {
     public partial class ExercisePage : ContentPage
     {
-        public ExercisePage(String exerciseID)
+        public ExercisePage(String levelID)
         {
             InitializeComponent();
         }

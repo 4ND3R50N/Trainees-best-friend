@@ -12,19 +12,21 @@ namespace tbfApp
     {
         protected static App app;
         public static SimpleNetworkClient endpointConnection;
+
         public App()
         {
             InitializeComponent();
 
             app = this;
 
-            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", "62.138.6.50", 13001, 8000, 2);
+            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(),
+                GetServerPort(), GetServerBufferlenght(), 2);
         }
 
         protected override void OnStart()
         {
             System.Diagnostics.Debug.WriteLine("App OnStart");
-            if(!Application.Current.Properties.ContainsKey("IsUserLoggedIn"))
+            if (!Application.Current.Properties.ContainsKey("IsUserLoggedIn"))
             {
                 Application.Current.Properties["IsUserLoggedIn"] = false;
                 System.Diagnostics.Debug.WriteLine("First Appstart, initialize Current.Properties");
@@ -63,7 +65,7 @@ namespace tbfApp
                     Title = "Login",
                 })
                 {
-                    BarBackgroundColor = Color.FromHex(App.getMenueColor()), //#009acd
+                    BarBackgroundColor = Color.FromHex(App.GetMenueColor()), //#009acd
                     BarTextColor = Color.White,
                 };
                 //Navigation.PushModalAsync(new tbfApp.LoginPage());
@@ -82,7 +84,69 @@ namespace tbfApp
             });
         }
 
-        public static String getMenueColor()
+        public static async Task<bool> Communicate(String protocolMessage, ContentPage page)
+        {
+            try
+            {
+                await App.endpointConnection.connect();
+                await App.endpointConnection.sendMessage(protocolMessage, false);
+                return true;
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    //ping Google TODO
+
+                    //if (false) //Reachability.IsHostReachable("http://google.com")
+
+                    /*
+                    var request = HttpWebRequest.Create("http://google.com");
+                    request.ContentType = "application/json";
+                    request.Method = "GET";
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.OK)
+                        {
+
+                        }
+                    }
+                    */
+
+                    /*
+                    SimpleNetworkClient testConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", "http://google.com", 80, 4000, 2);
+                    testConnection.SetProtocolFunction(ServerAnswer);
+                    await testConnection.connect();
+                    //await testConnection.sendMessage("GET",false);
+                    */
+
+                    var answer =
+                        await page.DisplayAlert("Verbindungsproblem", "Server nicht erreichbar!", "OK", "Wiederholen");
+                    if (!answer)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Reload");
+                        //reload Site TODO
+                        await App.Communicate(protocolMessage, page);
+                    }
+                }
+                catch (Exception)
+                {
+                    var answer =
+                        await page.DisplayAlert("Verbindungsproblem", "Keine Internetverbindung!", "OK", "Wiederholen");
+                    if (!answer)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Reload");
+                        //reload Site TODO
+                        await App.Communicate(protocolMessage, page);
+                    }
+                    //throw;
+                }
+                //throw ;
+            }
+            return false;
+        }
+
+        public static String GetMenueColor()
         {
             if (!Application.Current.Properties.ContainsKey("menueColor"))
             {
@@ -92,9 +156,96 @@ namespace tbfApp
             return Convert.ToString(Application.Current.Properties["menueColor"]);
         }
 
-        public static bool setMenueColor(String newColor)
+        public static bool SetMenueColor(String newColor)
         {
             Application.Current.Properties["menueColor"] = newColor;
+            return true;
+        }
+
+        public static String GetServerAdress()
+        {
+            if (!Application.Current.Properties.ContainsKey("serverAdress"))
+            {
+                Application.Current.Properties["serverAdress"] = "62.138.6.50";
+                System.Diagnostics.Debug.WriteLine("First serverAdress set");
+            }
+            return Convert.ToString(Application.Current.Properties["serverAdress"]);
+        }
+
+        public static bool SetServerAdress(String newServerAdress)
+        {
+            Application.Current.Properties["serverAdress"] = newServerAdress;
+            return true;
+        }
+
+        public static short GetServerPort()
+        {
+            if (!Application.Current.Properties.ContainsKey("serverPort"))
+            {
+                Application.Current.Properties["serverPort"] = 13001;
+                System.Diagnostics.Debug.WriteLine("First serverPort set");
+            }
+            return Convert.ToInt16(Application.Current.Properties["serverPort"]);
+        }
+
+        public static bool SetServerPort(int newServerPort)
+        {
+            Application.Current.Properties["serverPort"] = newServerPort;
+            return true;
+        }
+
+        public static short GetServerBufferlenght()
+        {
+            if (!Application.Current.Properties.ContainsKey("serverBufferlenght"))
+            {
+                Application.Current.Properties["serverBufferlenght"] = 8000;
+                System.Diagnostics.Debug.WriteLine("First serverBufferlenght set");
+            }
+            return Convert.ToInt16(Application.Current.Properties["serverBufferlenght"]);
+        }
+
+        public static bool SetServerBufferlenght(int newServerBufferlenght)
+        {
+            Application.Current.Properties["serverBufferlenght"] = newServerBufferlenght;
+            return true;
+        }
+
+        public static int GetUserID()
+        {
+            if (!Application.Current.Properties.ContainsKey("userID"))
+            {
+                Application.Current.Properties["userID"] = 0;
+                System.Diagnostics.Debug.WriteLine("First userID set");
+            }
+            return Convert.ToInt32(Application.Current.Properties["userID"]);
+        }
+
+        public static bool SetUserID(int newUserID)
+        {
+            try
+            {
+                Application.Current.Properties["userID"] = newUserID;
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("USER ID IS NOT SET!!!!!!!!");
+                //throw;
+            }
+            return true;
+        }
+
+        public static String GetUsername()
+        {
+            if (!Application.Current.Properties.ContainsKey("username"))
+            {
+                Application.Current.Properties["username"] = "Benutzername";
+                System.Diagnostics.Debug.WriteLine("First username set");
+            }
+            return Convert.ToString(Application.Current.Properties["username"]);
+        }
+        public static bool SetUsername(String newUsername)
+        {
+            Application.Current.Properties["username"] = newUsername;
             return true;
         }
     }

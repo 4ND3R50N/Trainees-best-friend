@@ -17,8 +17,10 @@ namespace WorkoutActivityFlow
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+
     [TechTalk.SpecRun.FeatureAttribute("WorkoutActivityFlow", SourceFile="WorkoutActivityFlow.feature", SourceLine=0)]
     public partial class WorkoutActivityFlowFeature
+
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,7 +32,9 @@ namespace WorkoutActivityFlow
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
+
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "WorkoutActivityFlow", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -61,11 +65,13 @@ namespace WorkoutActivityFlow
             testRunner.CollectScenarioErrors();
         }
         
+
         [TechTalk.SpecRun.ScenarioAttribute("Login -> Join room -> Chose level -> View content", new string[] {
                 "mytag"}, SourceLine=3)]
         public virtual void Login_JoinRoom_ChoseLevel_ViewContent()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login -> Join room -> Chose level -> View content", new string[] {
+
                         "mytag"});
 #line 4
 this.ScenarioSetup(scenarioInfo);
@@ -75,6 +81,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("Trainee is not loged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
  testRunner.Then("I should see signupPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+
 #line 8
  testRunner.When("Trainee is loged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
@@ -86,6 +93,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 12
  testRunner.Then("I navigate to a level", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
+
  testRunner.Then("I should see Video and Description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
