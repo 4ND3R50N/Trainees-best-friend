@@ -46,7 +46,7 @@ namespace tbfController
                         controllerManagement = new ControllerCore(13001,';', '|', "m932B)§()d",
                             "mysql", "62.138.6.50", 3306, "sa", "bringMoflv45", "traineesbestfriend", AppDomain.CurrentDomain.BaseDirectory + "logs\\mainlog.log");
                         //Bei nicht erfolgreicher DB gibt es einen Obj. orientierten fehler, wegen dem return bei nicht erfolgreicher DB connection
-                        controllerManagement.start();
+                        controllerManagement.Start();
                         
                         break;
                     default:

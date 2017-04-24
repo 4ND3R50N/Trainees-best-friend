@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 
 namespace WCDatabaseEngine
 {
-    class DBMssqlManager : DBEngine
+    class DBMssqlDataManager : DBEngine
     {      
 
         //Queries
 
 
-        public DBMssqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
+        public DBMssqlDataManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
              : base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
         {    
         }
@@ -46,13 +46,22 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
+        public override List<List<string>> getFullExerciseData(int iLevelID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getLevelOverviewData(int iWorkoutID)
+        {
+            throw new NotImplementedException();
+        }
+
         public override List<List<string>> getRoomOverViewData()
         {
             throw new NotImplementedException();
         }
-        
 
-        public override List<List<string>> getWorkoutOverViewData(string sRoomName)
+        public override List<List<string>> getWorkoutOverViewData(int iRoomID)
         {
             throw new NotImplementedException();
         }

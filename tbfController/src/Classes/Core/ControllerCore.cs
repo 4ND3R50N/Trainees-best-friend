@@ -35,11 +35,11 @@ namespace tbfController.Classes.Core
             //Database Initialisations
             if(_sDatabaseDriver == "mysql")
             {
-                DatabaseEngine = new DBMysqlManager(_sDBHostIp,_sDBUser,_sDBPass,_sDBPort,_sDBDefaultDB);
+                DatabaseEngine = new DBMysqlDataManager(_sDBHostIp,_sDBUser,_sDBPass,_sDBPort,_sDBDefaultDB);
 
             }else if(_sDatabaseDriver == "mssql")
             {
-                DatabaseEngine = new DBMssqlManager(_sDBHostIp, _sDBUser, _sDBPass, _sDBPort, _sDBDefaultDB);
+                DatabaseEngine = new DBMssqlDataManager(_sDBHostIp, _sDBUser, _sDBPass, _sDBPort, _sDBDefaultDB);
             }
             //Database test
             if (DatabaseEngine.testDBConnection())
@@ -56,7 +56,7 @@ namespace tbfController.Classes.Core
             sAesKey = _sAesKey;
             this.cProtocolDelimiter = _cProtocolDelimiter;
             this.cDataDelimiter = _cDataDelimiter;
-            TcpServer = new networkServer(networkProtocol, _sAesKey, IPAddress.Any, _iPort, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            TcpServer = new networkServer(NetworkProtocol, _sAesKey, IPAddress.Any, _iPort, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             Logger.writeInLog(true, "TCP Server ready for start!");
 
 
@@ -66,13 +66,19 @@ namespace tbfController.Classes.Core
             //networkProtocol("#104;Anderson2;Lars;Pickelin;miau1234;l.pickelin@web.de", ref dummy);
             //networkProtocol("#102;Anderson2;miau1x234", ref dummy);
             //Content
+            //Get all rooms
             //networkProtocol("#201", ref dummy);
-            //networkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
-            //networkProtocol("#205;Avelinas Test raum", ref dummy);
-
+            //Add new room
+            //  networkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
+            //Get all workouts of room id 2
+            //  NetworkProtocol("#205;2", ref dummy);
+            //Get Levels of workout with id 1
+            //  NetworkProtocol("#207;1", ref dummy);
+            //Get all excercises of workout 1
+            //  NetworkProtocol("#209;1", ref dummy);
         }
 
-        public void start()
+        public void Start()
         {
             if(TcpServer.startListening())
             {
@@ -85,29 +91,33 @@ namespace tbfController.Classes.Core
            
         }
         
-        private void networkProtocol(string message, ref networkServer.networkClientInterface relatedClient)
+        private void NetworkProtocol(string message, ref networkServer.networkClientInterface relatedClient)
         {
-            string sProtocolShortcut = getProtocolShortcut(message);
+            string sProtocolShortcut = GetProtocolShortcut(message);
             // Put data in array
             List<string> lDataList = new List<string>();
-            lDataList = getProtocolData(getProtocolMessage(message));
+            lDataList = GetProtocolData(GetProtocolMessage(message));
 
             switch (sProtocolShortcut)
             {
                 case "#001":
-                    tel_001_testPackage(ref relatedClient); break;
+                    Tel_001_testPackage(ref relatedClient); break;
                 case "#003":
-                    tel_003_testPackage(lDataList, ref relatedClient); break;
+                    Tel_003_testPackage(lDataList, ref relatedClient); break;
                 case "#102":
-                    tel_102_loginUser(lDataList, ref relatedClient); break;
+                    Tel_102_loginUser(lDataList, ref relatedClient); break;
                 case "#104":
-                    tel_104_registerUser(lDataList, ref relatedClient); break;
+                    Tel_104_registerUser(lDataList, ref relatedClient); break;
                 case "#201":
-                    tel_201_requestRoomOverview(ref relatedClient); break;
+                    Tel_201_requestRoomOverview(ref relatedClient); break;
                 case "#203":
-                    tel_203_requestRoomAdd(lDataList, ref relatedClient); break;
+                    Tel_203_requestRoomAdd(lDataList, ref relatedClient); break;
                 case "#205":
-                    tel_205_requestWorkoutOverview(lDataList, ref relatedClient); break;
+                    Tel_205_requestWorkoutOverview(lDataList, ref relatedClient); break;
+                case "#207":
+                    Tel_207_requestLevelOverview(lDataList, ref relatedClient); break;
+                case "#209":
+                    Tel_209_requestFullExerciseData(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -116,14 +126,14 @@ namespace tbfController.Classes.Core
 
         #region telegram functions
         //Testpackages
-        private void tel_001_testPackage(ref networkServer.networkClientInterface relatedClient)
+        private void Tel_001_testPackage(ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #001 (TESTPACKET_NORMAL) received from a client!");
             TcpServer.sendMessage("#002;Greetings from Controller :)", relatedClient);
             Logger.writeInLog(true, "Answered #002 with the greetings message!");
         }
 
-        private void tel_003_testPackage(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_003_testPackage(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #003 (TESTPACKET_LARGE) received from a client!");
             string sDataPackage = "#004;";
@@ -137,7 +147,7 @@ namespace tbfController.Classes.Core
         }
         
         //Signup
-        private void tel_104_registerUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_104_registerUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             try
             {
@@ -157,7 +167,7 @@ namespace tbfController.Classes.Core
             
         }
         //Login
-        private void tel_102_loginUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_102_loginUser(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             try
             {
@@ -185,7 +195,7 @@ namespace tbfController.Classes.Core
             
         }
         //Content
-        private void tel_201_requestRoomOverview(ref networkServer.networkClientInterface relatedClient)
+        private void Tel_201_requestRoomOverview(ref networkServer.networkClientInterface relatedClient)
         {
             try
             {
@@ -205,7 +215,6 @@ namespace tbfController.Classes.Core
                     }
                     //Remove the last cDataDelimiter
                     sProtocol = sProtocol.Remove(sProtocol.Length - 1);
-
                     sProtocol += cProtocolDelimiter.ToString();
                 }
                 //Remove last cProtocolDelimiter
@@ -223,7 +232,7 @@ namespace tbfController.Classes.Core
             }
         }
 
-        private void tel_203_requestRoomAdd(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_203_requestRoomAdd(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             try
             {
@@ -244,7 +253,7 @@ namespace tbfController.Classes.Core
             }
         }
 
-        private void tel_205_requestWorkoutOverview(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_205_requestWorkoutOverview(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             try
             {
@@ -252,7 +261,7 @@ namespace tbfController.Classes.Core
                 Logger.writeInLog(true, "Message #205 (REQ_WORKOUTOVERVIEWDATA) received from a client!");
                 //Get room data
                 List<List<string>> llWorkoutData = new List<List<string>>();
-                llWorkoutData = DatabaseEngine.getWorkoutOverViewData(lDataList[0]);
+                llWorkoutData = DatabaseEngine.getWorkoutOverViewData(Convert.ToInt32(lDataList[0]));
                 //Build protocol
                 string sProtocol = "#206" + cProtocolDelimiter.ToString();
                 sProtocol += llWorkoutData.Count + cProtocolDelimiter.ToString();
@@ -281,27 +290,96 @@ namespace tbfController.Classes.Core
                 return;
             }
         }
-            
 
+        private void Tel_207_requestLevelOverview(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #207 (REQ_LEVELOVERVIEW) received from a client!");
+                //Get room data
+                List<List<string>> llLevel = new List<List<string>>();
+                llLevel = DatabaseEngine.getLevelOverviewData(Convert.ToInt32(lDataList[0]));
+                //Build protocol
+                string sProtocol = "#208" + cProtocolDelimiter.ToString();
+                //sProtocol += llWorkoutData.Count + cProtocolDelimiter.ToString(); <- Keine Anzahl angegeben
+                for (int i = 0; i < llLevel.Count; i++)
+                {
+
+                    for (int d = 0; d < llLevel[i].Count; d++)
+                    {
+                        sProtocol += llLevel[i][d] + cDataDelimiter.ToString();
+                    }
+                    sProtocol += cProtocolDelimiter.ToString();                   
+                    //Remove the last cDataDelimiter
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #208 with all levels for workout with ID: "+ lDataList[0]  + ". " + llLevel.Count + " levels sent!");
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_LEVELOVERVIEW)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+        private void Tel_209_requestFullExerciseData(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #209 (REQ_FULLEXERCISEDATA) received from a client!");
+                //Get room data
+                List<List<string>> llExercises = new List<List<string>>();
+                llExercises = DatabaseEngine.getFullExerciseData(Convert.ToInt32(lDataList[0]));
+                //Build protocol
+                string sProtocol = "#210" + cProtocolDelimiter.ToString();
+                sProtocol += llExercises.Count + cProtocolDelimiter.ToString();
+                for (int i = 0; i < llExercises.Count; i++)
+                {
+                    for (int d = 0; d < llExercises[i].Count; d++)
+                    {
+                        sProtocol += llExercises[i][d] + cDataDelimiter.ToString();
+                    }
+                    sProtocol += cProtocolDelimiter.ToString();
+                    //Remove the last cDataDelimiter
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #210 with all levels for workout with ID: " + lDataList[0] + ". " + llExercises.Count + " levels sent!");
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_LEVELOVERVIEW)! Message: " + e.ToString());
+                return;
+            }
+        }
 
         #endregion
 
 
-            #region Support functions
-        private List<string> getProtocolData(string message)
+        #region Support functions
+        private List<string> GetProtocolData(string message)
         {
             return message.Split(cProtocolDelimiter).ToList();
         }
 
-        private string getProtocolShortcut(string message)
+        private string GetProtocolShortcut(string message)
         {
             return message.Split(cProtocolDelimiter)[0];
         }
-        private string getProtocolMessage(string message)
+        private string GetProtocolMessage(string message)
         {
             try
             {
-                return message.Substring(getProtocolShortcut(message).Length + 1);
+                return message.Substring(GetProtocolShortcut(message).Length + 1);
             }
             catch (ArgumentOutOfRangeException)
             {
