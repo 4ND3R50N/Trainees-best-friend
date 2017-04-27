@@ -116,6 +116,12 @@ namespace tbfApp
             };
             buttonSaveChanges.Clicked += SaveChangesClicked;
 
+            Button buttonStandardSettings = new Button()
+            {
+                Text = "Standard Einstellungen"
+            };
+            buttonStandardSettings.Clicked += StandardSettingsClicked;
+
             // Build the page1.
             stackExpand = new StackLayout();
             stackExpand.Spacing = 1;
@@ -130,8 +136,9 @@ namespace tbfApp
             stackExpand.Children.Add(entryServerBufferlenght);
 
             stackExpand.Children.Add(buttonSaveChanges);
+            stackExpand.Children.Add(buttonStandardSettings);
         }
-        void OnButtonClicked(object sender, EventArgs e)
+        async void OnButtonClicked(object sender, EventArgs e)
         {
             if (entryPass.Text != null && entryPass.Text.Equals("0815"))
             {
@@ -139,15 +146,16 @@ namespace tbfApp
             }
             else
             {
-                DisplayAlert("Fehler", "Passwort falsch, wenden Sie sich an ihren Trainer", "OK");
+                await DisplayAlert("Fehler", "Passwort falsch, wenden Sie sich an ihren Trainer", "OK");
             }
         }
 
-        void SaveChangesClicked(object sender, EventArgs e)
+        async void SaveChangesClicked(object sender, EventArgs e)
         {
             if (entryColor.Text != null )
             {
-                if (entryColor.Text.Length == 6)
+                //if (entryColor.Text.Length == 6)
+                if(Regex.IsMatch(entryColor.Text, @"\A\b[0-9a-fA-F]+\b\Z") && entryColor.Text.Length == 6)
                 {
                     App.SetMenueColor(entryColor.Text);
                 }
@@ -157,7 +165,8 @@ namespace tbfApp
                 }
                 else
                 {
-                    DisplayAlert("Fehler", "Farbcode ungültig", "OK");
+                    await DisplayAlert("Fehler", "Farbcode ungültig", "OK");
+                    return;
                 }
             }
 
@@ -174,7 +183,8 @@ namespace tbfApp
                 }
                 else
                 {
-                    DisplayAlert("Fehler", "Serveradresse ungültig", "OK");
+                    await DisplayAlert("Fehler", "Serveradresse ungültig", "OK");
+                    return;
                 }
             }
 
@@ -191,7 +201,8 @@ namespace tbfApp
                 }
                 else
                 {
-                    DisplayAlert("Fehler", "Serverport ungültig", "OK");
+                    await DisplayAlert("Fehler", "Serverport ungültig", "OK");
+                    return;
                 }
             }
 
@@ -208,9 +219,20 @@ namespace tbfApp
                 }
                 else
                 {
-                    DisplayAlert("Fehler", "Pufferlänge des Servers ungültig", "OK");
+                    await DisplayAlert("Fehler", "Pufferlänge des Servers ungültig", "OK");
+                    return;
                 }
             }
+            var answer = await DisplayAlert("Erfolgreich gespeichert", "App muss neu gestartet werden", "Später", "App beenden");
+            if (!answer)
+            {
+                //Restart App TODO
+            }
+        }
+
+        void StandardSettingsClicked(object sender, EventArgs e)
+        {
+            //TODO
         }
     }
 }

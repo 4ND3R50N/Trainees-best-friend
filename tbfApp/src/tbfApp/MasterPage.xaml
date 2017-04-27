@@ -6,7 +6,7 @@
              Icon="hamburger.png"
              Title="Personal Organiser">
   <ContentPage.Content>
-    <StackLayout VerticalOptions="Fill">
+    <StackLayout VerticalOptions="FillAndExpand">
       <ListView x:Name="listView" VerticalOptions="FillAndExpand" SeparatorVisibility="None" RowHeight="70">
         <ListView.ItemTemplate>
           <DataTemplate>

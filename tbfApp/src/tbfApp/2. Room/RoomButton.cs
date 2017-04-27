@@ -13,14 +13,16 @@ namespace tbfApp
         private ContentPage Page;
 
         private String description;
-        private String _roomID;
-        public RoomButton(String text, INavigation navigation, ContentPage page, String description, String roomID, String iconURL)
+        public String roomID;
+
+        public RoomButton(String text, INavigation navigation, ContentPage page, String description, String roomID,
+            String iconURL)
         {
             Navigation = navigation;
             Page = page;
 
             this.description = description;
-            this._roomID = roomID;
+            this.roomID = roomID;
 
             Label lableButton = new Label
             {
@@ -31,13 +33,28 @@ namespace tbfApp
             };
 
             var webImage = new Image { Aspect = Aspect.AspectFit };
-            webImage.Source = new UriImageSource
+            try
             {
-                //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
-                Uri = new Uri("https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"),
-                CachingEnabled = false,
-                CacheValidity = new TimeSpan(5, 0, 0, 0),
-            };
+                //Try to show picture from Database
+                webImage.Source = new UriImageSource
+                {
+                    //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
+                    Uri = new Uri(iconURL),
+                    CachingEnabled = false,
+                    CacheValidity = new TimeSpan(5, 0, 0, 0),
+                };
+            }
+            catch (Exception)
+            {
+                //catch with standard picture not available
+                webImage.Source = new UriImageSource
+                {
+                    Uri = new Uri("http://www.edelstahl-grabschmuck.at/upload/imgproc/1201495_eb.jpg"),
+                    //Uri = new Uri(iconURL),
+                    CachingEnabled = false,
+                    CacheValidity = new TimeSpan(5, 0, 0, 0),
+                };
+            }
 
             Button button = new Button
             {
@@ -100,7 +117,7 @@ namespace tbfApp
 
         void OnButtonClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new WorkoutPage(_roomID)
+            Navigation.PushAsync(new WorkoutPage(roomID)
             {
                 Title = "Workouts"
             });
