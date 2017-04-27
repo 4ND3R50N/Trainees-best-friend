@@ -245,6 +245,7 @@ namespace tbfController.Classes.Core
                                                                lDataList[4]);
                 //Send message to client
                 TcpServer.sendMessage("#204" + cProtocolDelimiter + iRoomAddStatus, relatedClient);
+                Logger.writeInLog(true, "Answered #205 with status code "+ iRoomAddStatus + "!");
             }
             catch (Exception e)
             {
