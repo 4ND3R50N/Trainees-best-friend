@@ -34,8 +34,8 @@ namespace tbfContentManager
         public MainWindow()
         {
             InitializeComponent();
-            TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"), 
-                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"), 
+            //                                     13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
         private void server_response(string message) {
@@ -68,18 +68,28 @@ namespace tbfContentManager
                 default :
                     break;
             }
+
         }
 
-        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
-
+        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){            
             //IsHitTestVisible
             btnLogin.IsEnabled = false;
 
             TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            //-------------------- ohne login ---------------------//
+
+            //MainContentWindow w = new MainContentWindow(ref TCPClient, "test", 0);
+            //w.Show();
+            //return;
+
+
             if (txtPassword.Password.Length > 3 && txtUser.Text.Length > 3)
             {
-                if (!TCPClient.connect()) {
+                if (!TCPClient.connect())
+                {
+                    btnLogin.IsEnabled = true;
                     MessageBox.Show("Verbindung mit dem Server konnte nicht aufgebaut werden!");
                     return;
                 }
@@ -87,6 +97,7 @@ namespace tbfContentManager
                 }
             else
             {
+                btnLogin.IsEnabled = true;
                 MessageBox.Show("Benutzername oder Passwort ist zu kurz! (mindestens 4 Zeichen)", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
            
@@ -108,7 +119,7 @@ namespace tbfContentManager
         [STAThread]
         private void startMainWindow(object sUserID)
         {
-            int iUserID = Convert.ToInt32(sUserID);           
+            int iUserID = Convert.ToInt32(sUserID);
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(ref TCPClient, sUserBuffer, iUserID)));
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
             this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
