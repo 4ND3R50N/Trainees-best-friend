@@ -68,6 +68,8 @@ namespace tbfController.Classes.Core
             //Content
             //networkProtocol("#201", ref dummy);
             //networkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
+            //networkProtocol("#205;Avelinas Test raum", ref dummy);
+
         }
 
         public void start()
@@ -104,6 +106,8 @@ namespace tbfController.Classes.Core
                     tel_201_requestRoomOverview(ref relatedClient); break;
                 case "#203":
                     tel_203_requestRoomAdd(lDataList, ref relatedClient); break;
+                case "#205":
+                    tel_205_requestWorkoutOverview(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -240,10 +244,50 @@ namespace tbfController.Classes.Core
             }
         }
 
+        private void tel_205_requestWorkoutOverview(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #205 (REQ_WORKOUTOVERVIEWDATA) received from a client!");
+                //Get room data
+                List<List<string>> llWorkoutData = new List<List<string>>();
+                llWorkoutData = DatabaseEngine.getWorkoutOverViewData(lDataList[0]);
+                //Build protocol
+                string sProtocol = "#206" + cProtocolDelimiter.ToString();
+                sProtocol += llWorkoutData.Count + cProtocolDelimiter.ToString();
+                for (int i = 0; i < llWorkoutData.Count; i++)
+                {
+                    for (int d = 0; d < llWorkoutData[i].Count; d++)
+                    {
+                        sProtocol += llWorkoutData[i][d] + cDataDelimiter.ToString();
+                    }
+                    //Remove the last cDataDelimiter
+                    sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                    sProtocol += cProtocolDelimiter.ToString();
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #206 with all workout overview data. " + llWorkoutData.Count + " workout entries sent!");
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMOVERVIEWDATA)! Message: " + e.ToString());
+                return;
+            }
+        }
+            
+
+
         #endregion
 
 
-        #region Support functions
+            #region Support functions
         private List<string> getProtocolData(string message)
         {
             return message.Split(cProtocolDelimiter).ToList();
