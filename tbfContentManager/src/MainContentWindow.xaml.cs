@@ -14,7 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using tbfContentManager.Classes;
 using WhiteCode.Network;
+//using tbfContentManager.Classes;
 
 namespace tbfContentManager
 {
@@ -47,17 +49,17 @@ namespace tbfContentManager
         {
 
             List<string> tmp = new List<string>();
-           
+
             tmp = message.Split(';').ToList();
             string prot = message.Split(';')[0];
-            string counter = message.Split(';')[1];
-            
+
             //MessageBox.Show(message);
 
             switch (prot)
             {
                 case "#202":
                     //tel_202_Room_Data(tmp, lServerData);
+                    string counter = message.Split(';')[1];
                     List<List<string>> lServerData = new List<List<string>>();
                     string[] room_names = new string[Convert.ToInt32(counter)];
                     for (int i = 2; i <= Convert.ToInt32(counter); i++)
@@ -66,34 +68,23 @@ namespace tbfContentManager
                     }
                     for (int j = 0; j < (lServerData.Count); j++)
                     {
-                            int room_ID = Convert.ToInt32(lServerData[j][0]);
-                            room_names[j] = lServerData[j][1];
+                        int room_ID = Convert.ToInt32(lServerData[j][0]);
+                        room_names[j] = lServerData[j][1];
                         MessageBox.Show(room_names[j]);
                         //string room_description = lServerData[j][2];
                         //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
                         //string room_icon_url = lServerData[j][4];
                     }
-                    for (int d = 0; d < (room_names.Length); d++) {
+                    for (int d = 0; d < (room_names.Length); d++)
+                    {
                         create_RoomList_item(room_names[d]);
                     }
 
                     break;
-            default:
+                default:
                     break;
                 case "#204":
-                    //MessageBox.Show(message);
-                    MessageBox.Show(tmp[1]);
-                    if (tmp[1] == "1") {
-                        MessageBox.Show("Der Raum wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    if (tmp[1] == "2")
-                    {
-                        MessageBox.Show("Der Raumname existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    if (tmp[1] == "3")
-                    {
-                        MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    functionManager.addRoomReceive(tmp);
                     break;
             }
         }
@@ -105,13 +96,15 @@ namespace tbfContentManager
             newLogin.Show();
         }
 
-        private void tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData) {
-           
+        private void tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData)
+        {
+
             for (int i = 2; i < (Convert.ToInt32(tmp[1]) + 2); i++)
             {
                 lServerData.Add(tmp[i].Split('|').ToList());
             }
-            for (int j = 0; j < lServerData.Count; j++) {
+            for (int j = 0; j < lServerData.Count; j++)
+            {
                 for (int i = 0; i < lServerData[j].Count; i++)
                 {
                     int room_ID = Convert.ToInt32(lServerData[j][i]);
@@ -134,7 +127,8 @@ namespace tbfContentManager
             //TCPClient.sendMessage("#203;" + txtUser.Text + ";" + txtPassword.Password, true);
         }
 
-        public void create_RoomList_item(string room_name) {
+        public void create_RoomList_item(string room_name)
+        {
             // Populate list
             //MessageBox.Show(room_name);
             //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
@@ -156,7 +150,7 @@ namespace tbfContentManager
             });
         }
 
-     
+
         private void btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
             gb_roomInfos.Visibility = Visibility;
@@ -164,23 +158,7 @@ namespace tbfContentManager
 
         private void btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            int i_isPrivate_room = 0;
-            if(b_isPrivate_room.IsChecked == true) {
-                i_isPrivate_room = 1;
-            }else{
-                i_isPrivate_room = 0;
-            }
-            if (txt_name_room.Text.Length > 0) {
-                // WICHTIG FUER SPAETER!!! //
-                /*
-                    Bild muss vorher auf DB geschickt 
-                    der schickt dann URL zurueck, dass ist dann die txt_url_room 
-                 */
-
-                //MessageBox.Show("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen);
-                TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen 
-                    + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen, true);
-            }
+            functionManager.addRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,(bool) b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         private void b_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -247,3 +225,4 @@ namespace tbfContentManager
 
         //}
     }
+}
