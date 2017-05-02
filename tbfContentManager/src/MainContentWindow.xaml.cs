@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -30,6 +31,16 @@ namespace tbfContentManager
             this.TCPClient = TCPClient;
             this.sUserName = sUserName;
             this.iUserId = iUserId;
+
+            DataTable exampleTable = new DataTable();
+            exampleTable.Columns.Add("Alpha");
+            //exampleTable.Columns.Add("Beta");
+            exampleTable.Rows.Add("Raum1");
+            exampleTable.Rows.Add("Raum2");
+            exampleTable.Rows.Add("Raumasdfasdfsdf3");
+            exampleTable.AcceptChanges();
+
+            loadTable(exampleTable);
         }
 
         private void server_response(string message)
@@ -77,7 +88,7 @@ namespace tbfContentManager
                     }
                     if (tmp[1] == "2")
                     {
-                        MessageBox.Show("Der Raumname " + txt_name_room.Text + " existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Der Raumname existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     if (tmp[1] == "3")
                     {
@@ -201,9 +212,28 @@ namespace tbfContentManager
             txt_url_pic_room.Text = "";
         }
 
+        private void loadTable(DataTable dt)
+        {
+            //_listView.DataContext = dt;
+            // Setting the ItemSource instead of the DataContext
+            // causes the table to have the right number of rows.
+            _listView.ItemsSource = dt.Rows;
+
+            _gridView.Columns.Clear();
+
+            foreach (var colum in dt.Columns)
+            {
+                DataColumn dc = (DataColumn)colum;
+                GridViewColumn column = new GridViewColumn();
+                column.DisplayMemberBinding = new Binding(dc.ColumnName);
+                column.Header = dc.ColumnName;
+                _gridView.Columns.Add(column);
+            }
+        }
+
         //private void tiRoomManager_MouseUp(object sender, MouseButtonEventArgs e)
         //{
-        //    //    var gridView = new GridView();
+        //    var gridView = new GridView();
 
         //    gridView.Columns.Add(new GridViewColumn
         //    {
@@ -213,7 +243,7 @@ namespace tbfContentManager
 
         //    // Populate list
         //    this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-        //
 
+
+        //}
     }
-}

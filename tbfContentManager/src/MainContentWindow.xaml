@@ -129,7 +129,22 @@
 
                                 <!--<Button x:Name="bt_add_raum" Content="Neuen Raum hinzufügen" Margin="-2,-73,0,641" Foreground="#CC0050EF"/>-->
                                 <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
-
+                                    <Grid>
+                                        <ListView x:Name="_listView" ItemsSource="{Binding}">
+                                            <ListView.View>
+                                                <GridView x:Name="_gridView"/>
+                                            </ListView.View>
+                                        </ListView>
+                                        <Grid>
+                                            <!--<StackPanel>-->
+                                            <!--<ListView x:Name="_listView">
+                                                <ListView.View>
+                                                    <GridView x:Name="_gridView"/>
+                                                </ListView.View>
+                                            </ListView>-->
+                                            <!--</StackPanel>-->
+                                        </Grid>
+                                    </Grid>
 
                                     <!--<ListBox x:Name="UserList" ItemsSource="{Binding Persons}">
                                         <ListBox.ItemTemplate>
@@ -150,7 +165,7 @@
                                     </ListView>-->
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top">
-                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10">
+                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10" Visibility="Hidden">
                                         <Grid VerticalAlignment="Top" Height="604">
                                             <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
                                             <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>
@@ -169,7 +184,7 @@
                                             <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room"/>
                                             <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="b_url_pic_room_Click"/>
 
-                                            <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,52">
+                                            <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,54">
                                                 <ListBox Margin="0,0,-0.2,1.6">
                                                     <TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
                                                     <ListBoxItem Content="Lars Pickelin"  Margin="0,0,0,5"/>
@@ -207,12 +222,15 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4">
-                <Grid VerticalAlignment="Top">
+                <Grid Margin="0,0,0,-4.4">
+                    <Button x:Name="btn_addWorkout" Content="Workout hinzufügen" Margin="5,6,375,323"/>
+                    <Button x:Name="btn_saveWorkout" Content="Speichern" Margin="270,6,193,323"/>
+                    <Button x:Name="btn_cancelWorkout" Content="Abbrechen" Margin="448,6,17,323"/>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                            <Grid VerticalAlignment="Top" Height="640">
-                                <GroupBox x:Name="groupBox3" Header="Workout" Margin="5,5,206.2,5" >
-                                    <Button x:Name="bt_add_workout" Content="Neues Workout hinzufügen" Margin="0,47,0,514.2" Foreground="#CC0050EF"/>
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="626">
+                            <Grid>
+                                <GroupBox x:Name="groupBox3" Header="Workout" Margin="5,35,364.6,-702" >
+                                    <!--<Button x:Name="bt_add_workout" Content="Neues Workout hinzufügen" Margin="0,47,0,514.2" Foreground="#CC0050EF"/>-->
                                     <!--<ListView VerticalAlignment="Top" x:Name="lvRoomList2" Margin="0,0,-0.2,0.2">
                                         <ListView.View>
                                             <GridView>
@@ -221,8 +239,10 @@
                                         </ListView.View>
                                     </ListView>-->
                                 </GroupBox>
-                                <GroupBox x:Name="groupBox6" Header="Workout Informationen" Margin="248,5,-176.8,0">
-                                    <Grid VerticalAlignment="Top" Height="635" Width="360">
+                            </Grid>
+                            <Grid>
+                                <GroupBox x:Name="groupBox6" Header="Workout Informationen" Width="350" HorizontalAlignment="Right" Margin="0,35,4.6,-25.2">
+                                    <Grid>
                                         <Label x:Name="label_name_workout" Content="Name:" VerticalAlignment="Top" FontWeight="Bold" Margin="0,0,180,0"/>
                                         <Label x:Name="txt_name_workout" Content="Testraum" VerticalAlignment="Top" Margin="96,2,0,0" RenderTransformOrigin="0.501,0.5" HorizontalAlignment="Left" Width="165"/>
                                         <Label x:Name="label_beschreibung_workout" Content="Beschreibung:" VerticalAlignment="Top" Margin="0,26,180,0" FontWeight="Bold"/>
