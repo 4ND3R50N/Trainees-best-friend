@@ -71,7 +71,7 @@ namespace tbfController.Classes.Core
             //Add new room
             //  networkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
             //Get all workouts of room id 2
-            //  NetworkProtocol("#205;2", ref dummy);
+            //NetworkProtocol("#205;Hadd e", ref dummy);
             //Get Levels of workout with id 1
             //  NetworkProtocol("#207;1", ref dummy);
             //Get all excercises of workout 1
@@ -256,33 +256,38 @@ namespace tbfController.Classes.Core
 
         private void Tel_205_requestWorkoutOverview(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
-            try
-            {
+            //Try catch auf llWorkoutData anpassen, sodass im fall eines falschen protokols trozdem daten Runtergesendet werden.
+            try { 
                 //log
                 Logger.writeInLog(true, "Message #205 (REQ_WORKOUTOVERVIEWDATA) received from a client!");
                 //Get room data
                 List<List<string>> llWorkoutData = new List<List<string>>();
-                llWorkoutData = DatabaseEngine.getWorkoutOverViewData(Convert.ToInt32(lDataList[0]));
+                //If the id is not a ID, skip the workout gathering
+                try
+                {
+                    llWorkoutData = DatabaseEngine.getWorkoutOverViewData(Convert.ToInt32(lDataList[0]));
+                }
+                catch (Exception e) { }
                 //Build protocol
                 string sProtocol = "#206" + cProtocolDelimiter.ToString();
                 sProtocol += llWorkoutData.Count + cProtocolDelimiter.ToString();
-                for (int i = 0; i < llWorkoutData.Count; i++)
+            for (int i = 0; i < llWorkoutData.Count; i++)
+            {
+                for (int d = 0; d < llWorkoutData[i].Count; d++)
                 {
-                    for (int d = 0; d < llWorkoutData[i].Count; d++)
-                    {
-                        sProtocol += llWorkoutData[i][d] + cDataDelimiter.ToString();
-                    }
-                    //Remove the last cDataDelimiter
-                    sProtocol = sProtocol.Remove(sProtocol.Length - 1);
-
-                    sProtocol += cProtocolDelimiter.ToString();
+                    sProtocol += llWorkoutData[i][d] + cDataDelimiter.ToString();
                 }
-                //Remove last cProtocolDelimiter
+                //Remove the last cDataDelimiter
                 sProtocol = sProtocol.Remove(sProtocol.Length - 1);
 
-                //Send message to client
-                TcpServer.sendMessage(sProtocol, relatedClient);
-                Logger.writeInLog(true, "Answered #206 with all workout overview data. " + llWorkoutData.Count + " workout entries sent!");
+                sProtocol += cProtocolDelimiter.ToString();
+            }
+            //Remove last cProtocolDelimiter
+            sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+            //Send message to client
+            TcpServer.sendMessage(sProtocol, relatedClient);
+            Logger.writeInLog(true, "Answered #206 with all workout overview data. " + llWorkoutData.Count + " workout entries sent!");
 
             }
             catch (Exception e)

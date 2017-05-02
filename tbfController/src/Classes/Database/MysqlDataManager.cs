@@ -147,8 +147,8 @@ namespace WCDatabaseEngine
                     return null;
                 }
                 //Get tbl_rooms matrix               
-                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_workouts.workout_id, tbf_workouts.name, tbf_workouts.description, tbf_workouts.workout_icon_url from tbf_workouts, tbf_rooms " +
-                                                                    "WHERE tbf_rooms.room_id = " + iRoomID ));
+                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_workouts.workout_id, tbf_workouts.name, tbf_workouts.description, tbf_workouts.workout_icon_url from tbf_workouts"
+                                                                + " WHERE tbf_workouts.room_id = " + iRoomID ));
             }
         }
 
