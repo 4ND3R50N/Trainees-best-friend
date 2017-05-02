@@ -15,7 +15,7 @@
     <Grid>
 
 
-        <Label x:Name="lblWelcomeMessage" Content="Willkommen, lblNameOfUser" VerticalAlignment="Top" Margin="0,9,190,0" FontSize="15" Height="30" FontWeight="Bold"/>
+        <Label x:Name="lblWelcomeMessage" Content="Willkommen, lblNameOfUser" Margin="0,9,190.2,417" FontSize="15" FontWeight="Bold"/>
         <Grid Margin="0,0,1.2,401">
             <Separator Height="13" Margin="0,41,0,0" VerticalAlignment="Top"/>
             <Button x:Name="btnLogout" Content="Logout" Margin="0,10,10,0" VerticalAlignment="Top" Height="31" Foreground="#CC0050EF" Click="btnLogout_Click" HorizontalAlignment="Right" Width="75"/>
@@ -47,7 +47,7 @@
                     <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="16" />
                 </Style>
             </TabControl.Resources>
-            <TabItem VerticalAlignment="Top" Header="Status" Margin="0,-1,0.2,0">
+            <TabItem Header="Status" Margin="0,-1,0.2,21.4">
                 <Grid VerticalAlignment="Top">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -108,9 +108,9 @@
                 </Grid>
             </TabItem>
 
-            <TabItem VerticalAlignment="Top" x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4">
+            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4">
                 <Grid VerticalAlignment="Top">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="626">
                             <Grid VerticalAlignment="Top">
                                 <Grid VerticalAlignment="Top">
@@ -128,7 +128,7 @@
                             <Grid VerticalAlignment="Top" Height="640">
 
                                 <!--<Button x:Name="bt_add_raum" Content="Neuen Raum hinzufügen" Margin="-2,-73,0,641" Foreground="#CC0050EF"/>-->
-                                <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,-36" VerticalAlignment="Top" Height="635">
+                                <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
 
 
                                     <!--<ListBox x:Name="UserList" ItemsSource="{Binding Persons}">
@@ -150,15 +150,15 @@
                                     </ListView>-->
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top">
-                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,-36" Visibility="Hidden">
+                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10">
                                         <Grid VerticalAlignment="Top" Height="604">
-                                            <Label x:Name="lable_name_room" Content="Name:" VerticalAlignment="Top" FontWeight="Bold" Margin="0,0,180,0"/>
-                                            <TextBox x:Name="txt_name_room" VerticalAlignment="Top" Margin="78,2,0,0"/>
-                                            <Label x:Name="label_beschreibung_room" Content="Beschreibung:" VerticalAlignment="Top" Margin="0,26,180,0" FontWeight="Bold"/>
-                                            <TextBox x:Name="txt_beschreibung_room" VerticalAlignment="Top" Margin="0,52,0,0" Height="77"/>
-                                            <Label x:Name="label_private_headline_room" Content="Privater Raum?" VerticalAlignment="Top" Margin="0,130,180,0" FontWeight="Bold"/>
-                                            <CheckBox x:Name="b_isPrivate_room" VerticalAlignment="Top" Margin="246,134,10,0"/>
-                                            <Label x:Name="label_name_trainer_headline_room" Content="Trainername(n):" Margin="0,156,180,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                                            <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
+                                            <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>
+                                            <Label x:Name="label_beschreibung_room" Content="Beschreibung:" Margin="0,26,180,552" FontWeight="Bold"/>
+                                            <TextBox x:Name="txt_beschreibung_room" Margin="0,52,0,475"/>
+                                            <Label x:Name="label_private_headline_room" Content="Privater Raum?" Margin="0,130,180,449" FontWeight="Bold"/>
+                                            <CheckBox x:Name="b_isPrivate_room" Margin="246,134,10,452"/>
+                                            <Label x:Name="label_name_trainer_headline_room" Content="Trainername(n):" Margin="0,156,180,422" FontWeight="Bold"/>
                                             <ListBox x:Name="listbox_trainer_room" VerticalAlignment="Top" Width="120" Height="52" Margin="100,156,10,303.2">
                                                 <ListBoxItem x:Name="listboxitem_trainer_room" VerticalAlignment="Top" Content="Hanz-Peter Wurst"/>
                                                 <!--<ListBoxItem VerticalAlignment="Top" Content="Friedrich Otto"/>-->
@@ -166,10 +166,10 @@
                                             <!--<Label x:Name="label_video_upload_room" Content="Video:" Margin="0,208,291,0" VerticalAlignment="Top" FontWeight="Bold" BorderThickness="0" Height="31" RenderTransformOrigin="0.513,0.671"/>-->
                                             <!--<Button x:Name="bt_add_media_room" Content="Add Media" Margin="143,208,29,371" Foreground="#CC0050EF"/>-->
                                             <!--<Label x:Name="txt_url_room" Content="URL" Margin="50,206,193,0" VerticalAlignment="Top"/>-->
-                                            <TextBox Height="32" Margin="4,186,111,0" x:Name="txt_url_pic_room" VerticalAlignment="Top"/>
-                                            <Button Content="Hochladen" Height="32" Margin="238,186,10,0" Name="b_url_pic_room" VerticalAlignment="Top" Click="b_url_pic_room_Click"/>
+                                            <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room"/>
+                                            <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="b_url_pic_room_Click"/>
 
-                                            <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,-5" VerticalAlignment="Top" Height="385">
+                                            <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,52">
                                                 <ListBox Margin="0,0,-0.2,1.6">
                                                     <TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
                                                     <ListBoxItem Content="Lars Pickelin"  Margin="0,0,0,5"/>
@@ -198,15 +198,15 @@
                                         </Grid>
                                     </GroupBox>
                                 </Grid>
-                                <Button x:Name="btn_addRoom" Content="Raum hinzufügen" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="248" Click="btn_addRoom_Click"/>
-                                <Button x:Name="btn_saveRoom" Content="Speichern" HorizontalAlignment="Left" Margin="263,6,0,0" VerticalAlignment="Top" Width="168" Click="btn_saveRoom_Click"/>
-                                <Button x:Name="btn_cancelRoom" Content="Abbrechen" HorizontalAlignment="Left" Margin="448,6,0,0" VerticalAlignment="Top" Width="168" Click="btn_cancel_Click"/>
+                                <Button x:Name="btn_addRoom" Content="Raum hinzufügen" Margin="10,6,367.6,607" Click="btn_addRoom_Click"/>
+                                <Button x:Name="btn_saveRoom" Content="Speichern" Margin="263,6,194.6,607" Click="btn_saveRoom_Click"/>
+                                <Button x:Name="btn_cancelRoom" Content="Abbrechen" Margin="448,6,9.6,607" Click="btn_cancel_Click"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.6,0,-3.2,0.4">
+            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4">
                 <Grid VerticalAlignment="Top">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -284,15 +284,15 @@
                                 <Grid VerticalAlignment="Top">
                                     <GroupBox x:Name="groupBox2" Header="Exercise Informationen" Margin="259,5,-24.8,0">
                                         <Grid VerticalAlignment="Top" Height="635">
-                                            <Label x:Name="name_headline1" Content="Name:" VerticalAlignment="Top" FontWeight="Bold" Margin="0,0,180,0"/>
-                                            <Label x:Name="txt_name1" Content="Testraum" VerticalAlignment="Top" Margin="96,2,0,0" RenderTransformOrigin="0.501,0.5" HorizontalAlignment="Left" Width="165"/>
+                                            <Label x:Name="name_headline1" Content="Name:" FontWeight="Bold" Margin="0,0,179.8,609"/>
+                                            <Label x:Name="txt_name1" Content="Testraum" Margin="96,2,83.8,607" RenderTransformOrigin="0.501,0.5"/>
                                             <Label x:Name="beschreibung_headline1" Content="Beschreibung:" VerticalAlignment="Top" Margin="0,26,180,0" FontWeight="Bold"/>
-                                            <TextBox x:Name="txt_beschreibung1" VerticalAlignment="Top" Margin="0,52,0,0" Height="77" Text="Beschreibung hier!"/>
-                                            <Label x:Name="private_headline1" Content="Level" VerticalAlignment="Top" Margin="0,134,179.6,0" FontWeight="Bold"/>
-                                            <Label x:Name="name_trainer_headline3" Content="Level 1" Margin="96,134,2.6,0" VerticalAlignment="Top"/>
-                                            <Label x:Name="name_trainer_headline1" Content="Video" Margin="0,166,179.6,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                                            <TextBox x:Name="txt_beschreibung1" Margin="0,52,-0.2,506" Text="Beschreibung hier!"/>
+                                            <Label x:Name="private_headline1" Content="Level" Margin="0,134,179.8,475" FontWeight="Bold"/>
+                                            <Label x:Name="name_trainer_headline3" Content="Level 1" Margin="96,134,2.8,475"/>
+                                            <Label x:Name="name_trainer_headline1" Content="Video" Margin="0,166,179.8,443" FontWeight="Bold"/>
                                             <Button x:Name="url_exercise" Content="Add Video" Margin="172,162,0.6,442" Foreground="#CC0050EF" Click="btnLogout_Click"/>
-                                            <Label x:Name="name_trainer_headline3_Copy" Content="URL" Margin="96,165,104.6,0" VerticalAlignment="Top"/>
+                                            <Label x:Name="name_trainer_headline3_Copy" Content="URL" Margin="96,165,104.8,444"/>
                                         </Grid>
                                     </GroupBox>
                                 </Grid>
@@ -304,7 +304,7 @@
             <TabItem Header="Trainee&#xD;&#xA;Manager" Margin="7.8,1,-7.6,-0.6">
                 <Grid Margin="0,0,0,15.6">
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Auto">-->
-                    <GroupBox x:Name="groupBox9" Header="Rooms" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="306" Width="310">
+                    <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,316,23">
                         <ListBox>
                             <TextBox x:Name="txt_suchenRooms_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Width="287"/>
                             <ListBoxItem Content="Raum1"/>
@@ -312,7 +312,7 @@
                             <ListBoxItem Content="Raum3"/>
                         </ListBox>
                     </GroupBox>
-                    <GroupBox x:Name="groupBox100" Header="Trainee's" HorizontalAlignment="Left" Margin="325,5,0,0" VerticalAlignment="Top" Height="269" Width="301">
+                    <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="325,5,10,60">
                         <ListBox Margin="0,0,-0.2,1.6">
                             <TextBox x:Name="txt_suchen_trainee_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Width="282"/>
                             <ListBoxItem Content="Lars Pickelin"  Margin="0,0,0,5"/>

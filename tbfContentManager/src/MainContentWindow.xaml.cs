@@ -70,7 +70,9 @@ namespace tbfContentManager
             default:
                     break;
                 case "#204":
-                    if (tmp[1] == "1") {
+                    //MessageBox.Show(message);
+                    MessageBox.Show(tmp[1]);
+                    if (Convert.ToInt32(tmp[1]) == 1) {
                         MessageBox.Show("Der Raum " + txt_name_room.Text +" wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     if (tmp[1] == "2")
@@ -165,7 +167,8 @@ namespace tbfContentManager
                  */
 
                 //MessageBox.Show("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen);
-                TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen, true);
+                TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen 
+                    + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen, true);
             }
         }
 
