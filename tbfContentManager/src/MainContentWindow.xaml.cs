@@ -72,8 +72,8 @@ namespace tbfContentManager
                 case "#204":
                     //MessageBox.Show(message);
                     MessageBox.Show(tmp[1]);
-                    if (Convert.ToInt32(tmp[1]) == 1) {
-                        MessageBox.Show("Der Raum " + txt_name_room.Text +" wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (tmp[1] == "1") {
+                        MessageBox.Show("Der Raum wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     if (tmp[1] == "2")
                     {
