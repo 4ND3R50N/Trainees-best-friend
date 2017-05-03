@@ -2218,44 +2218,50 @@ namespace tbfApp.Droid
 			// aapt resource value: 0x7f0200a6
 			public const int mr_ic_play_light = 2130837670;
 			
-			// aapt resource value: 0x7f0200b3
-			public const int notification_template_icon_bg = 2130837683;
-			
 			// aapt resource value: 0x7f0200a7
-			public const int reminders = 2130837671;
+			public const int nopic_grau = 2130837671;
 			
 			// aapt resource value: 0x7f0200a8
-			public const int rooms = 2130837672;
+			public const int nopic_weiss = 2130837672;
+			
+			// aapt resource value: 0x7f0200b5
+			public const int notification_template_icon_bg = 2130837685;
 			
 			// aapt resource value: 0x7f0200a9
-			public const int stern1 = 2130837673;
+			public const int reminders = 2130837673;
 			
 			// aapt resource value: 0x7f0200aa
-			public const int sterne2 = 2130837674;
+			public const int rooms = 2130837674;
 			
 			// aapt resource value: 0x7f0200ab
-			public const int sterne3 = 2130837675;
+			public const int stern1 = 2130837675;
 			
 			// aapt resource value: 0x7f0200ac
-			public const int sterne4 = 2130837676;
+			public const int sterne2 = 2130837676;
 			
 			// aapt resource value: 0x7f0200ad
-			public const int sterne5 = 2130837677;
+			public const int sterne3 = 2130837677;
 			
 			// aapt resource value: 0x7f0200ae
-			public const int tbf_120x120 = 2130837678;
+			public const int sterne4 = 2130837678;
 			
 			// aapt resource value: 0x7f0200af
-			public const int tbf_180x180 = 2130837679;
+			public const int sterne5 = 2130837679;
 			
 			// aapt resource value: 0x7f0200b0
-			public const int tbf_512x512 = 2130837680;
+			public const int tbf_120x120 = 2130837680;
 			
 			// aapt resource value: 0x7f0200b1
-			public const int tbf_96x96 = 2130837681;
+			public const int tbf_180x180 = 2130837681;
 			
 			// aapt resource value: 0x7f0200b2
-			public const int todo = 2130837682;
+			public const int tbf_512x512 = 2130837682;
+			
+			// aapt resource value: 0x7f0200b3
+			public const int tbf_96x96 = 2130837683;
+			
+			// aapt resource value: 0x7f0200b4
+			public const int todo = 2130837684;
 			
 			static Drawable()
 			{

@@ -32,7 +32,7 @@ namespace tbfApp
                 VerticalOptions = LayoutOptions.CenterAndExpand,
             };
 
-            var webImage = new Image { Aspect = Aspect.AspectFit };
+            var webImage = new Image { Aspect = Aspect.AspectFit, Margin = 6};      //Image Margin for Height 
             try
             {
                 //Try to show picture from Database
@@ -41,19 +41,13 @@ namespace tbfApp
                     //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
                     Uri = new Uri(iconURL),
                     CachingEnabled = false,
-                    CacheValidity = new TimeSpan(5, 0, 0, 0),
+                    CacheValidity = new TimeSpan(5, 0, 0, 0),       //Cache Timespan
                 };
             }
             catch (Exception)
             {
                 //catch with standard picture not available
-                webImage.Source = new UriImageSource
-                {
-                    Uri = new Uri("http://www.edelstahl-grabschmuck.at/upload/imgproc/1201495_eb.jpg"),
-                    //Uri = new Uri(iconURL),
-                    CachingEnabled = false,
-                    CacheValidity = new TimeSpan(5, 0, 0, 0),
-                };
+                webImage.Source = "nopic_grau.png";
             }
 
             Button button = new Button
@@ -81,11 +75,12 @@ namespace tbfApp
             var grid = new Grid { RowSpacing = 1, ColumnSpacing = 1, };
             var gridButton = new Grid { RowSpacing = 0, ColumnSpacing = 10 };
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(140) });
-            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.02, GridUnitType.Star) });
-            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
-            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.15, GridUnitType.Star) });
-            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.02, GridUnitType.Star) });
+            
+            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.02, GridUnitType.Star) });     //Width Left Space
+            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.7, GridUnitType.Star) });      //Width webImage
+            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });        //Width lableButton
+            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.15, GridUnitType.Star) });     //Width info
+            gridButton.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.02, GridUnitType.Star) });     //Width Right Space
 
             grid.Children.Add(button, 0, 0);
 
