@@ -42,7 +42,9 @@ namespace UnitTest
             if(TCPClient != null)
             {
                 //Act
+                bTest1 = RoomManager.AddRoomSend(ref TCPClient, 2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "Unit Test Name");
 
+                bTest2 = RoomManager.AddRoomSend(ref TCPClient, 2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "");
             }
             //Assert
             Assert.IsTrue(bTest1);
