@@ -104,7 +104,7 @@ namespace tbfApp
 
         private void activityIndicatorSwitch()
         {
-            if (activityIndicator.IsRunning == true)
+            if (activityIndicator.IsRunning)
             {
                 activityIndicator.IsRunning = false;
 

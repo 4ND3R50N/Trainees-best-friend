@@ -25,7 +25,7 @@ namespace tbfApp
 
             activityIndicator = new ActivityIndicator()
             {
-                Color = Color.Accent,
+                Color = Color.Gray,
                 IsRunning = true,
                 WidthRequest = 80,
                 HeightRequest = 80,
@@ -88,7 +88,7 @@ namespace tbfApp
 
         private void activityIndicatorSwitch()
         {
-            if (activityIndicator.IsRunning == true)
+            if (activityIndicator.IsRunning)
             {
                 activityIndicator.IsRunning = false;
 
