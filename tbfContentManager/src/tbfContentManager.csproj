@@ -82,7 +82,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\functionManager.cs" />
+    <Compile Include="Classes\RoomManager.cs" />
+    <Compile Include="Classes\StatusManager.cs" />
     <Compile Include="Classes\Support\logWriter.cs" />
     <Compile Include="MainContentWindow.xaml.cs">
       <DependentUpon>MainContentWindow.xaml</DependentUpon>

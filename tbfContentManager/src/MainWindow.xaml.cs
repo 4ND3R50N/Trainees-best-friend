@@ -34,11 +34,11 @@ namespace tbfContentManager
         public MainWindow()
         {
             InitializeComponent();
-            //TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"), 
+            //TCPClient = new simpleNetwork_Client(Server_response, "", IPAddress.Parse("62.138.6.50"), 
             //                                     13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
-        private void server_response(string message) {
+        private void Server_response(string message) {
             List<string> lServerData = new List<string>();
             lServerData = message.Split(';').ToList();
             switch (lServerData[0].ToString())
@@ -71,11 +71,11 @@ namespace tbfContentManager
 
         }
 
-        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){            
+        private void BtnLogin_Click(object sender, System.Windows.RoutedEventArgs e){            
             //IsHitTestVisible
             btnLogin.IsEnabled = false;
 
-            TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"),
+            TCPClient = new simpleNetwork_Client(Server_response, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             //-------------------- ohne login ---------------------//
@@ -108,7 +108,7 @@ namespace tbfContentManager
         {
             if (e.Key == Key.Enter)
             {
-                btnLogin_Click(null, null);
+                BtnLogin_Click(null, null);
             }
         }
 

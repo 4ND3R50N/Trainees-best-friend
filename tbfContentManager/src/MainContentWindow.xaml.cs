@@ -27,25 +27,31 @@ namespace tbfContentManager
         int iUserId;
         string sTrennzeichen = ";";
 
+       
+
         public MainContentWindow(ref simpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
+
             this.TCPClient = TCPClient;
             this.sUserName = sUserName;
-            this.iUserId = iUserId;
+            this.iUserId = iUserID;
 
-            DataTable exampleTable = new DataTable();
-            exampleTable.Columns.Add("Alpha");
-            //exampleTable.Columns.Add("Beta");
-            exampleTable.Rows.Add("Raum1");
-            exampleTable.Rows.Add("Raum2");
-            exampleTable.Rows.Add("Raumasdfasdfsdf3");
+            lblWelcomeMessage.Content = "Willkommen " + sUserName;
+
+           DataTable exampleTable = new DataTable();
+            exampleTable.Columns.Add("Workout");
+            exampleTable.Columns.Add("Raum");
+            exampleTable.AcceptChanges();
+            exampleTable.Rows.Add("Bauchmuskeln", "asdfasdf");
+            exampleTable.Rows.Add("Testworkout", "Raume1");
+            //exampleTable.Rows.Add("a2", "b2");
             exampleTable.AcceptChanges();
 
-            loadTable(exampleTable);
+            LoadTable(exampleTable);
         }
 
-        private void server_response(string message)
+        private void Server_response(string message)
         {
 
             List<string> tmp = new List<string>();
@@ -58,11 +64,21 @@ namespace tbfContentManager
             switch (prot)
             {
                 case "#202":
-                    //tel_202_Room_Data(tmp, lServerData);
-                    string counter = message.Split(';')[1];
+                    //MessageBox.Show(message);
+                    //Tel_202_Room_Data(tmp, lServerData);
+
+                    //string counter = message.Split(';')[1];
+
+                    int counter = tmp.Count() - 1;
                     List<List<string>> lServerData = new List<List<string>>();
-                    string[] room_names = new string[Convert.ToInt32(counter)];
-                    for (int i = 2; i <= Convert.ToInt32(counter); i++)
+
+                    //string[] room_names = new string[Convert.ToInt32(counter)];
+
+                    string[] room_names = new string[counter];
+
+                    //for (int i = 2; i <= Convert.ToInt32(counter); i++)
+
+                    for (int i = 1; i <= counter; i++)
                     {
                         lServerData.Add(tmp[i].Split('|').ToList());
                     }
@@ -75,42 +91,46 @@ namespace tbfContentManager
                         //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
                         //string room_icon_url = lServerData[j][4];
                     }
+                    DataTable exampleTable = new DataTable();
+                    exampleTable.Columns.Add("Räume");
+                    exampleTable.AcceptChanges();
                     for (int d = 0; d < (room_names.Length); d++)
                     {
-                        create_RoomList_item(room_names[d]);
+                        //create_RoomList_item(room_names[d]);
+                        exampleTable.Rows.Add(room_names[d]);
+                        exampleTable.AcceptChanges();
                     }
-
-                    break;
-                default:
+                    LoadTable_Room(exampleTable);
                     break;
                 case "#204":
-                    functionManager.addRoomReceive(tmp);
+                    RoomManager.AddRoomReceive(tmp);
+                    break;
+                default:
                     break;
             }
         }
 
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             Hide();
             MainWindow newLogin = new MainWindow();
             newLogin.Show();
         }
 
-        private void tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData)
-        {
-
-            for (int i = 2; i < (Convert.ToInt32(tmp[1]) + 2); i++)
-            {
-                lServerData.Add(tmp[i].Split('|').ToList());
-            }
-            for (int j = 0; j < lServerData.Count; j++)
-            {
-                for (int i = 0; i < lServerData[j].Count; i++)
-                {
-                    int room_ID = Convert.ToInt32(lServerData[j][i]);
-                }
-            }
-        }
+        //private void Tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData)
+        //{
+        //    for (int i = 2; i < (Convert.ToInt32(tmp[1]) + 2); i++)
+        //    {
+        //        lServerData.Add(tmp[i].Split('|').ToList());
+        //    }
+        //    for (int j = 0; j < lServerData.Count; j++)
+        //    {
+        //        for (int i = 0; i < lServerData[j].Count; i++)
+        //        {
+        //            int room_ID = Convert.ToInt32(lServerData[j][i]);
+        //        }
+        //    }
+        //}
 
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -118,50 +138,32 @@ namespace tbfContentManager
             Application.Current.Shutdown();
         }
 
-        private void btn_add_room_Click(object sender, RoutedEventArgs e)
-        {
-            //;
-            //{ Int: UserID}
-            //{ String: RoomName}
+        //private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    //RoomManger Room laden
+        //    TCPClient.changeProtocolFunction(Server_response);
+        //    TCPClient.sendMessage("#201", true);
 
-            //TCPClient.sendMessage("#203;" + txtUser.Text + ";" + txtPassword.Password, true);
-        }
-
-        public void create_RoomList_item(string room_name)
-        {
-            // Populate list
-            //MessageBox.Show(room_name);
-            //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-            //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = room_name });
-        }
+        //    var gridView = new GridView();
+        //    gridView.Columns.Add(new GridViewColumn
+        //    {
+        //        Header = "Name",
+        //        DisplayMemberBinding = new Binding("Name")
+        //    });
+        //}
 
 
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //RoomManger Room laden
-            TCPClient.changeProtocolFunction(server_response);
-            TCPClient.sendMessage("#201", true);
-
-            var gridView = new GridView();
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Header = "Name",
-                DisplayMemberBinding = new Binding("Name")
-            });
-        }
-
-
-        private void btn_addRoom_Click(object sender, RoutedEventArgs e)
+        private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
             gb_roomInfos.Visibility = Visibility;
         }
 
-        private void btn_saveRoom_Click(object sender, RoutedEventArgs e)
+        private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            functionManager.addRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,(bool) b_isPrivate_room.IsChecked, txt_name_room.Text);
+            RoomManager.AddRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,(bool) b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
-        private void b_url_pic_room_Click(object sender, RoutedEventArgs e)
+        private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -182,7 +184,7 @@ namespace tbfContentManager
             }
         }
 
-        private void btn_cancel_Click(object sender, RoutedEventArgs e)
+        private void Btn_cancel_Click(object sender, RoutedEventArgs e)
         {
             txt_name_room.Text = "";
             txt_beschreibung_room.Text = "";
@@ -190,39 +192,54 @@ namespace tbfContentManager
             txt_url_pic_room.Text = "";
         }
 
-        private void loadTable(DataTable dt)
+        private void LoadTable(DataTable dt)
         {
-            //_listView.DataContext = dt;
-            // Setting the ItemSource instead of the DataContext
-            // causes the table to have the right number of rows.
-            _listView.ItemsSource = dt.Rows;
+            _listView.DataContext = dt;
 
             _gridView.Columns.Clear();
+
+            Binding bind = new Binding();
+            _listView.SetBinding(ListView.ItemsSourceProperty, bind);
 
             foreach (var colum in dt.Columns)
             {
                 DataColumn dc = (DataColumn)colum;
                 GridViewColumn column = new GridViewColumn();
                 column.DisplayMemberBinding = new Binding(dc.ColumnName);
+             
                 column.Header = dc.ColumnName;
                 _gridView.Columns.Add(column);
             }
+            
         }
 
-        //private void tiRoomManager_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    var gridView = new GridView();
+        private void LoadTable_Room(DataTable dt)
+        {
+            _listView_room.DataContext = dt;
 
-        //    gridView.Columns.Add(new GridViewColumn
-        //    {
-        //        Header = "Name",
-        //        DisplayMemberBinding = new Binding("Name")
-        //    });
+            _gridView_room.Columns.Clear();
 
-        //    // Populate list
-        //    this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
+            Binding bind = new Binding();
+            _listView_room.SetBinding(ListView.ItemsSourceProperty, bind);
 
+            foreach (var colum in dt.Columns)
+            {
+                DataColumn dc = (DataColumn)colum;
+                GridViewColumn column = new GridViewColumn();
+                column.DisplayMemberBinding = new Binding(dc.ColumnName);
 
-        //}
+                column.Header = dc.ColumnName;
+                _gridView_room.Columns.Add(column);
+            }
+        }
+
+        private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
+        {
+            //RoomManger Room laden
+            TCPClient.changeProtocolFunction(Server_response);
+            TCPClient.sendMessage("#201", true);
+
+            //RoomManager.GetAllRoomSend(ref TCPClient);
+        }
     }
 }

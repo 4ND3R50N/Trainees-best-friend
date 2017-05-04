@@ -42,9 +42,7 @@ namespace UnitTest
             if(TCPClient != null)
             {
                 //Act
-                bTest1 = functionManager.addRoomSend(ref TCPClient, 2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "Unit Test Name");
 
-                bTest2 = functionManager.addRoomSend(ref TCPClient, 2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "");
             }
             //Assert
             Assert.IsTrue(bTest1);

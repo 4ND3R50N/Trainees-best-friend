@@ -7,9 +7,9 @@ using System.Windows;
 using WhiteCode.Network;
 namespace tbfContentManager.Classes
 {
-    static public class functionManager
+    static public class RoomManager
     {
-        public static bool addRoomSend(ref simpleNetwork_Client TCPClient, int iUserId, string sTrennzeichen, string sBeschreibung,
+        public static bool AddRoomSend(ref simpleNetwork_Client TCPClient, int iUserId, string sTrennzeichen, string sBeschreibung,
             string sPicURL, bool isPrivate, string sRoomName)
         {
             int i_isPrivate_room = 0;
@@ -23,12 +23,9 @@ namespace tbfContentManager.Classes
             }
             if (sRoomName.Length > 0)
             {
-                // WICHTIG FUER SPAETER!!! //
-                /*
-                    Bild muss vorher auf DB geschickt 
-                    der schickt dann URL zurueck, dass ist dann die txt_url_room 
+                /*WICHTIG FUER SPAETER!
+                    Bild muss vorher auf DB geschickt, der schickt dann URL zurueck, dass ist dann die txt_url_room 
                  */
-
                 //MessageBox.Show("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen);
                 TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + sRoomName + sTrennzeichen
                     + sBeschreibung + sTrennzeichen + i_isPrivate_room + sTrennzeichen + sPicURL + sTrennzeichen, true);
@@ -37,7 +34,7 @@ namespace tbfContentManager.Classes
             return false;
         }
 
-        public static void addRoomReceive(List<string> tmp)
+        public static void AddRoomReceive(List<string> tmp)
         {
             if (tmp[1] == "1")
             {
@@ -54,5 +51,16 @@ namespace tbfContentManager.Classes
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        public static void GetAllRoomSend(ref simpleNetwork_Client TCPClient) {
+            //TCPClient.changeProtocolFunction(Server_response);
+            TCPClient.sendMessage("#201", true);
+        }
+
+        public static void GetAllRoomReceive() {
+
+        }
+
+        
     }
 }
