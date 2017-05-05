@@ -108,7 +108,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" Loaded="tiRoomManager_Loaded">
+            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" Loaded="tiRoomManager_Loaded"  >
                 <Grid VerticalAlignment="Top">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="626">
@@ -120,6 +120,22 @@
                                                 <GridView x:Name="_gridView_room"/>
                                             </ListView.View>
                                         </ListView>
+                                        <!--<ListBox x:Name="myListBox"/>-->
+                                        <!--<ListView x:Name="myListView">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>-->
+                                        
+                                        <!--<ListView x:Name="_listView_room">
+                                            <ListView.View >
+                                                <GridView x:Name="_gridView_room">
+                                                    <GridViewColumn Header="Raeume" DisplayMemberBinding="{Binding Raeume}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>-->
                                     </Grid>
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top">

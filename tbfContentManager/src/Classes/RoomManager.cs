@@ -8,7 +8,7 @@ using WhiteCode.Network;
 namespace tbfContentManager.Classes
 {
     static public class RoomManager
-    {
+    {   
         public static bool AddRoomSend(ref simpleNetwork_Client TCPClient, int iUserId, string sTrennzeichen, string sBeschreibung,
             string sPicURL, bool isPrivate, string sRoomName)
         {
@@ -33,7 +33,7 @@ namespace tbfContentManager.Classes
             }
             return false;
         }
-
+        
         public static void AddRoomReceive(List<string> tmp)
         {
             if (tmp[1] == "1")
@@ -51,12 +51,12 @@ namespace tbfContentManager.Classes
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        /*
         public static void GetAllRoomSend(ref simpleNetwork_Client TCPClient) {
             //TCPClient.changeProtocolFunction(Server_response);
             TCPClient.sendMessage("#201", true);
         }
-
+        */
         public static void GetAllRoomReceive() {
 
         }

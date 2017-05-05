@@ -48,15 +48,15 @@ namespace tbfContentManager
             //exampleTable.Rows.Add("a2", "b2");
             exampleTable.AcceptChanges();
 
-            LoadTable(exampleTable);
+            LoadTable_Workout(exampleTable);
         }
 
         private void Server_response(string message)
         {
 
-            List<string> tmp = new List<string>();
+            List<string> messageList = new List<string>();
 
-            tmp = message.Split(';').ToList();
+            messageList = message.Split(';').ToList();
             string prot = message.Split(';')[0];
 
             //MessageBox.Show(message);
@@ -64,6 +64,23 @@ namespace tbfContentManager
             switch (prot)
             {
                 case "#202":
+                    int roomAmount = messageList.Count - 2;
+
+                    DataTable roomTable = new DataTable();
+                    roomTable.Columns.Add("Räume");
+
+                    for (int i = 2; i <= roomAmount + 2; i++)
+                    {
+                        List<string> roomData = new List<string>();
+                        roomData = messageList.ElementAt(i).Split('|').ToList();
+
+                        roomTable.Rows.Add(roomData.ElementAt(1));
+                    }
+
+                    roomTable.AcceptChanges();
+                    LoadTable_Room(roomTable);
+
+                    /*
                     //MessageBox.Show(message);
                     //Tel_202_Room_Data(tmp, lServerData);
 
@@ -74,11 +91,12 @@ namespace tbfContentManager
 
                     //string[] room_names = new string[Convert.ToInt32(counter)];
 
-                    string[] room_names = new string[counter];
+                    string[] room_names = new string[counter-1];
+                    //List<string> room_names = new List<string>();
 
                     //for (int i = 2; i <= Convert.ToInt32(counter); i++)
 
-                    for (int i = 1; i <= counter; i++)
+                    for (int i = 2; i <= counter; i++)
                     {
                         lServerData.Add(tmp[i].Split('|').ToList());
                     }
@@ -87,10 +105,28 @@ namespace tbfContentManager
                         int room_ID = Convert.ToInt32(lServerData[j][0]);
                         room_names[j] = lServerData[j][1];
                         MessageBox.Show(room_names[j]);
+                        //_listView_room.Items.Add(new RoomItem { Raeume = room_names[j] });
                         //string room_description = lServerData[j][2];
                         //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
                         //string room_icon_url = lServerData[j][4];
                     }
+                    //string[] data = { "hallo", "avelina", "alles", "super" };
+                    //foreach (string t in data)
+                    //{
+                    //    myListBox.Items.Add(t);
+                    //    //myListView.Items.Add(t);
+                    //}
+                    //foreach (string t in room_names)
+                    //{
+                    //    myListBox.Items.Add(t);
+                    //    myListView.Items.Add(t);
+                    //}
+                    //for (int k = 0; k < room_names.Length; k++)
+                    //{
+                    //    //_listView_room.Items.Add(new RoomItem { Raeume = room_names[k] });
+                    //}
+
+                    _listView_room.ItemsSource = room_names;
                     DataTable exampleTable = new DataTable();
                     exampleTable.Columns.Add("Räume");
                     exampleTable.AcceptChanges();
@@ -100,12 +136,15 @@ namespace tbfContentManager
                         exampleTable.Rows.Add(room_names[d]);
                         exampleTable.AcceptChanges();
                     }
+                    exampleTable.AcceptChanges();
                     LoadTable_Room(exampleTable);
+                    */
                     break;
                 case "#204":
-                    RoomManager.AddRoomReceive(tmp);
+                    RoomManager.AddRoomReceive(messageList);
                     break;
                 default:
+                    MessageBox.Show("Server Kommunikationsproblem!");
                     break;
             }
         }
@@ -160,7 +199,7 @@ namespace tbfContentManager
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            RoomManager.AddRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,(bool) b_isPrivate_room.IsChecked, txt_name_room.Text);
+            //RoomManager.AddRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,(bool) b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -192,7 +231,7 @@ namespace tbfContentManager
             txt_url_pic_room.Text = "";
         }
 
-        private void LoadTable(DataTable dt)
+        private void LoadTable_Workout(DataTable dt)
         {
             _listView.DataContext = dt;
 
@@ -210,9 +249,17 @@ namespace tbfContentManager
                 column.Header = dc.ColumnName;
                 _gridView.Columns.Add(column);
             }
-            
         }
+/*
+        private void tiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //RoomManger Room laden
+            TCPClient.changeProtocolFunction(Server_response);
+            TCPClient.sendMessage("#201", true);
 
+            //    //RoomManager.GetAllRoomSend(ref TCPClient);
+        }
+        */
         private void LoadTable_Room(DataTable dt)
         {
             _listView_room.DataContext = dt;
