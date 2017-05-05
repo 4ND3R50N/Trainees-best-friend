@@ -69,7 +69,7 @@ namespace tbfContentManager
                     DataTable roomTable = new DataTable();
                     roomTable.Columns.Add("Räume");
 
-                    for (int i = 2; i <= roomAmount + 2; i++)
+                    for (int i = 2; i < roomAmount + 2; i++)
                     {
                         List<string> roomData = new List<string>();
                         roomData = messageList.ElementAt(i).Split('|').ToList();
@@ -250,16 +250,17 @@ namespace tbfContentManager
                 _gridView.Columns.Add(column);
             }
         }
-/*
+
         private void tiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //RoomManger Room laden
             TCPClient.changeProtocolFunction(Server_response);
+            TCPClient.reloadConnection();
             TCPClient.sendMessage("#201", true);
 
             //    //RoomManager.GetAllRoomSend(ref TCPClient);
         }
-        */
+        
         private void LoadTable_Room(DataTable dt)
         {
             _listView_room.DataContext = dt;
@@ -279,7 +280,7 @@ namespace tbfContentManager
                 _gridView_room.Columns.Add(column);
             }
         }
-
+        /*
         private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
         {
             //RoomManger Room laden
@@ -288,5 +289,6 @@ namespace tbfContentManager
 
             //RoomManager.GetAllRoomSend(ref TCPClient);
         }
+        */
     }
 }

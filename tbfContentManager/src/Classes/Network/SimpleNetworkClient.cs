@@ -35,11 +35,11 @@ namespace WhiteCode.Network
             this.protAnalyseFunction = protAnalyseFunction;
             this.network_AKey = network_AKey;
         }
-        public simpleNetwork_Client(protocolFunction protAnalyseFunction,string network_AKey, IPAddress ip, short port,AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
+        public simpleNetwork_Client(protocolFunction protAnalyseFunction, int iBufferlength,string network_AKey, IPAddress ip, short port,AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
             this.protAnalyseFunction = protAnalyseFunction;
             this.network_AKey = network_AKey;
-            endpoint = new socketEndpointCommunication(ip, port, familyType, socketType, protocolType);
+            endpoint = new socketEndpointCommunication(iBufferlength, ip, port, familyType, socketType, protocolType);
             endpointCommunicationIsDeclared = true;
            
         }
@@ -50,9 +50,9 @@ namespace WhiteCode.Network
         }
 
         //Functions
-        public void setSocketEndpointCommunication(IPAddress ip, short port, AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
+        public void setSocketEndpointCommunication(int iBufferLength, IPAddress ip, short port, AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
-            endpoint = new socketEndpointCommunication(ip, port, familyType, socketType, protocolType);
+            endpoint = new socketEndpointCommunication(iBufferLength,ip, port, familyType, socketType, protocolType);
             endpointCommunicationIsDeclared = true;
         }
         
@@ -60,10 +60,10 @@ namespace WhiteCode.Network
         {
             try
             {
-                endpoint.socket.Connect(endpoint.clientEndPoint);
-                endpoint.socket.BeginReceive(endpoint.buffer, 0, 255, SocketFlags.None, new AsyncCallback(receiveCallback), endpoint);
+                endpoint.getSocket().Connect(endpoint.clientEndPoint);
+                endpoint.getSocket().BeginReceive(endpoint.getBuffer(), 0, 255, SocketFlags.None, new AsyncCallback(receiveCallback), endpoint);
             }
-            catch (Exception)
+            catch (Exception e)
             { 
                 return false;
             }
@@ -71,6 +71,14 @@ namespace WhiteCode.Network
             
         }
 
+        public bool reloadConnection()
+        {
+            endpoint.getSocket().Close();
+            endpoint.reInitSocket();
+            this.connect();
+
+            return true;
+        }
         public bool sendMessage(string message, bool enableEncryption)
         {
             byte[] bytes;
@@ -79,7 +87,7 @@ namespace WhiteCode.Network
 
             try
             {
-                endpoint.socket.Send(bytes, bytes.Length, SocketFlags.None);
+                endpoint.getSocket().Send(bytes, bytes.Length, SocketFlags.None);
             }
             catch (Exception)
             {
@@ -93,12 +101,13 @@ namespace WhiteCode.Network
             socketEndpointCommunication serverMessage = (socketEndpointCommunication)result.AsyncState;
             try
             {
-                int bytestoread = serverMessage.socket.EndReceive(result);
-                string text = Encoding.UTF8.GetString(serverMessage.buffer, 0, bytestoread);
+                int bytestoread = serverMessage.getSocket().EndReceive(result);
+                string text = Encoding.UTF8.GetString(serverMessage.getBuffer(), 0, bytestoread);
                 if (bytestoread > 0)
                 {
-                    serverMessage.socket.BeginReceive(serverMessage.buffer, 0, 255, SocketFlags.None, new AsyncCallback(receiveCallback), serverMessage);
+                    serverMessage.getSocket().BeginReceive(serverMessage.getBuffer(), 0, endpoint.getBufferLength(), SocketFlags.None, new AsyncCallback(receiveCallback), serverMessage);
                     protAnalyseFunction(text);
+                    serverMessage.clearBuffer();
                 }
             }
             catch (Exception e)
@@ -109,12 +118,12 @@ namespace WhiteCode.Network
 
         public void closeConnection()
         {
-            endpoint.socket.Close();
+            endpoint.getSocket().Close();
         }
 
         public bool isConnected()
         {
-            return endpoint.socket.Connected;
+            return endpoint.getSocket().Connected;
         }
 
         public static string getWebRequest(string URL)
@@ -148,18 +157,51 @@ namespace WhiteCode.Network
         {
             //Variables
             public IPEndPoint clientEndPoint { get; }
-            public Socket socket { get; }
-            public byte[] buffer { get; } 
+            private Socket socket { get; set; }
+
+            private AddressFamily familyType;
+            private SocketType socketType;
+            private ProtocolType protocolType;
+            private int iBufferLength;
+            private byte[] buffer { get; set; } 
 
 
             //Constructor
-            public socketEndpointCommunication(IPAddress ip, short port, AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
+            public socketEndpointCommunication(int bufferLength, IPAddress ip, short port, AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
             {
+                this.familyType = familyType;
+                this.socketType = socketType;
+                this.protocolType = protocolType;
+                iBufferLength = bufferLength;
                 socket = new Socket(familyType, socketType, protocolType);
                 clientEndPoint = new IPEndPoint(ip, port);
-                buffer = new byte[255]; //Variable eingabe der Buffer größe????
+                buffer = new byte[bufferLength]; //Variable eingabe der Buffer größe????
             }
             //Function
+            public void reInitSocket()
+            {
+                socket = new Socket(familyType, socketType, protocolType);
+            }
+
+            public void clearBuffer()
+            {
+                buffer = new byte[iBufferLength];
+
+            }
+
+            public int getBufferLength()
+            {
+                return iBufferLength;
+            }
+            public Socket getSocket()
+            {
+                return socket;
+            }
+
+            public byte[] getBuffer()
+            {
+                return buffer;
+            }
         }
 
     }

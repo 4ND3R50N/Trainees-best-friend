@@ -75,7 +75,7 @@ namespace tbfContentManager
             //IsHitTestVisible
             btnLogin.IsEnabled = false;
 
-            TCPClient = new simpleNetwork_Client(Server_response, "", IPAddress.Parse("62.138.6.50"),
+            TCPClient = new simpleNetwork_Client(Server_response, 8000, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             //-------------------- ohne login ---------------------//

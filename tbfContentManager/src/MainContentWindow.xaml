@@ -108,7 +108,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" Loaded="tiRoomManager_Loaded"  >
+            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" MouseLeftButtonUp="tiRoomManager_MouseLeftButtonUp"  >
                 <Grid VerticalAlignment="Top">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="626">
