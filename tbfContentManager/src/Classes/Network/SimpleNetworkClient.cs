@@ -19,11 +19,12 @@ namespace WhiteCode.Network
         //--Public
         public bool endpointCommunicationIsDeclared = false;
         public delegate void protocolFunction(string prot);
+        private int iBufferLength;
         //--Private
         private string network_AKey;
         private socketEndpointCommunication endpoint;        
         private event protocolFunction protAnalyseFunction;
-
+        private Object thisLock = new Object();
 
         //Constructor
         public simpleNetwork_Client()
@@ -52,7 +53,7 @@ namespace WhiteCode.Network
         //Functions
         public void setSocketEndpointCommunication(int iBufferLength, IPAddress ip, short port, AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
-            endpoint = new socketEndpointCommunication(iBufferLength,ip, port, familyType, socketType, protocolType);
+            endpoint = new socketEndpointCommunication(iBufferLength, ip, port, familyType, socketType, protocolType);
             endpointCommunicationIsDeclared = true;
         }
         
@@ -61,7 +62,7 @@ namespace WhiteCode.Network
             try
             {
                 endpoint.getSocket().Connect(endpoint.clientEndPoint);
-                endpoint.getSocket().BeginReceive(endpoint.getBuffer(), 0, 255, SocketFlags.None, new AsyncCallback(receiveCallback), endpoint);
+                endpoint.getSocket().BeginReceive(endpoint.getBuffer(), 0, endpoint.getBufferLength(), SocketFlags.None, new AsyncCallback(receiveCallback), endpoint);
             }
             catch (Exception e)
             { 
@@ -73,18 +74,26 @@ namespace WhiteCode.Network
 
         public bool reloadConnection()
         {
-            endpoint.getSocket().Close();
-            endpoint.reInitSocket();
-            this.connect();
-
+            try
+            {
+                endpoint.getSocket().Close();
+                endpoint.reInitSocket();
+                this.connect();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
             return true;
         }
         public bool sendMessage(string message, bool enableEncryption)
         {
             byte[] bytes;
+
+            reloadConnection();
             if (enableEncryption) { bytes = Encoding.UTF8.GetBytes(message); }
             else { bytes = Encoding.UTF8.GetBytes(message); }
-
+           
             try
             {
                 endpoint.getSocket().Send(bytes, bytes.Length, SocketFlags.None);
@@ -98,22 +107,28 @@ namespace WhiteCode.Network
 
         private void receiveCallback(IAsyncResult result)
         {
-            socketEndpointCommunication serverMessage = (socketEndpointCommunication)result.AsyncState;
-            try
+            lock(thisLock)
             {
-                int bytestoread = serverMessage.getSocket().EndReceive(result);
-                string text = Encoding.UTF8.GetString(serverMessage.getBuffer(), 0, bytestoread);
-                if (bytestoread > 0)
+                socketEndpointCommunication serverMessage = (socketEndpointCommunication)result.AsyncState;
+                try
                 {
-                    serverMessage.getSocket().BeginReceive(serverMessage.getBuffer(), 0, endpoint.getBufferLength(), SocketFlags.None, new AsyncCallback(receiveCallback), serverMessage);
-                    protAnalyseFunction(text);
-                    serverMessage.clearBuffer();
+                    int bytestoread = serverMessage.getSocket().EndReceive(result);
+                    string text = Encoding.UTF8.GetString(serverMessage.getBuffer(), 0, bytestoread).Replace("\0", string.Empty);
+
+                    if (text != "")
+                    {
+                        serverMessage.getSocket().BeginReceive(serverMessage.getBuffer(), 0, endpoint.getBufferLength(), SocketFlags.None, new AsyncCallback(receiveCallback), serverMessage);
+                        protAnalyseFunction(text);
+                        serverMessage.clearBuffer();
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return;
                 }
             }
-            catch (Exception e)
-            {
-                return;
-            }
+            
         }
 
         public void closeConnection()
@@ -172,8 +187,8 @@ namespace WhiteCode.Network
                 this.familyType = familyType;
                 this.socketType = socketType;
                 this.protocolType = protocolType;
-                iBufferLength = bufferLength;
                 socket = new Socket(familyType, socketType, protocolType);
+                iBufferLength = bufferLength;
                 clientEndPoint = new IPEndPoint(ip, port);
                 buffer = new byte[bufferLength]; //Variable eingabe der Buffer größe????
             }

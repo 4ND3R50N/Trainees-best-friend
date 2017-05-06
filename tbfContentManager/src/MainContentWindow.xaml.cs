@@ -36,7 +36,10 @@ namespace tbfContentManager
             this.TCPClient = TCPClient;
             this.sUserName = sUserName;
             this.iUserId = iUserID;
-
+            //CHangeprotocolfunction in den konstruktor verschoben, da dieser einmalig für den formwechsel gemacht werden muss
+            //Es wäre natürlich ordentlicher, wenn du für jeden TAB eine Server_response funktion erstellen würdest. 
+            //IN dem fall müsstest du jedesmal wenn man den tab wechselt, die changeProtocolFunction() erneut ausführen :)
+            TCPClient.changeProtocolFunction(Server_response);
             lblWelcomeMessage.Content = "Willkommen " + sUserName;
 
            DataTable exampleTable = new DataTable();
@@ -58,18 +61,18 @@ namespace tbfContentManager
 
             messageList = message.Split(';').ToList();
             string prot = message.Split(';')[0];
-
+          
             //MessageBox.Show(message);
 
             switch (prot)
             {
                 case "#202":
-                    int roomAmount = messageList.Count - 2;
+                   
 
                     DataTable roomTable = new DataTable();
                     roomTable.Columns.Add("Räume");
 
-                    for (int i = 2; i < roomAmount + 2; i++)
+                    for (int i = 2; i < messageList.Count - 2; i++)
                     {
                         List<string> roomData = new List<string>();
                         roomData = messageList.ElementAt(i).Split('|').ToList();
@@ -78,8 +81,12 @@ namespace tbfContentManager
                     }
 
                     roomTable.AcceptChanges();
+                    MessageBox.Show("Server antwort: " + message);
+                    //Wird crashen, Server_Response ein thread ist, und man nicht in einem Thread auf Objekte in einem anderen Thread
+                    //(ausser variablen) zugreifen kann. Ein beispiel wie das gemacht werden muss findest du in MainWindow.xaml.cs -> startMainWindow 
+                    //Hier werden Dispatcher genommen, damit man die Objekte aus dem Main thread bearbeiten kann!
                     LoadTable_Room(roomTable);
-
+                   
                     /*
                     //MessageBox.Show(message);
                     //Tel_202_Room_Data(tmp, lServerData);
@@ -254,15 +261,13 @@ namespace tbfContentManager
         private void tiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //RoomManger Room laden
-            TCPClient.changeProtocolFunction(Server_response);
-            TCPClient.reloadConnection();
             TCPClient.sendMessage("#201", true);
-
-            //    //RoomManager.GetAllRoomSend(ref TCPClient);
         }
         
         private void LoadTable_Room(DataTable dt)
         {
+            //Invokes nutzen um in der Serverantwort mit benutzeroberfläche zu arbeiten @Avelina! 
+            // Ein Beispiel findest du in der StartMainWindow funktion auf Mainwindow.xaml.cs
             _listView_room.DataContext = dt;
 
             _gridView_room.Columns.Clear();
