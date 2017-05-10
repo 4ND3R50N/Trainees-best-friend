@@ -47,6 +47,7 @@ namespace WCDatabaseEngine
         public abstract int loginUser(string sUserName, string sPassword, ref int iUserID);
 
         public abstract List<List<string>> getRoomOverViewData();
+        public abstract List<List<string>> getRoomOverViewData2(int iUserID);
         public abstract List<List<string>> getWorkoutOverViewData(int iRoomID);
         public abstract List<List<string>> getLevelOverviewData(int iWorkoutID);
         public abstract List<List<string>> getFullExerciseData(int iLevelID);

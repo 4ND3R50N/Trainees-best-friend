@@ -61,6 +61,11 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
+        public override List<List<string>> getRoomOverViewData2(int iUserID)
+        {
+            throw new NotImplementedException();
+        }
+
         public override List<List<string>> getWorkoutOverViewData(int iRoomID)
         {
             throw new NotImplementedException();

@@ -132,6 +132,27 @@ namespace WCDatabaseEngine
             }
         }
 
+        public override List<List<string>> getRoomOverViewData2(int iUserID)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get tbl_rooms matrix
+                return createDataMatrix(executeQuery(MysqlConn, "Select tbfr.room_id, tbfr.name, tbfr.description, tbfr.is_private, tbfr.room_icon_url  from tbf_rooms as tbfr " +
+                                                                    "INNER JOIN tbf_user_room_relation ON tbfr.room_id = tbf_user_room_relation.room_id " +
+                                                                        "WHERE tbf_user_room_relation.user_id = " + iUserID));
+            }
+        }
+
         public override List<List<string>> getWorkoutOverViewData(int iRoomID)
         {
             using (MySqlConnection MysqlConn =
@@ -168,7 +189,7 @@ namespace WCDatabaseEngine
                     return null;
                 }
                 //Get level matrix               
-                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_level.level_id, tbf_level.level_grade FROM tbf_level WHERE tbf_level.workout_id = " + iWorkoutID));
+                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_level.level_id, tbf_level.level_grade, tbf_level.description FROM tbf_level WHERE tbf_level.workout_id = " + iWorkoutID));
             }
         }
 
@@ -275,9 +296,6 @@ namespace WCDatabaseEngine
                 return true;
             }
         }
-
-      
-
         #endregion
     }
 }

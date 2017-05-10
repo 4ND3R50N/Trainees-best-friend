@@ -63,19 +63,22 @@ namespace tbfController.Classes.Core
             //TESTCASE
             networkServer.networkClientInterface dummy = new networkServer.networkClientInterface();
             //Auth
-            //networkProtocol("#104;Anderson2;Lars;Pickelin;miau1234;l.pickelin@web.de", ref dummy);
-            //networkProtocol("#102;Anderson2;miau1x234", ref dummy);
+            //  networkProtocol("#104;Anderson2;Lars;Pickelin;miau1234;l.pickelin@web.de", ref dummy);
+            //  networkProtocol("#102;Anderson2;miau1x234", ref dummy);
             //Content
             //Get all rooms
-            //networkProtocol("#201", ref dummy);
+            //  networkProtocol("#201", ref dummy);
+            //Get all rooms of a specific user
+            //  NetworkProtocol("#211;18", ref dummy);
             //Add new room
-            //  networkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
+            //  NetworkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
             //Get all workouts of room id 2
-            //NetworkProtocol("#205;Hadd e", ref dummy);
+            //  NetworkProtocol("#205;Hadd e", ref dummy);
             //Get Levels of workout with id 1
             //  NetworkProtocol("#207;1", ref dummy);
             //Get all excercises of workout 1
             //  NetworkProtocol("#209;1", ref dummy);
+
         }
 
         public void Start()
@@ -118,6 +121,8 @@ namespace tbfController.Classes.Core
                     Tel_207_requestLevelOverview(lDataList, ref relatedClient); break;
                 case "#209":
                     Tel_209_requestFullExerciseData(lDataList, ref relatedClient); break;
+                case "#211":
+                    Tel_211_requestRoomOverview(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -364,6 +369,43 @@ namespace tbfController.Classes.Core
             catch (Exception e)
             {
                 Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_LEVELOVERVIEW)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+        private void Tel_211_requestRoomOverview(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #211 (REQ_ROOMOVERVIEWDATA2) received from a client!");
+                //Get room data
+                List<List<string>> llRoomData = new List<List<string>>();
+                llRoomData = DatabaseEngine.getRoomOverViewData2(Convert.ToInt32(lDataList[0]));
+                //Build protocol
+                string sProtocol = "#212" + cProtocolDelimiter.ToString();
+                sProtocol += llRoomData.Count + cProtocolDelimiter.ToString();
+                for (int i = 0; i < llRoomData.Count; i++)
+                {
+                    for (int d = 0; d < llRoomData[i].Count; d++)
+                    {
+                        sProtocol += llRoomData[i][d] + cDataDelimiter.ToString();
+                    }
+                    //Remove the last cDataDelimiter
+                    sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+                    sProtocol += cProtocolDelimiter.ToString();
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #212 with specific room data. " + llRoomData.Count + " room entries sent!");
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMOVERVIEWDATA2)! Message: " + e.ToString());
                 return;
             }
         }
