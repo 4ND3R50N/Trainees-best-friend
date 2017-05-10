@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using tbfContentManager.Classes;
 using WhiteCode.Network;
 //using tbfContentManager.Classes;
@@ -53,7 +55,7 @@ namespace tbfContentManager
 
             LoadTable_Workout(exampleTable);
         }
-
+        [STAThread]
         private void Server_response(string message)
         {
 
@@ -67,7 +69,6 @@ namespace tbfContentManager
             switch (prot)
             {
                 case "#202":
-                   
 
                     DataTable roomTable = new DataTable();
                     roomTable.Columns.Add("Räume");
@@ -85,6 +86,12 @@ namespace tbfContentManager
                     //Wird crashen, Server_Response ein thread ist, und man nicht in einem Thread auf Objekte in einem anderen Thread
                     //(ausser variablen) zugreifen kann. Ein beispiel wie das gemacht werden muss findest du in MainWindow.xaml.cs -> startMainWindow 
                     //Hier werden Dispatcher genommen, damit man die Objekte aus dem Main thread bearbeiten kann!
+                    /*
+                    ParameterizedThreadStart pts = new ParameterizedThreadStart(this.LoadTable_Room);
+                    Thread thread = new Thread(pts);
+                    thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+                    thread.Start(roomTable);
+                    */
                     LoadTable_Room(roomTable);
                    
                     /*
@@ -263,26 +270,41 @@ namespace tbfContentManager
             //RoomManger Room laden
             TCPClient.sendMessage("#201", true);
         }
-        
+
+        //[STAThread]
         private void LoadTable_Room(DataTable dt)
         {
+            //DataTable dt = (DataTable)odt;
             //Invokes nutzen um in der Serverantwort mit benutzeroberfläche zu arbeiten @Avelina! 
             // Ein Beispiel findest du in der StartMainWindow funktion auf Mainwindow.xaml.cs
-            _listView_room.DataContext = dt;
+            
+            //_listView_room.DataContext = dt;
+            _listView_room.Dispatcher.BeginInvoke((Action) (() => _listView_room.DataContext = dt));
 
-            _gridView_room.Columns.Clear();
+            //_gridView_room.Columns.Clear();
+            _gridView_room.Dispatcher.BeginInvoke((Action)(() => _gridView_room.Columns.Clear()));
 
             Binding bind = new Binding();
-            _listView_room.SetBinding(ListView.ItemsSourceProperty, bind);
+            //_listView_room.SetBinding(ListView.ItemsSourceProperty, bind);
+            _listView_room.Dispatcher.BeginInvoke((Action)(() => _listView_room.SetBinding(ListView.ItemsSourceProperty, bind)));
+            GridViewColumn column = new GridViewColumn();
 
             foreach (var colum in dt.Columns)
             {
                 DataColumn dc = (DataColumn)colum;
-                GridViewColumn column = new GridViewColumn();
                 column.DisplayMemberBinding = new Binding(dc.ColumnName);
 
                 column.Header = dc.ColumnName;
-                _gridView_room.Columns.Add(column);
+                //_gridView_room.Columns.Add(column); 
+                /*
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _gridView_room.Columns.Add(column);
+                    // Do all UI related work here...
+                }));
+                */
+                _gridView_room.Dispatcher.BeginInvoke(new Action(() => _gridView_room.Columns.Add(column)));
+                //_gridView_room.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(()=> _gridView_room.Columns.Add(column)),_gridView_room);
             }
         }
         /*

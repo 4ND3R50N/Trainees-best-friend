@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace tbfContentManager.Classes
 {
-    class RoomItem
+    class TraineeManager
     {
-        public string Raeume { get; set; }
-
     }
 }

@@ -171,15 +171,6 @@
                                                         <TextBlock Text="X" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
                                                     </Button>
                                                 </ListBox>
-                                                <!--<ListBox Margin="0,0,0.4,97.6">
-                                                    <TextBox VerticalAlignment="Stretch" x:Name="txt_suchenTrainee" Height="23" TextWrapping="Wrap" Text="Suchen" Width="301"/>
-                                                    <ListBoxItem VerticalAlignment="Top" Content="Lars Pickelin"/>
-                                                    <ListBoxItem>
-                                                        <Button x:Name="btn_loeschen_trainees" Content="X" Foreground="#CC0050EF" Width="34" BorderThickness="0"/>
-                                                    </ListBoxItem>
-                                                    <ListBoxItem VerticalAlignment="Top" Content="Avelina Ott"/>
-                                                    <ListBoxItem VerticalAlignment="Top" Content="Niko Scheuermann"/>
-                                                </ListBox>-->
                                             </GroupBox>
                                         </Grid>
                                     </GroupBox>
@@ -243,39 +234,11 @@
                 <Grid VerticalAlignment="Top">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="591">
-                            <Grid VerticalAlignment="Top">
-                                <Grid VerticalAlignment="Top">
-                                    <!--<Button Width="240" Height="35" VerticalAlignment="Top" Margin="5,5,280,0" >
-                                        <StackPanel>
-                                            -->
-                                    <!--<Image Margin="-20,0,180,0" Source="/Images/72_72_weiß_rund.png" Stretch="None" RenderTransformOrigin="0.264,0.612" />-->
-                                    <!--
-                                            <TextBlock Margin="-3,-8,180,0" Text="+" FontSize="25"/>
-                                            <TextBlock Margin="20,-26,0,0" Text="Neuen Raum hinzufügen" FontSize="15" Width="176" />
-                                        </StackPanel>
-                                    </Button>-->
-                                </Grid>
-                            </Grid>
+                            
                             <Grid VerticalAlignment="Top" Height="640">
                                 <GroupBox x:Name="label_exercise" Header="Exercise" Margin="10,5,349.2,0">
                                     <Button x:Name="bt_add_exercise" Content="Neues Exercise hinzufügen" Margin="0,47,0,514.2" Foreground="#CC0050EF"/>
-                                    <!--<ListBox x:Name="UserList" ItemsSource="{Binding Persons}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Firstname}" Margin="3" />
-                                                -->
-                                    <!--<TextBlock Text="{Binding Lastname}" Margin="3" />-->
-                                    <!--
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>-->
-                                    <!--<ListView VerticalAlignment="Top" x:Name="lvRoomList1" Margin="0,0,-0.2,0.2">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn DisplayMemberBinding="{Binding Name}"/>
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>-->
+                                   
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top">
                                     <GroupBox x:Name="groupBox2" Header="Exercise Informationen" Margin="259,5,-24.8,0">
