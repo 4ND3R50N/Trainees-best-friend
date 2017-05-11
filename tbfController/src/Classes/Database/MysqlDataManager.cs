@@ -147,9 +147,9 @@ namespace WCDatabaseEngine
                     return null;
                 }
                 //Get tbl_rooms matrix
-                return createDataMatrix(executeQuery(MysqlConn, "Select tbfr.room_id, tbfr.name, tbfr.description, tbfr.is_private, tbfr.room_icon_url  from tbf_rooms as tbfr " +
-                                                                    "INNER JOIN tbf_user_room_relation ON tbfr.room_id = tbf_user_room_relation.room_id " +
-                                                                        "WHERE tbf_user_room_relation.user_id = " + iUserID));
+                return createDataMatrix(executeQuery(MysqlConn, "Select DISTINCT tbfr.room_id, tbfr.name, tbfr.description, tbfr.is_private, tbfr.room_icon_url  from tbf_rooms as tbfr "
+                                        + "INNER JOIN tbf_user_room_relation ON tbfr.room_id = tbf_user_room_relation.room_id "
+                                        + "WHERE tbf_user_room_relation.user_id = " + iUserID + " OR tbfr.is_private = 0" ));
             }
         }
 
