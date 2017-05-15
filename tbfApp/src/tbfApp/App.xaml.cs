@@ -19,8 +19,7 @@ namespace tbfApp
 
             app = this;
 
-            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(),
-                GetServerPort(), GetServerBufferlenght(), 2);
+            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(), GetServerPort(), GetServerBufferlenght(), 0);
         }
 
         protected override void OnStart()
@@ -84,7 +83,7 @@ namespace tbfApp
             });
         }
 
-        public static async Task<bool> Communicate(String protocolMessage, ContentPage page)
+        public static async Task<bool> Communicate(String protocolMessage, Page page)
         {
             try
             {
@@ -139,9 +138,7 @@ namespace tbfApp
                         //reload Site TODO
                         await App.Communicate(protocolMessage, page);
                     }
-                    //throw;
                 }
-                //throw ;
             }
             return false;
         }
