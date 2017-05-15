@@ -27,6 +27,19 @@ namespace tbfApp
                 //await DisplayAlert("Eingabefehler", "Eingaben nicht vollständig!", "OK");
                 messageLabel.Text = "Eingaben nicht vollständig!";
             }
+            else if (usernameEntry.Text.Length < 3)
+            {
+                //await DisplayAlert("Eingabefehler", "Passwörter nicht identisch!", "OK");
+                messageLabel.Text = "Benutzername muss mindestens drei Zeichen enthalten!";
+                usernameEntry.Text = string.Empty;
+            }
+            else if (passwordEntry.Text.Length < 3)
+            {
+                //await DisplayAlert("Eingabefehler", "Passwörter nicht identisch!", "OK");
+                messageLabel.Text = "Passwort muss mindestens drei Zeichen enthalten!";
+                passwordEntry.Text = string.Empty;
+                passwordEntry2.Text = string.Empty;
+            }
             else if (!passwordEntry.Text.Equals(passwordEntry2.Text))
             {
                 //await DisplayAlert("Eingabefehler", "Passwörter nicht identisch!", "OK");
