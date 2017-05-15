@@ -18,7 +18,6 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using tbfContentManager.Classes;
 using WhiteCode.Network;
-//using tbfContentManager.Classes;
 
 namespace tbfContentManager
 {
@@ -28,8 +27,9 @@ namespace tbfContentManager
         string sUserName;
         int iUserId;
         string sTrennzeichen = ";";
+        DataTable table;
 
-       
+
 
         public MainContentWindow(ref simpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
@@ -44,18 +44,19 @@ namespace tbfContentManager
             TCPClient.changeProtocolFunction(Server_response);
             lblWelcomeMessage.Content = "Willkommen " + sUserName;
 
-           DataTable exampleTable = new DataTable();
-            exampleTable.Columns.Add("Workout");
-            exampleTable.Columns.Add("Raum");
-            exampleTable.AcceptChanges();
-            exampleTable.Rows.Add("Bauchmuskeln", "asdfasdf");
-            exampleTable.Rows.Add("Testworkout", "Raume1");
+            table = new DataTable();
+            table.Columns.Add("Workout");
+            table.Columns.Add("Raum");
+            table.AcceptChanges();
+            table.Rows.Add("Bauchmuskeln", "asdfasdf");
+            table.Rows.Add("Testworkout", "Raume1");
             //exampleTable.Rows.Add("a2", "b2");
-            exampleTable.AcceptChanges();
+            table.AcceptChanges();
 
-            LoadTable_Workout(exampleTable);
+            LoadTable_Workout(table);
         }
-        [STAThread]
+
+        //[STAThread]
         private void Server_response(string message)
         {
 
@@ -69,94 +70,15 @@ namespace tbfContentManager
             switch (prot)
             {
                 case "#202":
-
-                    DataTable roomTable = new DataTable();
-                    roomTable.Columns.Add("Räume");
-
-                    for (int i = 2; i < messageList.Count - 2; i++)
-                    {
-                        List<string> roomData = new List<string>();
-                        roomData = messageList.ElementAt(i).Split('|').ToList();
-
-                        roomTable.Rows.Add(roomData.ElementAt(1));
-                    }
-
-                    roomTable.AcceptChanges();
-                    MessageBox.Show("Server antwort: " + message);
-                    //Wird crashen, Server_Response ein thread ist, und man nicht in einem Thread auf Objekte in einem anderen Thread
-                    //(ausser variablen) zugreifen kann. Ein beispiel wie das gemacht werden muss findest du in MainWindow.xaml.cs -> startMainWindow 
-                    //Hier werden Dispatcher genommen, damit man die Objekte aus dem Main thread bearbeiten kann!
-                    /*
-                    ParameterizedThreadStart pts = new ParameterizedThreadStart(this.LoadTable_Room);
-                    Thread thread = new Thread(pts);
-                    thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-                    thread.Start(roomTable);
-                    */
-                    LoadTable_Room(roomTable);
-                   
-                    /*
-                    //MessageBox.Show(message);
-                    //Tel_202_Room_Data(tmp, lServerData);
-
-                    //string counter = message.Split(';')[1];
-
-                    int counter = tmp.Count() - 1;
-                    List<List<string>> lServerData = new List<List<string>>();
-
-                    //string[] room_names = new string[Convert.ToInt32(counter)];
-
-                    string[] room_names = new string[counter-1];
-                    //List<string> room_names = new List<string>();
-
-                    //for (int i = 2; i <= Convert.ToInt32(counter); i++)
-
-                    for (int i = 2; i <= counter; i++)
-                    {
-                        lServerData.Add(tmp[i].Split('|').ToList());
-                    }
-                    for (int j = 0; j < (lServerData.Count); j++)
-                    {
-                        int room_ID = Convert.ToInt32(lServerData[j][0]);
-                        room_names[j] = lServerData[j][1];
-                        MessageBox.Show(room_names[j]);
-                        //_listView_room.Items.Add(new RoomItem { Raeume = room_names[j] });
-                        //string room_description = lServerData[j][2];
-                        //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
-                        //string room_icon_url = lServerData[j][4];
-                    }
-                    //string[] data = { "hallo", "avelina", "alles", "super" };
-                    //foreach (string t in data)
-                    //{
-                    //    myListBox.Items.Add(t);
-                    //    //myListView.Items.Add(t);
-                    //}
-                    //foreach (string t in room_names)
-                    //{
-                    //    myListBox.Items.Add(t);
-                    //    myListView.Items.Add(t);
-                    //}
-                    //for (int k = 0; k < room_names.Length; k++)
-                    //{
-                    //    //_listView_room.Items.Add(new RoomItem { Raeume = room_names[k] });
-                    //}
-
-                    _listView_room.ItemsSource = room_names;
-                    DataTable exampleTable = new DataTable();
-                    exampleTable.Columns.Add("Räume");
-                    exampleTable.AcceptChanges();
-                    for (int d = 0; d < (room_names.Length); d++)
-                    {
-                        //create_RoomList_item(room_names[d]);
-                        exampleTable.Rows.Add(room_names[d]);
-                        exampleTable.AcceptChanges();
-                    }
-                    exampleTable.AcceptChanges();
-                    LoadTable_Room(exampleTable);
-                    */
+                    RoomManager roomManager = new RoomManager();
+                    roomManager.mainContentWindow = this;
+                    roomManager.GetAllRoomInformation(message, messageList);
                     break;
+
                 case "#204":
                     RoomManager.AddRoomReceive(messageList);
                     break;
+
                 default:
                     MessageBox.Show("Server Kommunikationsproblem!");
                     break;
@@ -170,41 +92,10 @@ namespace tbfContentManager
             newLogin.Show();
         }
 
-        //private void Tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData)
-        //{
-        //    for (int i = 2; i < (Convert.ToInt32(tmp[1]) + 2); i++)
-        //    {
-        //        lServerData.Add(tmp[i].Split('|').ToList());
-        //    }
-        //    for (int j = 0; j < lServerData.Count; j++)
-        //    {
-        //        for (int i = 0; i < lServerData[j].Count; i++)
-        //        {
-        //            int room_ID = Convert.ToInt32(lServerData[j][i]);
-        //        }
-        //    }
-        //}
-
-
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
-        //private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    //RoomManger Room laden
-        //    TCPClient.changeProtocolFunction(Server_response);
-        //    TCPClient.sendMessage("#201", true);
-
-        //    var gridView = new GridView();
-        //    gridView.Columns.Add(new GridViewColumn
-        //    {
-        //        Header = "Name",
-        //        DisplayMemberBinding = new Binding("Name")
-        //    });
-        //}
-
 
         private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
@@ -213,7 +104,7 @@ namespace tbfContentManager
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            //RoomManager.AddRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,(bool) b_isPrivate_room.IsChecked, txt_name_room.Text);
+            RoomManager.AddRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -247,12 +138,15 @@ namespace tbfContentManager
 
         private void LoadTable_Workout(DataTable dt)
         {
-            _listView.DataContext = dt;
+            //_listView.DataContext = dt;
+            _listView.Dispatcher.BeginInvoke((Action)(() => _listView.DataContext = dt));
 
-            _gridView.Columns.Clear();
+            //_gridView.Columns.Clear();
+            _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Clear()));
 
             Binding bind = new Binding();
-            _listView.SetBinding(ListView.ItemsSourceProperty, bind);
+            //_listView.SetBinding(ListView.ItemsSourceProperty, bind);
+            _listView.Dispatcher.BeginInvoke((Action)(() => _listView.SetBinding(ListView.ItemsSourceProperty, bind)));
 
             foreach (var colum in dt.Columns)
             {
@@ -261,7 +155,7 @@ namespace tbfContentManager
                 column.DisplayMemberBinding = new Binding(dc.ColumnName);
              
                 column.Header = dc.ColumnName;
-                _gridView.Columns.Add(column);
+                _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Add(column)));
             }
         }
 
@@ -270,44 +164,7 @@ namespace tbfContentManager
             //RoomManger Room laden
             TCPClient.sendMessage("#201", true);
         }
-
-        //[STAThread]
-        private void LoadTable_Room(DataTable dt)
-        {
-            //DataTable dt = (DataTable)odt;
-            //Invokes nutzen um in der Serverantwort mit benutzeroberfläche zu arbeiten @Avelina! 
-            // Ein Beispiel findest du in der StartMainWindow funktion auf Mainwindow.xaml.cs
-            
-            //_listView_room.DataContext = dt;
-            _listView_room.Dispatcher.BeginInvoke((Action) (() => _listView_room.DataContext = dt));
-
-            //_gridView_room.Columns.Clear();
-            _gridView_room.Dispatcher.BeginInvoke((Action)(() => _gridView_room.Columns.Clear()));
-
-            Binding bind = new Binding();
-            //_listView_room.SetBinding(ListView.ItemsSourceProperty, bind);
-            _listView_room.Dispatcher.BeginInvoke((Action)(() => _listView_room.SetBinding(ListView.ItemsSourceProperty, bind)));
-            GridViewColumn column = new GridViewColumn();
-
-            foreach (var colum in dt.Columns)
-            {
-                DataColumn dc = (DataColumn)colum;
-                column.DisplayMemberBinding = new Binding(dc.ColumnName);
-
-                column.Header = dc.ColumnName;
-                //_gridView_room.Columns.Add(column); 
-                /*
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                {
-                    _gridView_room.Columns.Add(column);
-                    // Do all UI related work here...
-                }));
-                */
-                _gridView_room.Dispatcher.BeginInvoke(new Action(() => _gridView_room.Columns.Add(column)));
-                //_gridView_room.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(()=> _gridView_room.Columns.Add(column)),_gridView_room);
-            }
-        }
-        /*
+        
         private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
         {
             //RoomManger Room laden
@@ -316,6 +173,6 @@ namespace tbfContentManager
 
             //RoomManager.GetAllRoomSend(ref TCPClient);
         }
-        */
+        
     }
 }
