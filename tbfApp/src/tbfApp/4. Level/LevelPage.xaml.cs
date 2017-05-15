@@ -39,14 +39,23 @@ namespace tbfApp
             stack.Padding = new Thickness(0,5,0,5);
             scroll.Content = stack;
 
-            ServerRequest();
-            /*
-            stack.Children.Add(new LevelButton("Level 1", Navigation, this, "Das erste Level ist für Ein- und Wiedereinsteiger geeignet.", "LevelID HERE ToDo", "stern1.png"));
-            stack.Children.Add(new LevelButton("Level 2", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne2.png"));
-            stack.Children.Add(new LevelButton("Level 3", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne3.png"));
-            stack.Children.Add(new LevelButton("Level 4", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne4.png"));
-            stack.Children.Add(new LevelButton("Level 5", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne5.png"));
-            */
+            if (workoutID.Equals("XXX"))
+            {
+
+                stack.Children.Add(new LevelButton("Level 1", Navigation, this,
+                    "Das erste Level ist für Ein- und Wiedereinsteiger geeignet.", "XXX", "stern1.png"));
+                /*
+                stack.Children.Add(new LevelButton("Level 2", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne2.png"));
+                stack.Children.Add(new LevelButton("Level 3", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne3.png"));
+                stack.Children.Add(new LevelButton("Level 4", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne4.png"));
+                stack.Children.Add(new LevelButton("Level 5", Navigation, this, "Level description HERE", "LevelID HERE ToDo", "sterne5.png"));
+                */
+                activityIndicatorSwitch();
+            }
+            else
+            {
+                ServerRequest();
+            }
         }
 
         async void ServerRequest()
@@ -63,7 +72,7 @@ namespace tbfApp
             List<string> levelList = new List<string>();
             levelList = protocol.Split(new char[] { ';' }).ToList();
 
-            if (levelList.ElementAt(0).Equals("#208"))
+            if (levelList.ElementAt(0).Equals("#208"))       //outerList protocolNumber
             {
                 int levelAmount;
                 levelAmount = levelList.Count - 1;
@@ -79,19 +88,19 @@ namespace tbfApp
                         switch (levelDataList.ElementAt(1))
                         {
                             case "1":
-                                stack.Children.Add(new LevelButton("Level 1", Navigation, this, "Das erste Level ist für Ein- und Wiedereinsteiger geeignet.", levelDataList.ElementAt(0), "stern1.png"));
+                                stack.Children.Add(new LevelButton("Level 1", Navigation, this, levelDataList.ElementAt(2), levelDataList.ElementAt(0), "stern1.png"));
                                 break;
                             case "2":
-                                stack.Children.Add(new LevelButton("Level 2", Navigation, this, "Level description HERE", levelDataList.ElementAt(0), "sterne2.png"));
+                                stack.Children.Add(new LevelButton("Level 2", Navigation, this, levelDataList.ElementAt(2), levelDataList.ElementAt(0), "sterne2.png"));
                                 break;
                             case "3":
-                                stack.Children.Add(new LevelButton("Level 3", Navigation, this, "Level description HERE", levelDataList.ElementAt(0), "sterne3.png"));
+                                stack.Children.Add(new LevelButton("Level 3", Navigation, this, levelDataList.ElementAt(2), levelDataList.ElementAt(0), "sterne3.png"));
                                 break;
                             case "4":
-                                stack.Children.Add(new LevelButton("Level 4", Navigation, this, "Level description HERE", levelDataList.ElementAt(0), "sterne4.png"));
+                                stack.Children.Add(new LevelButton("Level 4", Navigation, this, levelDataList.ElementAt(2), levelDataList.ElementAt(0), "sterne4.png"));
                                 break;
                             case "5":
-                                stack.Children.Add(new LevelButton("Level 5", Navigation, this, "Level description HERE", levelDataList.ElementAt(0), "sterne5.png"));
+                                stack.Children.Add(new LevelButton("Level 5", Navigation, this, levelDataList.ElementAt(2), levelDataList.ElementAt(0), "sterne5.png"));
                                 break;
                             default:
                                 await DisplayAlert("Fehler", "Kommunikationsproblem, Undefinierte Antwort vom Server! " + levelList.ElementAt(0), "OK");

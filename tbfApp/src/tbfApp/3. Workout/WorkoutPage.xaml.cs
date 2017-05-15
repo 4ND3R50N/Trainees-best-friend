@@ -38,9 +38,15 @@ namespace tbfApp
             stack = new StackLayout();
             scroll.Content = stack;
 
-            ServerRequest();
-
-            stack.Children.Add(new WorkoutButton("Every Morning", Navigation, this, "Das Workout für jeden guten Start in den Tag", "workoutID HERE ToDo", "buttonBackground700x100.png"));
+            if (roomID.Equals("XXX"))
+            {
+                stack.Children.Add(new WorkoutButton("Every Morning", Navigation, this, "Das Workout für jeden guten Start in den Tag", "XXX", "buttonBackground700x100.png"));
+                activityIndicatorSwitch();
+            }
+            else
+            {
+                ServerRequest();
+            }
         }
 
         async void ServerRequest()
@@ -57,7 +63,7 @@ namespace tbfApp
             List<string> workoutList = new List<string>();
             workoutList = protocol.Split(new char[] { ';' }).ToList();
 
-            if (workoutList.ElementAt(0).Equals("#206"))
+            if (workoutList.ElementAt(0).Equals("#206"))       //outerList protocolNumber
             {
                 int workoutAmount;
                 int.TryParse(workoutList.ElementAt(1), out workoutAmount);      //outerList Element 1 Amount

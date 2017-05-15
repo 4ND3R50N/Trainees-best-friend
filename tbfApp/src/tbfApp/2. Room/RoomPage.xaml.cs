@@ -51,7 +51,7 @@ namespace tbfApp
 
             ServerRequest();
 
-            stack.Children.Add(new RoomButton("TSG Fitness", Navigation, this, "Der virtuelle Fitnessraum für die Profis der TSG.", "999", "https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"));
+            stack.Children.Add(new RoomButton("TSG Fitness", Navigation, this, "Der virtuelle Fitnessraum für die Profis der TSG.", "XXX", "https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"));
             //stack.Children.Add(new RoomButton("Raum 2", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
             //stack.Children.Add(new RoomButton("Raum 3", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
             //stack.Children.Add(new RoomButton("Raum 4", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
@@ -63,7 +63,7 @@ namespace tbfApp
         {
             //Login Request
             App.endpointConnection.SetProtocolFunction(this.ServerAnswer);
-            await App.Communicate("#201;", this);
+            await App.Communicate("#211;" + App.GetUserID(), this);
         }
 
         async private void ServerAnswer(string protocol)
@@ -73,7 +73,7 @@ namespace tbfApp
             List<string> roomList = new List<string>();
             roomList = protocol.Split(new char[] { ';' }).ToList();
 
-            if (roomList.ElementAt(0).Equals("#202"))
+            if (roomList.ElementAt(0).Equals("#212"))       //outerList protocolNumber
             {
                 int roomAmount;
                 int.TryParse(roomList.ElementAt(1), out roomAmount);        //outerList Element 1 Amount
