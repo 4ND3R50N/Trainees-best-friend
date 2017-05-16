@@ -139,7 +139,7 @@
                                     </Grid>
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top">
-                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10" Visibility="Hidden">
+                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10" Visibility="Visible">
                                         <Grid VerticalAlignment="Top" Height="604">
                                             <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
                                             <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>

@@ -6,9 +6,6 @@ using System.Threading;
 using System.Windows;
 using WhiteCode.Network;
 
-
-
-
 namespace tbfContentManager.Classes
 {
     class LoginManager
@@ -45,7 +42,6 @@ namespace tbfContentManager.Classes
             //MainContentWindow w = new MainContentWindow(ref TCPClient, "test", 0);
             //w.Show();
             //return;
-
 
             if (mainWindow.txtPassword.Password.Length > 3 && mainWindow.txtUser.Text.Length > 3)
             {

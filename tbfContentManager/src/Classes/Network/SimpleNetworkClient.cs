@@ -6,6 +6,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows;
+using System.Threading;
 
 //Global network handling class written by Anderson
 //Unneccessary usings for global usement: Protes....
@@ -88,21 +90,17 @@ namespace WhiteCode.Network
         }
         public bool sendMessage(string message, bool enableEncryption)
         {
-            byte[] bytes;
+            Thread tSend = new Thread(() => {
+                byte[] bytes;
 
-            reloadConnection();
-            if (enableEncryption) { bytes = Encoding.UTF8.GetBytes(message); }
-            else { bytes = Encoding.UTF8.GetBytes(message); }
-           
-            try
-            {
+                reloadConnection();
+                if (enableEncryption) { bytes = Encoding.UTF8.GetBytes(message); }
+                else { bytes = Encoding.UTF8.GetBytes(message); }
                 endpoint.getSocket().Send(bytes, bytes.Length, SocketFlags.None);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;            
+               
+            });
+            tSend.Start();
+            return true;
         }
 
         private void receiveCallback(IAsyncResult result)
@@ -125,6 +123,7 @@ namespace WhiteCode.Network
                 }
                 catch (Exception e)
                 {
+                    //MessageBox.Show(e.ToString());
                     return;
                 }
             }

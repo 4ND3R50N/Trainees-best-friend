@@ -23,26 +23,26 @@ namespace tbfContentManager
 {
     public partial class MainContentWindow
     {
-        simpleNetwork_Client TCPClient;
         string sUserName;
         int iUserId;
         string sTrennzeichen = ";";
         DataTable table;
 
-
+        RoomManager roomManager;
 
         public MainContentWindow(ref simpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
-
-            this.TCPClient = TCPClient;
+            
             this.sUserName = sUserName;
             this.iUserId = iUserID;
             //CHangeprotocolfunction in den konstruktor verschoben, da dieser einmalig für den formwechsel gemacht werden muss
             //Es wäre natürlich ordentlicher, wenn du für jeden TAB eine Server_response funktion erstellen würdest. 
             //IN dem fall müsstest du jedesmal wenn man den tab wechselt, die changeProtocolFunction() erneut ausführen :)
-            TCPClient.changeProtocolFunction(Server_response);
-            lblWelcomeMessage.Content = "Willkommen " + sUserName;
+
+            roomManager = new RoomManager(ref TCPClient, this);
+
+            lblWelcomeMessage.Content = "Willkommen " + sUserName + " Userid " + iUserId;
 
             table = new DataTable();
             table.Columns.Add("Workout");
@@ -56,6 +56,7 @@ namespace tbfContentManager
             LoadTable_Workout(table);
         }
 
+        
         //[STAThread]
         private void Server_response(string message)
         {
@@ -70,13 +71,11 @@ namespace tbfContentManager
             switch (prot)
             {
                 case "#202":
-                    RoomManager roomManager = new RoomManager();
-                    roomManager.mainContentWindow = this;
                     roomManager.GetAllRoomInformation(message, messageList);
                     break;
 
                 case "#204":
-                    RoomManager.AddRoomReceive(messageList);
+                    roomManager.AddRoomReceive(messageList);
                     break;
 
                 default:
@@ -104,7 +103,8 @@ namespace tbfContentManager
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            RoomManager.AddRoomSend(ref TCPClient, iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, 
+                txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -161,16 +161,11 @@ namespace tbfContentManager
 
         private void tiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //RoomManger Room laden
-            TCPClient.sendMessage("#201", true);
+            roomManager.GetAllRoomSend();
         }
         
         private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
         {
-            //RoomManger Room laden
-            TCPClient.changeProtocolFunction(Server_response);
-            TCPClient.sendMessage("#201", true);
-
             //RoomManager.GetAllRoomSend(ref TCPClient);
         }
         

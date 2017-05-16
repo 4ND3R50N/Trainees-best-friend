@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,9 +16,41 @@ namespace tbfContentManager.Classes
 {
     public class RoomManager
     {
-        public MainContentWindow mainContentWindow;
+        simpleNetwork_Client TCPClient;
+        MainContentWindow mainContentWindow;
+
+        public RoomManager(ref simpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
+        {
+            this.TCPClient = TCPClient;
+            this.TCPClient.changeProtocolFunction(server_response_roomManager);
+            this.mainContentWindow = mainContentWindow;
+        }
         
-        public static bool AddRoomSend(ref simpleNetwork_Client TCPClient, int iUserId, string sTrennzeichen, string sBeschreibung,
+        private void server_response_roomManager(string message)
+        {
+            List<string> messageList = new List<string>();
+
+            messageList = message.Split(';').ToList();
+            string prot = message.Split(';')[0];
+            //MessageBox.Show(message);
+
+            switch (prot)
+            {
+                case "#202":
+                    GetAllRoomInformation(message, messageList);
+                    break;
+
+                case "#204":
+                    AddRoomReceive(messageList);
+                    break;
+
+                default:
+                    MessageBox.Show("Server Kommunikationsproblem!");
+                    break;
+            }
+        }
+
+        public bool AddRoomSend(int iUserId, string sTrennzeichen, string sBeschreibung,
             string sPicURL, bool isPrivate, string sRoomName)
         {
             int i_isPrivate_room = 0;
@@ -35,25 +70,23 @@ namespace tbfContentManager.Classes
                 //MessageBox.Show("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen);
                 TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + sRoomName + sTrennzeichen
                     + sBeschreibung + sTrennzeichen + i_isPrivate_room + sTrennzeichen + sPicURL + sTrennzeichen, true);
-                GetAllRoomSend(ref TCPClient);
-
                 return true;
             }
             return false;
         }
 
-        public static void AddRoomReceive(List<string> tmp)
+        public void AddRoomReceive(List<string> messageServer)
         {
-            if (tmp[1] == "1")
+            if (messageServer[1] == "1")
             {
                 MessageBox.Show("Der Raum wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                //GetAllRoomSend(ref TCPClient);
+                GetAllRoomSend();
             }
-            else if (tmp[1] == "2")
+            else if (messageServer[1] == "2")
             {
                 MessageBox.Show("Der Raumname existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            else if (tmp[1] == "3")
+            else if (messageServer[1] == "3")
             {
                 MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -62,8 +95,9 @@ namespace tbfContentManager.Classes
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
-        public static void GetAllRoomSend(ref simpleNetwork_Client TCPClient) {
+
+        public void GetAllRoomSend()
+        {
             TCPClient.sendMessage("#201", true);
         }
 
@@ -82,7 +116,6 @@ namespace tbfContentManager.Classes
             }
 
             roomTable.AcceptChanges();
-            //MessageBox.Show("Server antwort: " + message);
             LoadTable_Room(roomTable);
         }
 

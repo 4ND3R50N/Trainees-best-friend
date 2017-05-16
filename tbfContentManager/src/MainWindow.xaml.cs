@@ -32,6 +32,7 @@ namespace tbfContentManager
         public string sUserBuffer = "";
         int Bufferlength = 8000;
         string IpAdress = "62.138.6.50";
+        public string sTrennzeichen = ";";
 
         public MainWindow()
         {
@@ -51,6 +52,10 @@ namespace tbfContentManager
                 case "#103":
                     LoginManager.LoginReceive(lServerData, this);
                     break;
+                case "#105":
+                    SignupManager.SignUp_Receive(lServerData, this);                    
+                    break;
+
                 default :
                     break;
             }
@@ -85,13 +90,14 @@ namespace tbfContentManager
 
         private void btn_SignUp_SignUp_Click(object sender, RoutedEventArgs e)
         {
-            if (txt_Password_SignUp.Password.Length > 3 && txt_Password_SignUp.Password.Length > 3)
+            SignupManager.SignUp_Btn_Click(ref TCPClient, this);         
+        }
+
+        private void btn_SignUp_SignUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                if (txt_Password_SignUp.Password == txt_Password_Repeat_SignUp.Password) {
-                }
-            }
-            if (txt_UserName_SignUp.Text.Length > 3)
-            {
+                BtnLogin_Click(null, null);
             }
         }
     }
