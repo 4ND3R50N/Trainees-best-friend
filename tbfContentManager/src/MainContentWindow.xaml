@@ -115,11 +115,9 @@
                             <Grid VerticalAlignment="Top" Height="640">
                                 <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
                                     <Grid>
-                                        <ListView x:Name="_listView_room" ItemsSource="{Binding}" >
-                                            <!-- SelectionChanged="_listView_room_SelectionChanged"-->
+                                        <ListView x:Name="_listView_room" ItemsSource="{Binding}" >                                           
                                             <ListView.View >
-                                                <GridView x:Name="_gridView_room"/>
-                                                <!--Mouse.MouseDown="_gridView_room_MouseDown"-->
+                                                <GridView x:Name="_gridView_room"/>                                               
                                             </ListView.View>
                                         </ListView>                                       
                                     </Grid>

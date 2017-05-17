@@ -10,6 +10,20 @@ namespace tbfContentManager.Classes
 {
     class LoginManager
     {
+        //readonly MainContentWindow mainContentWindow;
+        //readonly SimpleNetwork_Client TCPClient;
+
+        //public LoginManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
+        //{
+        //    this.TCPClient = TCPClient;
+        //    this.TCPClient.changeProtocolFunction(Server_response_loginManager);
+        //    this.mainContentWindow = mainContentWindow;
+        //}
+
+        //private void Server_response_loginManager(string message)
+        //{
+        //    MessageBox.Show(message);
+        //}
 
         public static void LoginReceive(List<string> lServerData, MainWindow mainWindow) {
             if (lServerData[1] == "1")

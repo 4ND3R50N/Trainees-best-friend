@@ -42,7 +42,7 @@ namespace tbfContentManager
 
             roomManager = new RoomManager(ref TCPClient, this);
 
-            lblWelcomeMessage.Content = "Willkommen " + sUserName + " Userid " + iUserId;
+            lblWelcomeMessage.Content = "Willkommen " + sUserName;
 
             table = new DataTable();
             table.Columns.Add("Workout");
@@ -70,7 +70,7 @@ namespace tbfContentManager
 
         private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.addRoomClick();
+            roomManager.AddRoomClick();
         }
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
@@ -85,8 +85,15 @@ namespace tbfContentManager
 
             // Set filter for file extension and default file extension
             dlg.DefaultExt = ".txt";
-            //dlg.Filter = "Text documents (.txt)|*.txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
 
+            //spater fuer video
+            /*
+             dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             */
+             
             // Display OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = dlg.ShowDialog();
 
@@ -101,7 +108,7 @@ namespace tbfContentManager
 
         private void Btn_cancel_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.clearAllTxtFields();
+            roomManager.ClearAllTxtFields();
         }
 
         private void LoadTable_Workout(DataTable dt)

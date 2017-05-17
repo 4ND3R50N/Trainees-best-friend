@@ -20,7 +20,7 @@ namespace tbfContentManager.Classes
         readonly MainContentWindow mainContentWindow;
         DataTable roomTable = new DataTable();
         List<string> roomData = new List<string>();
-        Dictionary<string, List<string>> roomInformation;
+        readonly Dictionary<string, List<string>> roomInformation;
 
         public RoomManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
         {
@@ -109,6 +109,7 @@ namespace tbfContentManager.Classes
             roomTable = new DataTable();
             roomTable.Columns.Add("Key");
             roomTable.Columns.Add("Räume");
+            //roomTable.Columns.Add("Löschen");
 
             for (int i = 2; i < messageList.Count; i++)
             {
@@ -124,13 +125,13 @@ namespace tbfContentManager.Classes
         }
 
         private void LoadTable_Room(DataTable dt)
-        {            
+        {
             mainContentWindow._listView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._listView_room.DataContext = dt));
             mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._gridView_room.Columns.Clear()));
 
             Binding bind = new Binding();
             mainContentWindow._listView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._listView_room.SetBinding(ListView.ItemsSourceProperty, bind)));
-            //mainContentWindow._listView_room.MouseLeftButtonDown += _listView_room_MouseLeftButtonDown;
+
             int n = 0;
             foreach (var colum in dt.Columns)
             {
@@ -139,7 +140,8 @@ namespace tbfContentManager.Classes
                     n++;
                     continue;
                 }
-                mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() => {
+                mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() =>
+                {
                     DataColumn dc = (DataColumn)colum;
                     GridViewColumn column = new GridViewColumn();
                     column.DisplayMemberBinding = new Binding(dc.ColumnName);
@@ -148,6 +150,8 @@ namespace tbfContentManager.Classes
                     mainContentWindow._listView_room.SelectionChanged += _listView_room_SelectionChanged;
                     mainContentWindow._gridView_room.Columns.Add(column);
                 }));
+
+                
             }
         }
 
@@ -155,26 +159,26 @@ namespace tbfContentManager.Classes
         {          
             DataRowView row = (DataRowView)e.AddedItems[0];
             string key = row.Row["Key"] as string;
-            List<string> roomData = new List<string>();
+            List<string> roomDataInformation = new List<string>();
 
-            roomInformation.TryGetValue(key, out roomData);
+            roomInformation.TryGetValue(key, out roomDataInformation);
 
             bool isPrivate = false;
-            if (roomData[3] == "1")
+            if (roomDataInformation[3] == "1")
             {
                 isPrivate = true;
-            }                 
+            }
 
-            mainContentWindow.gb_roomInfos.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible));
-            mainContentWindow.btn_saveRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden));
-            mainContentWindow.btn_saveChangeRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible));          
+            mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
+            mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden;
+            mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible;
 
-            mainContentWindow.txt_name_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.txt_name_room.Text = roomData[1]));
-            mainContentWindow.txt_beschreibung_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.txt_beschreibung_room.Text = roomData[2]));          
-            mainContentWindow.b_isPrivate_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.b_isPrivate_room.IsChecked = isPrivate));
+            mainContentWindow.txt_name_room.Text = roomDataInformation[1];
+            mainContentWindow.txt_beschreibung_room.Text = roomDataInformation[2];
+            mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
         }
 
-        public void clearAllTxtFields()
+        public void ClearAllTxtFields()
         {
             mainContentWindow.txt_name_room.Text = "";
             mainContentWindow.txt_beschreibung_room.Text = "";
@@ -182,11 +186,11 @@ namespace tbfContentManager.Classes
             mainContentWindow.txt_url_pic_room.Text = "";
         }
 
-        public void addRoomClick() {
-            gb_roomInfos.Visibility = Visibility;
-            btn_saveRoom.Visibility = Visibility;
-            btn_saveChangeRoom.Visibility = Visibility.Hidden;
-            clearAllTxtFields();
+        public void AddRoomClick() {
+            mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
+            mainContentWindow.btn_saveRoom.Visibility = Visibility.Visible;
+            mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Hidden;
+            ClearAllTxtFields();
         }
     }
 }
