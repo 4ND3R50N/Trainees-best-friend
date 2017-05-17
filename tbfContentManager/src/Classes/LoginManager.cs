@@ -15,7 +15,7 @@ namespace tbfContentManager.Classes
             if (lServerData[1] == "1")
             {
                 mainWindow.txtUser.Dispatcher.BeginInvoke((Action)(() => mainWindow.sUserBuffer = mainWindow.txtUser.Text));
-                ParameterizedThreadStart pts = new ParameterizedThreadStart(mainWindow.startMainWindow);
+                ParameterizedThreadStart pts = new ParameterizedThreadStart(mainWindow.StartMainWindow);
                 Thread thread = new Thread(pts);
                 thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
                 thread.Start(lServerData[2]);
@@ -34,7 +34,7 @@ namespace tbfContentManager.Classes
         }
 
 
-        public static void Click_LogIn(ref simpleNetwork_Client TCPClient, MainWindow mainWindow)
+        public static void Click_LogIn(ref SimpleNetwork_Client TCPClient, MainWindow mainWindow)
         {
             mainWindow.btnLogin.IsEnabled = false;
 

@@ -30,7 +30,7 @@ namespace tbfContentManager
 
         RoomManager roomManager;
 
-        public MainContentWindow(ref simpleNetwork_Client TCPClient, string sUserName, int iUserID)
+        public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
             
@@ -57,12 +57,6 @@ namespace tbfContentManager
         }
 
         
-        //[STAThread]
-        private void Server_response(string message)
-        {
-
-        }
-
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             Hide();
@@ -116,15 +110,13 @@ namespace tbfContentManager
         }
 
         private void LoadTable_Workout(DataTable dt)
-        {
-            //_listView.DataContext = dt;
+        {            
             _listView.Dispatcher.BeginInvoke((Action)(() => _listView.DataContext = dt));
-
-            //_gridView.Columns.Clear();
+                       
             _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Clear()));
 
             Binding bind = new Binding();
-            //_listView.SetBinding(ListView.ItemsSourceProperty, bind);
+            
             _listView.Dispatcher.BeginInvoke((Action)(() => _listView.SetBinding(ListView.ItemsSourceProperty, bind)));
 
             foreach (var colum in dt.Columns)
@@ -138,12 +130,12 @@ namespace tbfContentManager
             }
         }
 
-        private void tiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             roomManager.GetAllRoomSend();
         }
         
-        private void tiRoomManager_Loaded(object sender, RoutedEventArgs e)
+        private void TiRoomManager_Loaded(object sender, RoutedEventArgs e)
         {
             //RoomManager.GetAllRoomSend(ref TCPClient);
         }

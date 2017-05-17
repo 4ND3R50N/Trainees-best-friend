@@ -26,10 +26,10 @@ namespace tbfContentManager
     /// </summary>
     public partial class MainWindow
     {
-        simpleNetwork_Client TCPClient;
+        SimpleNetwork_Client TCPClient;
         MainContentWindow mainContentWindow = null;
         //Buffer of txt boxes
-        public string sUserBuffer = "";
+        public string sUserBuffer = "8000";
         int Bufferlength = 8000;
         string IpAdress = "62.138.6.50";
         public string sTrennzeichen = ";";
@@ -38,7 +38,7 @@ namespace tbfContentManager
         {
             InitializeComponent();
            
-            TCPClient = new simpleNetwork_Client(Server_response, Bufferlength, "", IPAddress.Parse(IpAdress),
+            TCPClient = new SimpleNetwork_Client(Server_response, Bufferlength, "", IPAddress.Parse(IpAdress),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
@@ -66,7 +66,7 @@ namespace tbfContentManager
             LoginManager.Click_LogIn(ref TCPClient, this);
         }
 
-        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -80,7 +80,7 @@ namespace tbfContentManager
         }
 
         [STAThread]
-        public void startMainWindow(object sUserID)
+        public void StartMainWindow(object sUserID)
         {
             int iUserID = Convert.ToInt32(sUserID);
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(ref TCPClient, sUserBuffer, iUserID)));
@@ -88,12 +88,12 @@ namespace tbfContentManager
             this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
         }
 
-        private void btn_SignUp_SignUp_Click(object sender, RoutedEventArgs e)
+        private void Btn_SignUp_SignUp_Click(object sender, RoutedEventArgs e)
         {
             SignupManager.SignUp_Btn_Click(ref TCPClient, this);         
         }
 
-        private void btn_SignUp_SignUp_KeyDown(object sender, KeyEventArgs e)
+        private void Btn_SignUp_SignUp_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

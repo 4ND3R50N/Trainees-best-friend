@@ -37,7 +37,7 @@ namespace tbfContentManager.Classes
             }
         }
 
-        public static void SignUp_Btn_Click(ref simpleNetwork_Client TCPClient, MainWindow mainWindow) {
+        public static void SignUp_Btn_Click(ref SimpleNetwork_Client TCPClient, MainWindow mainWindow) {
             if (mainWindow.txt_UserName_SignUp.Text == null || mainWindow.txt_Password_SignUp.Password == null ||
                 mainWindow.txt_Password_Repeat_SignUp.Password == null || mainWindow.txt_Email_SignUp.Text == null ||
                 mainWindow.txt_Forname_SignUp.Text == null || mainWindow.txt_Secondname_SignUp.Text == null)

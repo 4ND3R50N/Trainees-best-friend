@@ -13,9 +13,9 @@ namespace UnitTest
         
 
         [TestMethod]
-        public simpleNetwork_Client ConnectToTCP()
+        public SimpleNetwork_Client ConnectToTCP()
         {
-            simpleNetwork_Client TCPClient = new simpleNetwork_Client(null, 8000, "", IPAddress.Parse("62.138.6.50"),
+            SimpleNetwork_Client TCPClient = new SimpleNetwork_Client(null, 8000, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             if(TCPClient.connect())
             {
@@ -32,14 +32,14 @@ namespace UnitTest
 
 
        [TestMethod]
-        public void addRoomSend()
+        public void AddRoomSend()
         {
             bool bTest1 = false;
             bool bTest2 = false;
 
 
             //Arrange not necessary
-            simpleNetwork_Client TCPClient = ConnectToTCP();
+            SimpleNetwork_Client TCPClient = ConnectToTCP();
             MainContentWindow mainContentWindow = new MainContentWindow(ref TCPClient, "test", 1);
             RoomManager roomManager = new RoomManager(ref TCPClient, mainContentWindow);
             

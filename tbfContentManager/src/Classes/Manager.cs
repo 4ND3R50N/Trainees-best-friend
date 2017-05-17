@@ -10,7 +10,7 @@ namespace tbfContentManager.Classes
     abstract class Manager
     {
         abstract public int iUser_ID();
-        abstract public ref simpleNetwork_Client TCPClient();
+        abstract public ref SimpleNetwork_Client TCPClient();
         abstract public string sUser_name();
         abstract public List<string> sRoomData();
 

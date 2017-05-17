@@ -15,33 +15,33 @@ using System.Threading;
 
 namespace WhiteCode.Network
 {
-   public class simpleNetwork_Client
+   public class SimpleNetwork_Client
     {
         //Variables
         //--Public
         public bool endpointCommunicationIsDeclared = false;
         public delegate void protocolFunction(string prot);
-        private int iBufferLength;
+        //private int iBufferLength;
         //--Private
-        private string network_AKey;
+        private string Network_AKey;
         private socketEndpointCommunication endpoint;        
         private event protocolFunction protAnalyseFunction;
         private Object thisLock = new Object();
 
         //Constructor
-        public simpleNetwork_Client()
+        public SimpleNetwork_Client()
         {
 
         }
-        public simpleNetwork_Client(protocolFunction protAnalyseFunction, string network_AKey)
+        public SimpleNetwork_Client(protocolFunction protAnalyseFunction, string network_AKey)
         {
             this.protAnalyseFunction = protAnalyseFunction;
-            this.network_AKey = network_AKey;
+            this.Network_AKey = network_AKey;
         }
-        public simpleNetwork_Client(protocolFunction protAnalyseFunction, int iBufferlength,string network_AKey, IPAddress ip, short port,AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
+        public SimpleNetwork_Client(protocolFunction protAnalyseFunction, int iBufferlength,string network_AKey, IPAddress ip, short port,AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
             this.protAnalyseFunction = protAnalyseFunction;
-            this.network_AKey = network_AKey;
+            this.Network_AKey = network_AKey;
             endpoint = new socketEndpointCommunication(iBufferlength, ip, port, familyType, socketType, protocolType);
             endpointCommunicationIsDeclared = true;
            

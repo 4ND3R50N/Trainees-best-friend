@@ -16,23 +16,25 @@ namespace tbfContentManager.Classes
 {
     public class RoomManager
     {
-        simpleNetwork_Client TCPClient;
-        MainContentWindow mainContentWindow;
+        readonly SimpleNetwork_Client TCPClient;
+        readonly MainContentWindow mainContentWindow;
+        DataTable roomTable = new DataTable();
+        List<string> roomData = new List<string>();
 
-        public RoomManager(ref simpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
+        public RoomManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
         {
             this.TCPClient = TCPClient;
-            this.TCPClient.changeProtocolFunction(server_response_roomManager);
+            this.TCPClient.changeProtocolFunction(Server_response_roomManager);
             this.mainContentWindow = mainContentWindow;
         }
         
-        private void server_response_roomManager(string message)
+        private void Server_response_roomManager(string message)
         {
             List<string> messageList = new List<string>();
 
             messageList = message.Split(';').ToList();
             string prot = message.Split(';')[0];
-            //MessageBox.Show(message);
+            MessageBox.Show(message);
 
             switch (prot)
             {
@@ -67,7 +69,6 @@ namespace tbfContentManager.Classes
                 /*WICHTIG FUER SPAETER!
                     Bild muss vorher auf DB geschickt, der schickt dann URL zurueck, dass ist dann die txt_url_room 
                  */
-                //MessageBox.Show("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen);
                 TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + sRoomName + sTrennzeichen
                     + sBeschreibung + sTrennzeichen + i_isPrivate_room + sTrennzeichen + sPicURL + sTrennzeichen, true);
                 return true;
@@ -103,13 +104,12 @@ namespace tbfContentManager.Classes
 
         public void GetAllRoomInformation(string message, List<string> messageList)
         {
-            DataTable roomTable = new DataTable();
+            
             roomTable = new DataTable();
             roomTable.Columns.Add("Räume");
 
             for (int i = 2; i < messageList.Count; i++)
             {
-                List<string> roomData = new List<string>();
                 roomData = messageList.ElementAt(i).Split('|').ToList();
 
                 roomTable.Rows.Add(roomData.ElementAt(1));
