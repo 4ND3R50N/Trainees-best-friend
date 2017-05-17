@@ -33,7 +33,7 @@ namespace tbfContentManager
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
-            
+
             this.sUserName = sUserName;
             this.iUserId = iUserID;
             //CHangeprotocolfunction in den konstruktor verschoben, da dieser einmalig für den formwechsel gemacht werden muss
@@ -56,7 +56,6 @@ namespace tbfContentManager
             LoadTable_Workout(table);
         }
 
-        
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             Hide();
@@ -71,13 +70,12 @@ namespace tbfContentManager
 
         private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
-            gb_roomInfos.Visibility = Visibility;
+            roomManager.addRoomClick();
         }
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, 
-                txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -103,10 +101,7 @@ namespace tbfContentManager
 
         private void Btn_cancel_Click(object sender, RoutedEventArgs e)
         {
-            txt_name_room.Text = "";
-            txt_beschreibung_room.Text = "";
-            b_isPrivate_room.IsChecked = false;
-            txt_url_pic_room.Text = "";
+            roomManager.clearAllTxtFields();
         }
 
         private void LoadTable_Workout(DataTable dt)
@@ -133,11 +128,6 @@ namespace tbfContentManager
         private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             roomManager.GetAllRoomSend();
-        }
-        
-        private void TiRoomManager_Loaded(object sender, RoutedEventArgs e)
-        {
-            //RoomManager.GetAllRoomSend(ref TCPClient);
-        }
+        }                    
     }
 }

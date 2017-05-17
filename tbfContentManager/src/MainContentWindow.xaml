@@ -115,7 +115,8 @@
                             <Grid VerticalAlignment="Top" Height="640">
                                 <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
                                     <Grid>
-                                        <ListView x:Name="_listView_room" ItemsSource="{Binding}">
+                                        <ListView x:Name="_listView_room" ItemsSource="{Binding}" >
+                                            <!-- SelectionChanged="_listView_room_SelectionChanged"-->
                                             <ListView.View >
                                                 <GridView x:Name="_gridView_room"/>
                                                 <!--Mouse.MouseDown="_gridView_room_MouseDown"-->
@@ -162,6 +163,7 @@
                                 </Grid>
                                 <Button x:Name="btn_addRoom" Content="Raum hinzufügen" Margin="10,6,367.6,607" Click="Btn_addRoom_Click"/>
                                 <Button x:Name="btn_saveRoom" Content="Speichern" Margin="263,6,194.6,607" Click="Btn_saveRoom_Click"/>
+                                <Button x:Name="btn_saveChangeRoom" Content="Änderung Speichern" Margin="263,6,194.6,607" Click="Btn_saveRoom_Click"/>
                                 <Button x:Name="btn_cancelRoom" Content="Abbrechen" Margin="448,6,9.6,607" Click="Btn_cancel_Click"/>
                             </Grid>
                         </StackPanel>
