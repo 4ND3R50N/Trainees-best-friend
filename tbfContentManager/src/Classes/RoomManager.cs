@@ -126,7 +126,7 @@ namespace tbfContentManager.Classes
 
             Binding bind = new Binding();
             mainContentWindow._listView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._listView_room.SetBinding(ListView.ItemsSourceProperty, bind)));
-
+            mainContentWindow._listView_room.MouseLeftButtonDown += _listView_room_MouseLeftButtonDown;
             foreach (var colum in dt.Columns)
             {
                 mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() => {
@@ -135,10 +135,21 @@ namespace tbfContentManager.Classes
                     column.DisplayMemberBinding = new Binding(dc.ColumnName);
 
                     column.Header = dc.ColumnName;
+                    //mainContentWindow._listView_room.MouseLeftButtonDown += _listView_room_MouseLeftButtonDown;
                     mainContentWindow._gridView_room.Columns.Add(column);
                 }));
             }
         }
+
+        private void _listView_room_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //if (e.ButtonState == Mouse) {
+            //}
+            //throw new NotImplementedException();
+
+        }
+
+
 
     }
 }

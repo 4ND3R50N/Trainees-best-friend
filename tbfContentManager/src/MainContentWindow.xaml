@@ -118,28 +118,13 @@
                                         <ListView x:Name="_listView_room" ItemsSource="{Binding}">
                                             <ListView.View >
                                                 <GridView x:Name="_gridView_room"/>
+                                                <!--Mouse.MouseDown="_gridView_room_MouseDown"-->
                                             </ListView.View>
-                                        </ListView>
-                                        <!--<ListBox x:Name="myListBox"/>-->
-                                        <!--<ListView x:Name="myListView">
-                                            <ListView.View>
-                                                <GridView>
-                                                    <GridViewColumn/>
-                                                </GridView>
-                                            </ListView.View>
-                                        </ListView>-->
-                                        
-                                        <!--<ListView x:Name="_listView_room">
-                                            <ListView.View >
-                                                <GridView x:Name="_gridView_room">
-                                                    <GridViewColumn Header="Raeume" DisplayMemberBinding="{Binding Raeume}"/>
-                                                </GridView>
-                                            </ListView.View>
-                                        </ListView>-->
+                                        </ListView>                                       
                                     </Grid>
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top">
-                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10" Visibility="Visible">
+                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10" Visibility="Hidden">
                                         <Grid VerticalAlignment="Top" Height="604">
                                             <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
                                             <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>

@@ -3,17 +3,19 @@ using System.Net;
 using System.Net.Sockets;
 using tbfContentManager.Classes;
 using WhiteCode.Network;
+using tbfContentManager;
 
 namespace UnitTest
 {
     [TestClass]
     public class UnitTest1
     {
+        
 
         [TestMethod]
         public simpleNetwork_Client ConnectToTCP()
         {
-            simpleNetwork_Client TCPClient = new simpleNetwork_Client(null, "", IPAddress.Parse("62.138.6.50"),
+            simpleNetwork_Client TCPClient = new simpleNetwork_Client(null, 8000, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             if(TCPClient.connect())
             {
@@ -38,13 +40,15 @@ namespace UnitTest
 
             //Arrange not necessary
             simpleNetwork_Client TCPClient = ConnectToTCP();
+            MainContentWindow mainContentWindow = new MainContentWindow(ref TCPClient, "test", 1);
+            RoomManager roomManager = new RoomManager(ref TCPClient, mainContentWindow);
             
             if(TCPClient != null)
             {
                 //Act
-                bTest1 = RoomManager.AddRoomSend(ref TCPClient, 2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "Unit Test Name");
+                bTest1 = roomManager.AddRoomSend(2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "Unit Test Name");
 
-                bTest2 = RoomManager.AddRoomSend(ref TCPClient, 2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "");
+                bTest2 = roomManager.AddRoomSend(2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "");
             }
             //Assert
             Assert.IsTrue(bTest1);

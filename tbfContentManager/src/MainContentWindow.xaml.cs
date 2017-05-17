@@ -61,27 +61,6 @@ namespace tbfContentManager
         private void Server_response(string message)
         {
 
-            List<string> messageList = new List<string>();
-
-            messageList = message.Split(';').ToList();
-            string prot = message.Split(';')[0];
-          
-            //MessageBox.Show(message);
-
-            switch (prot)
-            {
-                case "#202":
-                    roomManager.GetAllRoomInformation(message, messageList);
-                    break;
-
-                case "#204":
-                    roomManager.AddRoomReceive(messageList);
-                    break;
-
-                default:
-                    MessageBox.Show("Server Kommunikationsproblem!");
-                    break;
-            }
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
@@ -168,6 +147,5 @@ namespace tbfContentManager
         {
             //RoomManager.GetAllRoomSend(ref TCPClient);
         }
-        
     }
 }
