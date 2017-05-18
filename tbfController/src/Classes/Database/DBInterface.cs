@@ -32,17 +32,14 @@ namespace WCDatabaseEngine
             this.sql_pass = sql_pass;
             this.sql_port = sql_port;
             this.sql_db_default = sql_db_default;
-
         }
 
         //Support
-
-        public abstract MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query);
-        public abstract SqlDataReader executeQuery(SqlConnection MssqlConnection, string query);
+        protected abstract MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query);
+        protected abstract SqlDataReader executeQuery(SqlConnection MssqlConnection, string query);
         public abstract bool testDBConnection();
 
         //Content
-
         public abstract int signUpRegisterUser(string sUserName, string sSecondName, string sForeName, string sPassword, string sEmail, short bIs_Trainer = 0);
         public abstract int loginUser(string sUserName, string sPassword, ref int iUserID);
 

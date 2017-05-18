@@ -24,12 +24,12 @@ namespace WCDatabaseEngine
 
         }
 
-        public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
+        protected override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
         {
             throw new NotImplementedException();
         }
 
-        public override MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query)
+        protected override MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query)
         {
             MySqlCommand MysqlCommand = null;
             MysqlCommand = new MySqlCommand(query, MysqlConnection);
