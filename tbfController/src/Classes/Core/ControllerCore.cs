@@ -364,11 +364,11 @@ namespace tbfController.Classes.Core
 
                 //Send message to client
                 TcpServer.sendMessage(sProtocol, relatedClient);
-                Logger.writeInLog(true, "Answered #210 with all levels for workout with ID: " + lDataList[0] + ". " + llExercises.Count + " levels sent!");
+                Logger.writeInLog(true, "Answered #210 with all excercises of a level with ID: " + lDataList[0] + ". " + llExercises.Count + " exercises sent!");
             }
             catch (Exception e)
             {
-                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_LEVELOVERVIEW)! Message: " + e.ToString());
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_FULLEXERCISEDATA)! Message: " + e.ToString());
                 return;
             }
         }

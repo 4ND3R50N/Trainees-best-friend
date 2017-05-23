@@ -209,7 +209,8 @@ namespace WCDatabaseEngine
                 }
                 //Get level matrix               
                 return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_exercise.exercise_id, tbf_exercise.name, tbf_exercise.description, tbf_exercise.media_url FROM tbf_exercise " +
-                                                                    "WHERE tbf_exercise.exercise_id = (SELECT tbf_level_exercise_relation.exercise_id FROM tbf_level_exercise_relation WHERE tbf_level_exercise_relation.level_id = "+ iLevelID +")"));
+                                                                "INNER JOIN tbf_level_exercise_relation ON tbf_exercise.exercise_id = tbf_level_exercise_relation.exercise_id " +
+                                                                "WHERE tbf_level_exercise_relation.level_id = " + iLevelID));
             }
         }
 
