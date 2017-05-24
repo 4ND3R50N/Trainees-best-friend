@@ -258,7 +258,28 @@ namespace WCDatabaseEngine
 
 
         }
-        
+
+        public override int updateRoom(int iRoomID,  string sName, string sDecription, short bIs_Private, string sIconURL)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //update existing room              
+                executeQuery(MysqlConn, "UPDATE tbf_rooms SET tbf_rooms.name = '" + sName + "', " +
+                                            "tbf_rooms.description = '" + sDecription + "', tbf_rooms.is_private = " + bIs_Private + ", " +
+                                            "tbf_rooms.room_icon_url = '" + sIconURL + "' WHERE tbf_rooms.room_id = " + iRoomID);
+                return 1;
+            }
+        }
         #region Support functions
         private List<List<string>> createDataMatrix(MySqlDataReader MysqlData)
         {
@@ -297,6 +318,8 @@ namespace WCDatabaseEngine
                 return true;
             }
         }
+
+       
         #endregion
     }
 }

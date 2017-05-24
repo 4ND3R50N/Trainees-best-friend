@@ -70,8 +70,8 @@ namespace tbfController.Classes.Core
             //  networkProtocol("#201", ref dummy);
             //Get all rooms of a specific user
             //  NetworkProtocol("#211;18", ref dummy);
-            //Add new room
-            //  NetworkProtocol("#203;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
+            //Add new or update room
+            //NetworkProtocol("#203;5;1;Avelinas Test raum;Hallo Welt;1;http://www.AvelinaLerntArrays.net", ref dummy);
             //Get all workouts of room id 2
             //  NetworkProtocol("#205;Hadd e", ref dummy);
             //Get Levels of workout with id 1
@@ -114,7 +114,7 @@ namespace tbfController.Classes.Core
                 case "#201":
                     Tel_201_requestRoomOverview(ref relatedClient); break;
                 case "#203":
-                    Tel_203_requestRoomAdd(lDataList, ref relatedClient); break;
+                    Tel_203_requestRoomAddorUpdate(lDataList, ref relatedClient); break;
                 case "#205":
                     Tel_205_requestWorkoutOverview(lDataList, ref relatedClient); break;
                 case "#207":
@@ -237,24 +237,43 @@ namespace tbfController.Classes.Core
             }
         }
 
-        private void Tel_203_requestRoomAdd(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_203_requestRoomAddorUpdate(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
+            int iRoomStatus = 0;
+            string sAddorUpdateText = "";
             try
             {
                 //log
-                Logger.writeInLog(true, "Message #203 (REQ_ROOMADD) received from a client!");
-                //Try to add room + add trainer to room
-                int iRoomAddStatus = DatabaseEngine.addNewRoom(Convert.ToInt32(lDataList[0]), 
-                                                               lDataList[1], lDataList[2], 
-                                                               Convert.ToInt16(lDataList[3]), 
-                                                               lDataList[4]);
+                Logger.writeInLog(true, "Message #203 (REQ_ROOMADDorUPDATE) received from a client!");
+
+                //Check if its a update or a add request
+                //IMPORTANT -> Check length of ldatalistcount
+
+                if(Convert.ToInt32(lDataList[0]) != 0)
+                {
+                    iRoomStatus = DatabaseEngine.updateRoom(Convert.ToInt32(lDataList[0]),
+                                                            lDataList[2], lDataList[3],
+                                                            Convert.ToInt16(lDataList[4]), 
+                                                            lDataList[5]);
+
+                    sAddorUpdateText = "UPDATE";
+                }else
+                {
+                    //Try to add room + add trainer to room
+                    iRoomStatus = DatabaseEngine.addNewRoom(Convert.ToInt32(lDataList[1]),
+                                                                   lDataList[2], lDataList[3],
+                                                                   Convert.ToInt16(lDataList[4]),
+                                                                   lDataList[5]);
+                    sAddorUpdateText = "ADD";
+                }
+
                 //Send message to client
-                TcpServer.sendMessage("#204" + cProtocolDelimiter + iRoomAddStatus, relatedClient);
-                Logger.writeInLog(true, "Answered #205 with status code "+ iRoomAddStatus + "!");
+                TcpServer.sendMessage("#204" + cProtocolDelimiter + iRoomStatus, relatedClient);
+                Logger.writeInLog(true, "Answered #205. It was a " + sAddorUpdateText + " order with status code " + iRoomStatus + "!");
             }
             catch (Exception e)
             {
-                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMADD)! Message: " + e.ToString());
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMADDorUPDATE)! Message: " + e.ToString());
                 return;
             }
         }

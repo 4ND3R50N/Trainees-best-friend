@@ -50,6 +50,7 @@ namespace WCDatabaseEngine
         public abstract List<List<string>> getFullExerciseData(int iLevelID);
 
         public abstract int addNewRoom(int iUserID, string sName, string sDecription,short bIs_Private, string sIconURL);
+        public abstract int updateRoom(int iRoomID, string sName, string sDecription, short bIs_Private, string sIconURL);
     }
     
 

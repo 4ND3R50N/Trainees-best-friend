@@ -100,6 +100,9 @@ namespace WCDatabaseEngine
             return true;
         }
 
-       
+        public override int updateRoom(int iRoomID,  string sName, string sDecription, short bIs_Private, string sIconURL)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
