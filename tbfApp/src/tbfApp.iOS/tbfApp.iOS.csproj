@@ -86,6 +86,7 @@
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchDebug>False</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
