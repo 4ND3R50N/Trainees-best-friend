@@ -21,6 +21,8 @@ namespace tbfContentManager.Classes
         DataTable roomTable = new DataTable();
         List<string> roomData = new List<string>();
         readonly Dictionary<string, List<string>> roomInformation;
+        List<string> keyDelete = new List<string>();
+        string IdRoomToChange;
 
         public RoomManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
         {
@@ -41,6 +43,7 @@ namespace tbfContentManager.Classes
             switch (prot)
             {
                 case "#202":
+                    //MessageBox.Show(message);
                     GetAllRoomInformation(message, messageList);
                     break;
 
@@ -55,7 +58,7 @@ namespace tbfContentManager.Classes
         }
 
         public bool AddRoomSend(int iUserId, string sTrennzeichen, string sBeschreibung,
-            string sPicURL, bool isPrivate, string sRoomName)
+            string sPicURL, bool isPrivate, string sRoomName, string Id)
         {
             int i_isPrivate_room = 0;
             if (isPrivate)
@@ -71,7 +74,7 @@ namespace tbfContentManager.Classes
                 /*WICHTIG FUER SPAETER!
                     Bild muss vorher auf DB geschickt, der schickt dann URL zurueck, dass ist dann die txt_url_room 
                  */
-                TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + sRoomName + sTrennzeichen
+                TCPClient.sendMessage("#203;" + Id + sTrennzeichen + iUserId + sTrennzeichen + sRoomName + sTrennzeichen
                     + sBeschreibung + sTrennzeichen + i_isPrivate_room + sTrennzeichen + sPicURL + sTrennzeichen, true);
                 return true;
             }
@@ -84,6 +87,11 @@ namespace tbfContentManager.Classes
             {
                 MessageBox.Show("Der Raum wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetAllRoomSend();
+
+                mainContentWindow.btn_saveRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden));
+                mainContentWindow.btn_cancelRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_cancelRoom.Visibility = Visibility.Hidden));
+                mainContentWindow.btn_saveChangeRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible));
+                mainContentWindow.btn_deleteRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_deleteRoom.Visibility = Visibility.Visible));                
             }
             else if (messageServer[1] == "2")
             {
@@ -107,16 +115,15 @@ namespace tbfContentManager.Classes
         public void GetAllRoomInformation(string message, List<string> messageList)
         {            
             roomTable = new DataTable();
-            roomTable.Columns.Add("Key");
+            roomTable.Columns.Add("ID");
             roomTable.Columns.Add("Räume");
-            //roomTable.Columns.Add("Löschen");
-
+            roomInformation.Clear();
             for (int i = 2; i < messageList.Count; i++)
             {
                 roomData = messageList.ElementAt(i).Split('|').ToList();
 
-               roomInformation.Add(roomData[0], roomData);
-
+                roomInformation.Add(roomData[0], roomData);
+             
                 roomTable.Rows.Add(roomData.ElementAt(0), roomData.ElementAt(1));
             }
 
@@ -127,8 +134,17 @@ namespace tbfContentManager.Classes
         private void LoadTable_Room(DataTable dt)
         {
             mainContentWindow._listView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._listView_room.DataContext = dt));
-            mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._gridView_room.Columns.Clear()));
-
+            mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                //mainContentWindow._gridView_room.Columns.Clear())
+                //Soo schöner Cooode
+                for (int i = 1; i < mainContentWindow._gridView_room.Columns.Count; i++)
+                {   //super funktional, traumhaft
+                    mainContentWindow._gridView_room.Columns.RemoveAt(i);
+                }
+            }
+             ));
+           
             Binding bind = new Binding();
             mainContentWindow._listView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._listView_room.SetBinding(ListView.ItemsSourceProperty, bind)));
 
@@ -140,42 +156,65 @@ namespace tbfContentManager.Classes
                     n++;
                     continue;
                 }
+
                 mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() =>
-                {
+                {                   
                     DataColumn dc = (DataColumn)colum;
                     GridViewColumn column = new GridViewColumn();
                     column.DisplayMemberBinding = new Binding(dc.ColumnName);
-
                     column.Header = dc.ColumnName;
                     mainContentWindow._listView_room.SelectionChanged += _listView_room_SelectionChanged;
-                    mainContentWindow._gridView_room.Columns.Add(column);
-                }));
-
-                
+                    mainContentWindow._gridView_room.Columns.Add(column);                   
+                }));                
             }
         }
 
+        public void ChangeRoomSend(int iUserId, string sTrennzeichen, string sBeschreibung, string sPicURL, bool isPrivate, string sRoomName)
+        {
+            AddRoomSend(iUserId, sTrennzeichen, sBeschreibung, sPicURL, isPrivate, sRoomName, IdRoomToChange);
+            MessageBox.Show("Der Raum wurde erfolgreich geändert!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        }
+
         private void _listView_room_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {          
-            DataRowView row = (DataRowView)e.AddedItems[0];
-            string key = row.Row["Key"] as string;
-            List<string> roomDataInformation = new List<string>();
-
-            roomInformation.TryGetValue(key, out roomDataInformation);
-
-            bool isPrivate = false;
-            if (roomDataInformation[3] == "1")
+        {
+            if (e.AddedItems.Count != 0)
             {
-                isPrivate = true;
+                DataRowView row = (DataRowView)e.AddedItems[0];
+                string key = row.Row["ID"] as string;
+                List<string> roomDataInformation = new List<string>();
+
+                IdRoomToChange = key;
+
+                roomInformation.TryGetValue(key, out roomDataInformation);
+
+                bool isPrivate = false;
+                if (roomDataInformation[3] == "1")
+                {
+                    isPrivate = true;
+                }
+
+                mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
+                mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden;
+                mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible;
+                mainContentWindow.btn_deleteRoom.Visibility = Visibility.Visible;
+
+                mainContentWindow.txt_name_room.Text = roomDataInformation[1];
+                mainContentWindow.txt_beschreibung_room.Text = roomDataInformation[2];
+                mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
             }
 
-            mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
-            mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden;
-            mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible;
-
-            mainContentWindow.txt_name_room.Text = roomDataInformation[1];
-            mainContentWindow.txt_beschreibung_room.Text = roomDataInformation[2];
-            mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
+            //Fabi war hier
+            foreach (DataRowView deleteKeyFormList in e.RemovedItems)
+            {
+                //MessageBox.Show(test.Row["ID"] as string);
+                keyDelete.Remove(deleteKeyFormList.Row["ID"] as string);
+            }
+            foreach (DataRowView addKeyToList in e.AddedItems)
+            {
+                //MessageBox.Show(test.Row["ID"] as string);
+                keyDelete.Add(addKeyToList.Row["ID"] as string);
+            }
         }
 
         public void ClearAllTxtFields()
@@ -190,7 +229,16 @@ namespace tbfContentManager.Classes
             mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
             mainContentWindow.btn_saveRoom.Visibility = Visibility.Visible;
             mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Hidden;
+            mainContentWindow.btn_deleteRoom.Visibility = Visibility.Hidden;
             ClearAllTxtFields();
+        }
+
+        public void DeleteRoom()
+        {             
+            foreach (string tmp in keyDelete)
+            {
+                MessageBox.Show(tmp);               
+            }
         }
     }
 }

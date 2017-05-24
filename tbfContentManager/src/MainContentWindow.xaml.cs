@@ -75,7 +75,7 @@ namespace tbfContentManager
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
         }
 
         private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -111,6 +111,11 @@ namespace tbfContentManager
             roomManager.ClearAllTxtFields();
         }
 
+        private void Btn_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.DeleteRoom();
+        }
+
         private void LoadTable_Workout(DataTable dt)
         {            
             _listView.Dispatcher.BeginInvoke((Action)(() => _listView.DataContext = dt));
@@ -135,6 +140,11 @@ namespace tbfContentManager
         private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             roomManager.GetAllRoomSend();
-        }                    
+        }
+
+        private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+        }
     }
 }
