@@ -76,15 +76,22 @@ namespace tbfApp
                 {
                     //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
                     Uri = new Uri(backgroundImagePath),
-                    CachingEnabled = false,
-                    CacheValidity = new TimeSpan(5, 0, 0, 0),
+                    CachingEnabled = true,
+                    CacheValidity = new TimeSpan(0, 0, 5, 0),
                 };
             }
             catch (Exception)
             {
-
-                //catch with standard picture not available
-                backgroundImage.Source = backgroundImagePath;
+                try
+                {
+                    //catch with standard picture not available
+                    backgroundImage.Source = backgroundImagePath;
+                }
+                catch (Exception)
+                {
+                    Page.DisplayAlert("Bildfehler", "WorkoutID: " + _workoutId, "OK");
+                    throw;
+                }
             }
 
             /*

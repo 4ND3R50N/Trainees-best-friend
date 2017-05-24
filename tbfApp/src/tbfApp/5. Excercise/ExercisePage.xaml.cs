@@ -71,11 +71,20 @@ namespace tbfApp
 
             if (exerciseList.ElementAt(0).Equals("#210"))       //outerList protocolNumber
             {
-                int workoutAmount;
-                int.TryParse(exerciseList.ElementAt(1), out workoutAmount);      //outerList Element 1 Amount
-                if (workoutAmount > 0)
+                int exerciseAmountReceived = exerciseList.Count - 2;
+
+                int exerciseAmountServer;
+                int.TryParse(exerciseList.ElementAt(1), out exerciseAmountServer);      //outerList Element 1 Amount
+
+                if (exerciseAmountServer != exerciseAmountReceived)
                 {
-                    for (int i = 2; i < workoutAmount + 2; i++)
+                    await DisplayAlert("Nicht alle Exercise wurden geladen!", "Pufferlänge in den Einstellungen erhöhen.",
+                        "Fortfahren");
+                }
+
+                if (exerciseAmountReceived > 0)
+                {
+                    for (int i = 2; i < exerciseAmountReceived + 2; i++)
                     {
                         List<string> exerciseDataList = new List<string>();
                         exerciseDataList = exerciseList.ElementAt(i).Split(new char[] { '|' }).ToList();
@@ -83,10 +92,16 @@ namespace tbfApp
                         //Element 0 = ID | Element 1 = Name | Element 2 = Description | Element 3 = MediaURL
                         WebView browser = new WebView();
                         HtmlWebViewSource htmlSource = new HtmlWebViewSource();
+
                         //htmlSource.Html = @"<iframe src=""https://drive.google.com/file/d/0Bx6xdBrmrxARaXVpZmJFdDFuVDQ/preview"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
+                        
+                        //htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
                         htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
+
                         //htmlSource.Html = @"<html><body><div style=""position:relative;height:0;padding-bottom:56.25%""><iframe src=""https://www.youtube.com/embed/TD-v1b_YVpg?ecver=2"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:100%;left:0"" allowfullscreen></iframe></div></body></html>";
-                        browser.Source = htmlSource;
+
+                        //browser.Source = htmlSource;
+                        browser.Source = exerciseDataList.ElementAt(3);
 
                         Label descriptionLabel = new Label()
                         {

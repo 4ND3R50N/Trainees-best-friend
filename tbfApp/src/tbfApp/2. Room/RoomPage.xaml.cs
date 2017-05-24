@@ -25,7 +25,7 @@ namespace tbfApp
             
             label = new Label
             {
-                Text = "0 button clicks",
+                Text = "Hier hat etwas nicht funktioniert, versuchen Sie es noch einmal.",
                 Font = Font.SystemFontOfSize(NamedSize.Large),
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand
@@ -52,11 +52,6 @@ namespace tbfApp
             ServerRequest();
 
             stack.Children.Add(new RoomButton("TSG Fitness", Navigation, this, "Der virtuelle Fitnessraum für die Profis der TSG.", "XXX", "https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"));
-            //stack.Children.Add(new RoomButton("Raum 2", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
-            //stack.Children.Add(new RoomButton("Raum 3", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
-            //stack.Children.Add(new RoomButton("Raum 4", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
-            //stack.Children.Add(new RoomButton("Raum 5", Navigation, this, "Room description here!", "roomID HERE ToDo", "imageURL HERE"));
-            //stack.Children.Add(label);
         }
 
         async void ServerRequest()
@@ -68,35 +63,51 @@ namespace tbfApp
 
         async private void ServerAnswer(string protocol)
         {
-            //await DisplayAlert("Servermessage", protocol, "OK");
-
-            List<string> roomList = new List<string>();
-            roomList = protocol.Split(new char[] { ';' }).ToList();
-
-            if (roomList.ElementAt(0).Equals("#212"))       //outerList protocolNumber
+            try
             {
-                int roomAmount;
-                int.TryParse(roomList.ElementAt(1), out roomAmount);        //outerList Element 1 Amount
-                if (roomAmount > 0)
+                List<string> roomList = new List<string>();
+                roomList = protocol.Split(new char[] { ';' }).ToList();
+
+                if (roomList.ElementAt(0).Equals("#212"))       //outerList protocolNumber
                 {
-                    for (int i = 2; i < roomAmount + 2; i++)
+                    int roomAmountReceived = roomList.Count - 2;
+
+                    int roomAmountServer;
+                    int.TryParse(roomList.ElementAt(1), out roomAmountServer);        //outerList Element 1 Amount
+
+                    if (roomAmountServer != roomAmountReceived)
                     {
-                        List<string> roomDataList = new List<string>();
-                        roomDataList = roomList.ElementAt(i).Split(new char[] { '|' }).ToList();
-                        //innerList
-                        //Element 0 = ID | Element 1 = Name | Element 2 = Description//Element 0 = ID | Element 1 = Name | Element 2 = Description | Element 3 = isPrivate | Element 4 = IconURL
-                        stack.Children.Add(new RoomButton(roomDataList.ElementAt(1), Navigation, this, roomDataList.ElementAt(2), roomDataList.ElementAt(0), roomDataList.ElementAt(4)));
+                        await DisplayAlert("Nicht alle Räume wurden geladen!", "Pufferlänge in den Einstellungen erhöhen.",
+                            "Fortfahren");
+                    }
+
+                    if (roomAmountReceived > 0)
+                    {
+                        for (int i = 2; i < roomAmountReceived + 2; i++)
+                        {
+                            List<string> roomDataList = new List<string>();
+                            roomDataList = roomList.ElementAt(i).Split(new char[] { '|' }).ToList();
+                            //innerList
+                            //Element 0 = ID | Element 1 = Name | Element 2 = Description//Element 0 = ID | Element 1 = Name | Element 2 = Description | Element 3 = isPrivate | Element 4 = IconURL
+                            stack.Children.Add(new RoomButton(roomDataList.ElementAt(1), Navigation, this, roomDataList.ElementAt(2), roomDataList.ElementAt(0), roomDataList.ElementAt(4)));
+                        }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Fehler", "Keine Räume für Sie verfügbar", "OK");
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Fehler", "Keine Räume für Sie verfügbar", "OK");
+                    await DisplayAlert("Fehler", "Kommunikationsproblem, Undefinierte Antwort vom Server! "+ roomList.ElementAt(0), "OK");
                 }
             }
-            else
+            catch (Exception)
             {
-                await DisplayAlert("Fehler", "Kommunikationsproblem, Undefinierte Antwort vom Server! "+ roomList.ElementAt(0), "OK");
+                await DisplayAlert("Räume konnte nicht geladen werden!", "Bufferlänge in den Einstellungen erhöhen!", "Fortfahren");
+                stack.Children.Add(label);
             }
+
             App.endpointConnection.closeConnection();
 
             activityIndicatorSwitch();
