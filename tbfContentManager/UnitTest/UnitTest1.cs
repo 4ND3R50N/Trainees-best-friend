@@ -13,7 +13,7 @@ namespace UnitTest
         
 
         [TestMethod]
-        public SimpleNetwork_Client ConnectToTCP()
+        public SimpleNetwork_Client ConnectToTCPTest()
         {
             SimpleNetwork_Client TCPClient = new SimpleNetwork_Client(null, 8000, "", IPAddress.Parse("62.138.6.50"),
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -29,30 +29,32 @@ namespace UnitTest
             
         }
 
-
-
        [TestMethod]
-        public void AddRoomSend()
+        public void AddRoomSendTest()
         {
             bool bTest1 = false;
             bool bTest2 = false;
 
 
             //Arrange not necessary
-            SimpleNetwork_Client TCPClient = ConnectToTCP();
+            SimpleNetwork_Client TCPClient = ConnectToTCPTest();
             MainContentWindow mainContentWindow = new MainContentWindow(ref TCPClient, "test", 1);
-            RoomManager roomManager = new RoomManager(ref TCPClient, mainContentWindow);
+            RoomManager roomManager = new RoomManager(ref TCPClient, mainContentWindow, 18);
             
             if(TCPClient != null)
             {
                 //Act
-                bTest1 = roomManager.AddRoomSend(2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "Unit Test Name");
+                bTest1 = roomManager.AddRoomSend(2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "Unit Test Name", "0");
 
-                bTest2 = roomManager.AddRoomSend(2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "");
+                bTest2 = roomManager.AddRoomSend(2, ";", "Hallo Welt", "http://gehtdichnixan.de/", true, "", "0");
             }
             //Assert
             Assert.IsTrue(bTest1);
             Assert.IsFalse(bTest2);
         }
+
+
+
+
     }
 }
