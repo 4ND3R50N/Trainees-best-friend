@@ -27,33 +27,24 @@ namespace tbfContentManager
         int iUserId;
         string sTrennzeichen = ";";
         DataTable table;
+        SimpleNetwork_Client TCPClient;
 
+        WorkoutManager workoutManager;
         RoomManager roomManager;
-
+        
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
 
             this.sUserName = sUserName;
             this.iUserId = iUserID;
-            //CHangeprotocolfunction in den konstruktor verschoben, da dieser einmalig für den formwechsel gemacht werden muss
-            //Es wäre natürlich ordentlicher, wenn du für jeden TAB eine Server_response funktion erstellen würdest. 
-            //IN dem fall müsstest du jedesmal wenn man den tab wechselt, die changeProtocolFunction() erneut ausführen :)
+            this.TCPClient = TCPClient;
 
-            roomManager = new RoomManager(ref TCPClient, this);
+            roomManager = new RoomManager(ref TCPClient, this, iUserID);
+            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
 
-            lblWelcomeMessage.Content = "Willkommen " + sUserName;
 
-            table = new DataTable();
-            table.Columns.Add("Workout");
-            table.Columns.Add("Raum");
-            table.AcceptChanges();
-            table.Rows.Add("Bauchmuskeln", "asdfasdf");
-            table.Rows.Add("Testworkout", "Raume1");
-            //exampleTable.Rows.Add("a2", "b2");
-            table.AcceptChanges();
-
-            LoadTable_Workout(table);
+            lblWelcomeMessage.Content = "Willkommen " + sUserName;            
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
@@ -67,6 +58,8 @@ namespace tbfContentManager
         {
             Application.Current.Shutdown();
         }
+
+        // ----------------------------------------------- Raum Manager -------------------------------------------------------- //
 
         private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
@@ -104,47 +97,115 @@ namespace tbfContentManager
                 string filename = dlg.FileName;
                 txt_url_pic_room.Text = filename;
             }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
         }
 
-        private void Btn_cancel_Click(object sender, RoutedEventArgs e)
+        private void Btn_cancel_room_Click(object sender, RoutedEventArgs e)
         {
             roomManager.ClearAllTxtFields();
         }
 
-        private void Btn_Delete_Click(object sender, RoutedEventArgs e)
+        private void Btn_Delete_room_Click(object sender, RoutedEventArgs e)
         {
             roomManager.DeleteRoom();
         }
 
-        private void LoadTable_Workout(DataTable dt)
-        {            
-            _listView.Dispatcher.BeginInvoke((Action)(() => _listView.DataContext = dt));
+        //private void LoadTable_Workout(DataTable dt)
+        //{            
+        //    _listView.Dispatcher.BeginInvoke((Action)(() => _listView.DataContext = dt));
                        
-            _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Clear()));
+        //    _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Clear()));
 
-            Binding bind = new Binding();
+        //    Binding bind = new Binding();
             
-            _listView.Dispatcher.BeginInvoke((Action)(() => _listView.SetBinding(ListView.ItemsSourceProperty, bind)));
+        //    _listView.Dispatcher.BeginInvoke((Action)(() => _listView.SetBinding(ListView.ItemsSourceProperty, bind)));
 
-            foreach (var colum in dt.Columns)
-            {
-                DataColumn dc = (DataColumn)colum;
-                GridViewColumn column = new GridViewColumn();
-                column.DisplayMemberBinding = new Binding(dc.ColumnName);
+        //    foreach (var colum in dt.Columns)
+        //    {
+        //        DataColumn dc = (DataColumn)colum;
+        //        GridViewColumn column = new GridViewColumn();
+        //        column.DisplayMemberBinding = new Binding(dc.ColumnName);
              
-                column.Header = dc.ColumnName;
-                _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Add(column)));
-            }
-        }
+        //        column.Header = dc.ColumnName;
+        //        _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Add(column)));
+        //    }
+        //}
 
         private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            roomManager.GetAllRoomSend();
-        }
+            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
 
+            roomManager.GetAllRoomSend();
+
+        }
+        
         private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
         {
             roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+        }
+
+        // --------------------------------------------------------------- Workout ---------------------------------------------------- //
+
+        private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutClick();
+        }
+
+        private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            string roomId = "2";
+            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0", roomId);
+
+        }
+
+        private void B_url_pic_workout_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
+
+            //spater fuer video
+            /*
+             dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             */
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                txt_url_pic_room.Text = filename;
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void Btn_cancel_workout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ClearAllTxtFields();
+        }
+
+        private void Btn_Delete_workout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.DeleteWorkout();
+        }
+
+        private void TiWorkoutManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
+
+            workoutManager.GetAllWorkoutSend();
         }
     }
 }

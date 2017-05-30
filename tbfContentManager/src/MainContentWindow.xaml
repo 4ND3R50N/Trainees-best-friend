@@ -111,7 +111,6 @@
                             <Grid VerticalAlignment="Top" Height="640">
                                 <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
                                     <Grid>
-
                                         <ListView x:Name="_listView_room" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" >
                                             <ListView.View >
                                                 <GridView x:Name="_gridView_room">
@@ -136,7 +135,7 @@
                                             <TextBox x:Name="txt_beschreibung_room" Margin="0,52,0,475"/>
                                             <Label x:Name="label_private_headline_room" Content="Privater Raum?" Margin="0,130,180,449" FontWeight="Bold"/>
                                             <CheckBox x:Name="b_isPrivate_room" Margin="246,134,10,452"/>
-                                            <Label x:Name="label_name_trainer_headline_room" Content="Bild des Raumes:" Margin="0,156,180,422" FontWeight="Bold"/>
+                                            <Label x:Name="label_Bild_Raum" Content="Bild des Raumes:" Margin="0,156,180,422" FontWeight="Bold"/>
                                             <ListBox x:Name="listbox_trainer_room" Margin="140,156,10,418">
                                                 <ListBoxItem x:Name="listboxitem_trainer_room" VerticalAlignment="Top" Content="Noch kein Bild vorhanden!" Width="182"/>
                                             </ListBox>
@@ -145,7 +144,7 @@
 
                                             <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,54">
                                                 <ListBox Margin="0,0,-0.2,1.6">
-                                                    <TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
+                                                    <!--<TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
                                                     <ListBoxItem Content="Lars Pickelin"  Margin="0,0,0,5"/>
                                                     <Button x:Name="btn_delete_trainee" Margin="230,-50,0,5" Width="25" Height="10">
                                                         <TextBlock Text="X" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
@@ -157,7 +156,7 @@
                                                     <ListBoxItem Content="Niko Scheuermann" Margin="0,-25,0,5"/>
                                                     <Button x:Name="btn_delete_trainee3" Margin="230,-50,0,5" Width="25" Height="10">
                                                         <TextBlock Text="X" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
-                                                    </Button>
+                                                    </Button>-->
                                                 </ListBox>
                                             </GroupBox>
                                         </Grid>
@@ -165,27 +164,28 @@
                                 </Grid>
                                 <Button x:Name="btn_addRoom" Content="Raum hinzufügen" Margin="10,6,367.6,607" Click="Btn_addRoom_Click"/>
                                 <Button x:Name="btn_saveRoom" Content="Speichern" Margin="263,6,194.6,607" Click="Btn_saveRoom_Click"/>
-                                <Button x:Name="btn_saveChangeRoom" Content="Änderung Speichern" Margin="263,6,194.6,607" Click="btn_saveChangeRoom_Click"/>
-                                <Button x:Name="btn_cancelRoom" Content="Abbrechen" Margin="448,6,9.6,607" Click="Btn_cancel_Click"/>
-                                <Button x:Name="btn_deleteRoom" Content="Löschen" Margin="448,6,9.6,607" Click="Btn_Delete_Click" Visibility="Hidden"/>
+                                <Button x:Name="btn_saveChangeRoom" Content="Änderung Speichern" Margin="263,6,194.6,607" Click="btn_saveChangeRoom_Click" Visibility="Hidden"/>
+                                <Button x:Name="btn_cancelRoom" Content="Abbrechen" Margin="448,6,9.6,607" Click="Btn_cancel_room_Click"/>
+                                <Button x:Name="btn_deleteRoom" Content="Löschen" Margin="448,6,9.6,607" Click="Btn_Delete_room_Click" Visibility="Hidden"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4">
+            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4" MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp" >
                 <Grid Margin="0,4,0,-0.4">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
                         <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0"/>-->
                         <StackPanel VerticalAlignment="Top" Margin="0,0,15,-10">
-                            <GroupBox x:Name="groupBox6" Header="Workout Informationen" Margin="266,-308,9.8,-840" Height="443">
+                            <GroupBox x:Name="gb_workoutInfos" Header="Workout Informationen" Margin="266,-308,9.8,-840" Height="443" Visibility="Hidden">
                                 <Grid>
                                     <Label x:Name="label_name_workout" Content="Name:" FontWeight="Bold" Margin="0,0,196.4,374.8" />
-                                    <Label x:Name="txt_name_workout" Content="Testraum" Margin="93,2,13.4,374.8" />
+                                    <TextBox x:Name="txt_name_workout" Margin="93,2,13.4,374.8" />
                                     <Label x:Name="label_beschreibung_workout" Content="Beschreibung:" Margin="0,26,67.4,348.8" FontWeight="Bold" />
                                     <TextBox x:Name="txt_beschreibung_workout" Margin="0,52,10.4,267.8" Text="Beschreibung hier!"  />
                                     <Label x:Name="label_room_workout" Content="Room:" Margin="0,138,177.4,231.8" FontWeight="Bold" />
                                     <ListBox Margin="0,174,4.4,150.8" >
+                                        <!-- funktion:  hier verwenden!  -->
                                         <TextBox x:Name="txt_suchen_room_workout" Height="20" TextWrapping="Wrap" Text="Suchen" Width="324" HorizontalAlignment="Left"/>
                                         <ListBoxItem Content="Lars Pickelin" Width="328" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
                                         <ListBoxItem Content="Niko Scheuermann" Width="328" HorizontalAlignment="Left"/>
@@ -201,15 +201,17 @@
                             </GroupBox>
                             <Grid Height="629" Margin="0,0,-0.2,0">
                                 <Grid Margin="0,4,-0.2,100">
-                                    <Button x:Name="btn_addWorkout" Content="Workout hinzufügen" Margin="11,2,370,495.8"/>
-                                    <Button x:Name="btn_saveWorkout" Content="Speichern" Margin="270,2,193,495.8"/>
-                                    <Button x:Name="btn_cancelWorkout" Content="Abbrechen" Margin="448,2,17,495.8" />
+                                    <Button x:Name="btn_addWorkout" Content="Workout hinzufügen" Margin="11,2,370,495.8" Click="btn_addWorkout_Click"/>
+                                    <Button x:Name="btn_saveWorkout" Content="Speichern" Margin="270,2,193,495.8" Click="btn_saveWorkout_Click"/>
+                                    <Button x:Name="btn_cancelWorkout" Content="Abbrechen" Margin="448,2,17,495.8" Click="Btn_cancel_workout_Click" />
+                                    <Button x:Name="btn_saveChangeWorkout" Content="Änderung Speichern" Margin="270,2,193,495.8" Click="btn_saveChangeRoom_Click" Visibility="Hidden"/>
+                                    <Button x:Name="btn_deleteWorkout" Content="Löschen" Margin="448,2,10,495.8" Click="Btn_Delete_workout_Click" Visibility="Hidden"/>
                                 </Grid>
                                 <GroupBox x:Name="groupBox3" Header="Workout" Margin="10,45,360,138" >
                                     <Grid>
-                                        <ListView x:Name="_listView" ItemsSource="{Binding}" Margin="0,0,0.4,-0.2">
+                                        <ListView x:Name="_listView_workout" ItemsSource="{Binding}" Margin="0,0,0.4,-0.2">
                                             <ListView.View >
-                                                <GridView x:Name="_gridView"/>
+                                                <GridView x:Name="_gridView_workout"/>
                                             </ListView.View>
                                         </ListView>
                                     </Grid>

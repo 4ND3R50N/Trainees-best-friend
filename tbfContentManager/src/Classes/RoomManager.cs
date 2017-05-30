@@ -20,20 +20,25 @@ namespace tbfContentManager.Classes
         readonly MainContentWindow mainContentWindow;
         DataTable roomTable = new DataTable();
         List<string> roomData = new List<string>();
-        readonly Dictionary<string, List<string>> roomInformation;
+        Dictionary<string, List<string>> roomInformation;
         List<string> keyDelete = new List<string>();
         string IdRoomToChange;
+        bool IsChanged = false;
+        int UserId;
 
-        public RoomManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow)
+        public Dictionary<string, List<string>> RoomInformation { get => roomInformation;}
+
+        public RoomManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow, int iUserId)
         {
             this.TCPClient = TCPClient;
             this.TCPClient.changeProtocolFunction(Server_response_roomManager);
             this.mainContentWindow = mainContentWindow;
             this.roomInformation = new Dictionary<string, List<string>>();
+            this.UserId = iUserId;
         }
         
-        private void Server_response_roomManager(string message)
-        {
+        public void Server_response_roomManager(string message)
+        {            
             List<string> messageList = new List<string>();
 
             messageList = message.Split(';').ToList();
@@ -42,13 +47,18 @@ namespace tbfContentManager.Classes
 
             switch (prot)
             {
-                case "#202":
-                    //MessageBox.Show(message);
-                    GetAllRoomInformation(message, messageList);
-                    break;
+                //case "#202":
+                //    //MessageBox.Show(message);
+                //    GetAllRoomInformation(message, messageList);
+                //    break;
 
                 case "#204":
                     AddRoomReceive(messageList);
+                    break;
+
+                case "#212":
+                    //MessageBox.Show(message);
+                    GetAllRoomInformation(message, messageList);
                     break;
 
                 default:
@@ -85,9 +95,15 @@ namespace tbfContentManager.Classes
         {
             if (messageServer[1] == "1")
             {
-                MessageBox.Show("Der Raum wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                GetAllRoomSend();
-
+                if (IsChanged)
+                {
+                    MessageBox.Show("Der Raum wurde erfolgreich geändert!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    IsChanged = false;
+                }
+                else
+                {
+                    MessageBox.Show("Der Raum wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
                 mainContentWindow.btn_saveRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_cancelRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_cancelRoom.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_saveChangeRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible));
@@ -109,7 +125,10 @@ namespace tbfContentManager.Classes
 
         public void GetAllRoomSend()
         {
-            TCPClient.sendMessage("#201", true);
+
+            //TCPClient.sendMessage("#201", true);
+            
+            TCPClient.sendMessage("#211;" + UserId.ToString(), true);
         }
 
         public void GetAllRoomInformation(string message, List<string> messageList)
@@ -172,8 +191,7 @@ namespace tbfContentManager.Classes
         public void ChangeRoomSend(int iUserId, string sTrennzeichen, string sBeschreibung, string sPicURL, bool isPrivate, string sRoomName)
         {
             AddRoomSend(iUserId, sTrennzeichen, sBeschreibung, sPicURL, isPrivate, sRoomName, IdRoomToChange);
-            MessageBox.Show("Der Raum wurde erfolgreich geändert!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            IsChanged = true;
         }
 
         private void _listView_room_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -204,7 +222,6 @@ namespace tbfContentManager.Classes
                 mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
             }
 
-            //Fabi war hier
             foreach (DataRowView deleteKeyFormList in e.RemovedItems)
             {
                 //MessageBox.Show(test.Row["ID"] as string);
@@ -228,17 +245,26 @@ namespace tbfContentManager.Classes
         public void AddRoomClick() {
             mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
             mainContentWindow.btn_saveRoom.Visibility = Visibility.Visible;
+            mainContentWindow.btn_cancelRoom.Visibility = Visibility.Visible;
             mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Hidden;
             mainContentWindow.btn_deleteRoom.Visibility = Visibility.Hidden;
             ClearAllTxtFields();
         }
 
         public void DeleteRoom()
-        {             
+        {
+            string sDeleteRoom = "";
+            string deleteRoomTrennzeichen = "|";
             foreach (string tmp in keyDelete)
             {
-                MessageBox.Show(tmp);               
+                sDeleteRoom += deleteRoomTrennzeichen + tmp;
+                
+                //MessageBox.Show(tmp);               
             }
+
+            MessageBox.Show(sDeleteRoom);
         }
+
+
     }
 }
