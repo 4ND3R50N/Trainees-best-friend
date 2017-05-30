@@ -53,6 +53,7 @@ namespace tbfContentManager.Classes
                 //    break;
 
                 case "#204":
+
                     AddRoomReceive(messageList);
                     break;
 
@@ -91,8 +92,9 @@ namespace tbfContentManager.Classes
             return false;
         }
 
-        public void AddRoomReceive(List<string> messageServer)
+        public bool AddRoomReceive(List<string> messageServer)
         {
+            
             if (messageServer[1] == "1")
             {
                 if (IsChanged)
@@ -107,27 +109,32 @@ namespace tbfContentManager.Classes
                 mainContentWindow.btn_saveRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_cancelRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_cancelRoom.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_saveChangeRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible));
-                mainContentWindow.btn_deleteRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_deleteRoom.Visibility = Visibility.Visible));                
+                mainContentWindow.btn_deleteRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_deleteRoom.Visibility = Visibility.Visible));
+
+                return true;
             }
             else if (messageServer[1] == "2")
             {
                 MessageBox.Show("Der Raumname existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return false;
             }
             else if (messageServer[1] == "3")
             {
                 MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return false;
             }
             else
             {
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
         }
 
         public void GetAllRoomSend()
         {
-
-            //TCPClient.sendMessage("#201", true);
-            
+            //TCPClient.sendMessage("#201", true);            
             TCPClient.sendMessage("#211;" + UserId.ToString(), true);
         }
 
@@ -155,10 +162,8 @@ namespace tbfContentManager.Classes
             mainContentWindow._listView_room.Dispatcher.BeginInvoke((Action)(() => mainContentWindow._listView_room.DataContext = dt));
             mainContentWindow._gridView_room.Dispatcher.BeginInvoke((Action)(() =>
             {
-                //mainContentWindow._gridView_room.Columns.Clear())
-                //Soo schöner Cooode
                 for (int i = 1; i < mainContentWindow._gridView_room.Columns.Count; i++)
-                {   //super funktional, traumhaft
+                {                       
                     mainContentWindow._gridView_room.Columns.RemoveAt(i);
                 }
             }

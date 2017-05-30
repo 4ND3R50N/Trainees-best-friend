@@ -13,9 +13,10 @@ using System.Windows.Data;
 using WhiteCode.Network;
 
 
+
 namespace tbfContentManager.Classes
 {
-    class WorkoutManager
+    public class WorkoutManager
     {
         readonly SimpleNetwork_Client TCPClient;
         readonly MainContentWindow mainContentWindow;
@@ -90,13 +91,13 @@ namespace tbfContentManager.Classes
                     Bild muss vorher auf DB geschickt, der schickt dann URL zurueck, dass ist dann die txt_url_workout
                  */
                 //TCPClient.sendMessage("#203;" + IdWorkout + sTrennzeichen + iUserId + sTrennzeichen + sWorkoutName + sTrennzeichen
-                //    + sBeschreibung + sTrennzeichen + sPicURL + sTrennzeichen, true);
+                //   + sBeschreibung + sTrennzeichen + sPicURL + sTrennzeichen, true);
                 return true;
             }
             return false;
         }
 
-        public void AddWorkoutReceive(List<string> messageServer)
+        public bool AddWorkoutReceive(List<string> messageServer)
         {
             if (messageServer[1] == "1")
             {
@@ -113,18 +114,26 @@ namespace tbfContentManager.Classes
                 mainContentWindow.btn_cancelWorkout.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_cancelWorkout.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_saveChangeWorkout.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveChangeWorkout.Visibility = Visibility.Visible));
                 mainContentWindow.btn_deleteWorkout.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_deleteWorkout.Visibility = Visibility.Visible));
+
+                return true;
             }
             else if (messageServer[1] == "2")
             {
                 MessageBox.Show("Der Workoutname existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return false;
             }
             else if (messageServer[1] == "3")
             {
                 MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return false;
             }
             else
             {
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return false;
             }
         }
 
