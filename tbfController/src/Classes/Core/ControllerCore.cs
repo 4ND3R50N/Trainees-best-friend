@@ -78,6 +78,8 @@ namespace tbfController.Classes.Core
             //  NetworkProtocol("#207;1", ref dummy);
             //Get all excercises of workout 1
             //  NetworkProtocol("#209;1", ref dummy);
+            //Delete room
+            NetworkProtocol("#213;114", ref dummy);
 
         }
 
@@ -123,6 +125,8 @@ namespace tbfController.Classes.Core
                     Tel_209_requestFullExerciseData(lDataList, ref relatedClient); break;
                 case "#211":
                     Tel_211_requestRoomOverview(lDataList, ref relatedClient); break;
+                case "#213":
+                    Tel_213_requestRoomDelete(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -425,6 +429,27 @@ namespace tbfController.Classes.Core
             catch (Exception e)
             {
                 Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMOVERVIEWDATA2)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+        private void Tel_213_requestRoomDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #213 (REQ_ROOMDELETE) received from a client!");
+                //Get room data
+                int iRoomDeleteStatusCode = DatabaseEngine.deleteRoom(Convert.ToInt32(lDataList[0]));
+                string sProtocol = "#214" + cProtocolDelimiter + iRoomDeleteStatusCode;
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #214 with status code: " + iRoomDeleteStatusCode);
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMDELETE)! Message: " + e.ToString());
                 return;
             }
         }

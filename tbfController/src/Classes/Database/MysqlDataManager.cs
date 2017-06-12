@@ -280,6 +280,27 @@ namespace WCDatabaseEngine
                 return 1;
             }
         }
+
+        public override int deleteRoom(int iRoomID)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+
+                executeQuery(MysqlConn, "DELETE FROM tbf_rooms WHERE tbf_rooms.room_id = " + iRoomID);
+                return 1;
+            }
+        }
+
         #region Support functions
         private List<List<string>> createDataMatrix(MySqlDataReader MysqlData)
         {
@@ -318,8 +339,6 @@ namespace WCDatabaseEngine
                 return true;
             }
         }
-
-       
         #endregion
     }
 }

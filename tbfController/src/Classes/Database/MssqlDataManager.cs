@@ -104,5 +104,10 @@ namespace WCDatabaseEngine
         {
             throw new NotImplementedException();
         }
+
+        public override int deleteRoom(int iRoomID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
