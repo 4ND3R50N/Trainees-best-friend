@@ -1,2 +1,2 @@
-language: c#
-os: windows
+language: csharp
+solution: tbfController\solution-name.sln
