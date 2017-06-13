@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 
 namespace WCDatabaseEngine
 {
-    class DBMssqlManager : DBEngine
+    class DBMssqlDataManager : DBEngine
     {      
 
         //Queries
 
 
-        public DBMssqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
+        public DBMssqlDataManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default)
              : base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
         {    
         }
@@ -34,14 +34,24 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
-        public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
+        protected override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
         {
             SqlCommand mssqlCommand = null;
             mssqlCommand = new SqlCommand(query, mssqlConnection);
             return mssqlCommand.ExecuteReader();
         }
 
-        public override MySql.Data.MySqlClient.MySqlDataReader executeQuery(MySql.Data.MySqlClient.MySqlConnection mysqlConnection, string query)
+        protected override MySql.Data.MySqlClient.MySqlDataReader executeQuery(MySql.Data.MySqlClient.MySqlConnection mysqlConnection, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getFullExerciseData(int iLevelID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getLevelOverviewData(int iWorkoutID)
         {
             throw new NotImplementedException();
         }
@@ -50,9 +60,13 @@ namespace WCDatabaseEngine
         {
             throw new NotImplementedException();
         }
-        
 
-        public override List<List<string>> getWorkoutOverViewData(string sRoomName)
+        public override List<List<string>> getRoomOverViewData2(int iUserID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getWorkoutOverViewData(int iRoomID)
         {
             throw new NotImplementedException();
         }
@@ -86,6 +100,14 @@ namespace WCDatabaseEngine
             return true;
         }
 
-       
+        public override int updateRoom(int iRoomID,  string sName, string sDecription, short bIs_Private, string sIconURL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int deleteRoom(int iRoomID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

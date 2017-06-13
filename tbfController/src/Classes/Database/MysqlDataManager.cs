@@ -16,20 +16,20 @@ using MySql.Data.MySqlClient;
 
 namespace WCDatabaseEngine
 {
-    class DBMysqlManager: DBEngine
+    class DBMysqlDataManager: DBEngine
     { 
-        public DBMysqlManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default) : 
+        public DBMysqlDataManager(string host_ip, string sql_user, string sql_pass, short sql_port, string sql_db_default) : 
             base(host_ip, sql_user, sql_pass, sql_port, sql_db_default)
         {
 
         }
 
-        public override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
+        protected override SqlDataReader executeQuery(SqlConnection mssqlConnection, string query)
         {
             throw new NotImplementedException();
         }
 
-        public override MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query)
+        protected override MySqlDataReader executeQuery(MySqlConnection MysqlConnection, string query)
         {
             MySqlCommand MysqlCommand = null;
             MysqlCommand = new MySqlCommand(query, MysqlConnection);
@@ -114,15 +114,10 @@ namespace WCDatabaseEngine
         //Content
 
         public override List<List<string>> getRoomOverViewData()
-        {
-            //This is a list of lists. 
-            //Each list in the list stands for 1 room entry. The global list contains all rooms in form of a list
-            List<List<string>> llRoomOverViewData = new List<List<string>>();
-
+        {            
             using (MySqlConnection MysqlConn =
                 new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
             {
-                MySqlDataReader MysqlData = null;
                 //Connect
                 try
                 {
@@ -133,30 +128,53 @@ namespace WCDatabaseEngine
                     return null;
                 }
                 //Get tbl_rooms matrix
-                MysqlData = executeQuery(MysqlConn, "Select * from tbf_rooms");
-                //Save the data in the list<list<string>> variable
-                int iRowCounter = 0;
-                //Each iteration = 1 row
-                while (MysqlData.Read())
-                {
-                    List<string> lRoom = new List<string>();
-                    //Each iteration = 1 field in the current row
-                    for (int i = 0; i < MysqlData.FieldCount; i++)
-                    {
-                        lRoom.Add(MysqlData.GetValue(i).ToString());
-                    }
-                    llRoomOverViewData.Add(lRoom);
-                    iRowCounter++;
-                }
-                return llRoomOverViewData;
-
+                return createDataMatrix(executeQuery(MysqlConn, "Select * from tbf_rooms"));
             }
         }
 
-        public override List<List<string>> getWorkoutOverViewData(string sRoomName)
+        public override List<List<string>> getRoomOverViewData2(int iUserID)
         {
-            List<List<string>> llWorkoutOverViewData = new List<List<string>>();
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get tbl_rooms matrix
+                return createDataMatrix(executeQuery(MysqlConn, "Select DISTINCT tbfr.room_id, tbfr.name, tbfr.description, tbfr.is_private, tbfr.room_icon_url  from tbf_rooms as tbfr "
+                                        + "INNER JOIN tbf_user_room_relation ON tbfr.room_id = tbf_user_room_relation.room_id "
+                                        + "WHERE tbf_user_room_relation.user_id = " + iUserID + " OR tbfr.is_private = 0" ));
+            }
+        }
 
+        public override List<List<string>> getWorkoutOverViewData(int iRoomID)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get tbl_rooms matrix               
+                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_workouts.workout_id, tbf_workouts.name, tbf_workouts.description, tbf_workouts.workout_icon_url from tbf_workouts"
+                                                                + " WHERE tbf_workouts.room_id = " + iRoomID ));
+            }
+        }
+
+        public override List<List<string>> getLevelOverviewData(int iWorkoutID)
+        {
             using (MySqlConnection MysqlConn =
                 new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
             {
@@ -170,25 +188,29 @@ namespace WCDatabaseEngine
                 {
                     return null;
                 }
-                //Get tbl_rooms matrix
-                MysqlData = executeQuery(MysqlConn, "SELECT tbf_workouts.workout_id, tbf_workouts.name, tbf_workouts.description from tbf_workouts " + 
-                                                    "INNER JOIN tbf_rooms ON tbf_workouts.room_id = tbf_rooms.room_id " +
-                                                    "WHERE tbf_rooms.name = '"+ sRoomName +"'");
-                //Save the data in the list<list<string>> variable
-                int iRowCounter = 0;
-                //Each iteration = 1 row
-                while (MysqlData.Read())
+                //Get level matrix               
+                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_level.level_id, tbf_level.level_grade, tbf_level.description FROM tbf_level WHERE tbf_level.workout_id = " + iWorkoutID));
+            }
+        }
+
+        public override List<List<string>> getFullExerciseData(int iLevelID)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
                 {
-                    List<string> lRoom = new List<string>();
-                    //Each iteration = 1 field in the current row
-                    for (int i = 0; i < MysqlData.FieldCount; i++)
-                    {
-                        lRoom.Add(MysqlData.GetValue(i).ToString());
-                    }
-                    llWorkoutOverViewData.Add(lRoom);
-                    iRowCounter++;
+                    MysqlConn.Open();
                 }
-                return llWorkoutOverViewData;
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get level matrix               
+                return createDataMatrix(executeQuery(MysqlConn, "SELECT tbf_exercise.exercise_id, tbf_exercise.name, tbf_exercise.description, tbf_exercise.media_url FROM tbf_exercise " +
+                                                                "INNER JOIN tbf_level_exercise_relation ON tbf_exercise.exercise_id = tbf_level_exercise_relation.exercise_id " +
+                                                                "WHERE tbf_level_exercise_relation.level_id = " + iLevelID));
             }
         }
 
@@ -236,7 +258,72 @@ namespace WCDatabaseEngine
 
 
         }
-        
+
+        public override int updateRoom(int iRoomID,  string sName, string sDecription, short bIs_Private, string sIconURL)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //update existing room              
+                executeQuery(MysqlConn, "UPDATE tbf_rooms SET tbf_rooms.name = '" + sName + "', " +
+                                            "tbf_rooms.description = '" + sDecription + "', tbf_rooms.is_private = " + bIs_Private + ", " +
+                                            "tbf_rooms.room_icon_url = '" + sIconURL + "' WHERE tbf_rooms.room_id = " + iRoomID);
+                return 1;
+            }
+        }
+
+        public override int deleteRoom(int iRoomID)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+
+                executeQuery(MysqlConn, "DELETE FROM tbf_rooms WHERE tbf_rooms.room_id = " + iRoomID);
+                return 1;
+            }
+        }
+
+        #region Support functions
+        private List<List<string>> createDataMatrix(MySqlDataReader MysqlData)
+        {
+            //This is a list of lists. 
+            //Each list in the list stands for 1 room entry. The global list contains all rooms in form of a list
+            List<List<string>> llMatrixContainer = new List<List<string>>();
+            //Save the data in the list<list<string>> variable
+            int iRowCounter = 0;
+            //Each iteration = 1 row
+            while (MysqlData.Read())
+            {
+                List<string> lDataRow = new List<string>();
+                //Each iteration = 1 field in the current row
+                for (int i = 0; i < MysqlData.FieldCount; i++)
+                {
+                    lDataRow.Add(MysqlData.GetValue(i).ToString());
+                }
+                llMatrixContainer.Add(lDataRow);
+                iRowCounter++;
+            }
+            return llMatrixContainer;
+        }
+
         public override bool testDBConnection()
         {
             using (MySqlConnection MysqlConn =
@@ -252,7 +339,6 @@ namespace WCDatabaseEngine
                 return true;
             }
         }
-
-       
+        #endregion
     }
 }
