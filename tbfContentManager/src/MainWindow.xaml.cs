@@ -17,6 +17,7 @@ using WhiteCode.Network;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using tbfContentManager.Classes;
 
 namespace tbfContentManager
 {
@@ -25,79 +26,51 @@ namespace tbfContentManager
     /// </summary>
     public partial class MainWindow
     {
-        simpleNetwork_Client TCPClient;
+        SimpleNetwork_Client TCPClient;
         MainContentWindow mainContentWindow = null;
         //Buffer of txt boxes
-        string sUserBuffer = "";
-
+        public string sUserBuffer = "8000";
+        int Bufferlength = 8000;
+        string IpAdress = "62.138.6.50";
+        public string sTrennzeichen = ";";
 
         public MainWindow()
         {
             InitializeComponent();
-            TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"), 
-                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+           
+            TCPClient = new SimpleNetwork_Client(Server_response, Bufferlength, "", IPAddress.Parse(IpAdress),
+                                                13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
-        private void server_response(string message) {
+        public void Server_response(string message) {
             List<string> lServerData = new List<string>();
             lServerData = message.Split(';').ToList();
+            //MessageBox.Show(message);
+
             switch (lServerData[0].ToString())
             {
-                  case "#103":
-                    //MessageBox.Show(message);
-                    if (lServerData[1] == "1")
-                    {
-                        txtUser.Dispatcher.BeginInvoke((Action)(() => sUserBuffer = txtUser.Text));
-                        ParameterizedThreadStart pts = new ParameterizedThreadStart(this.startMainWindow);
-                        Thread thread = new Thread(pts);
-                        thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-                        thread.Start(lServerData[2]);
-                        
-                    }
-                    if (lServerData[1] == "2")
-                    {
-                        MessageBox.Show("Benutzername oder Password ist falsch!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    if (lServerData[1] == "3")
-                    {
-                        MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    txtUser.Dispatcher.BeginInvoke((Action)(() => txtUser.Text = ""));
-                    txtPassword.Dispatcher.BeginInvoke((Action)(() => txtPassword.Password = ""));
+                case "#103":
+                    LoginManager.LoginReceive(lServerData, this);
                     break;
+                case "#105":
+                    SignupManager.SignUp_Receive(lServerData, this);                    
+                    break;
+
                 default :
                     break;
             }
         }
 
-        private void btnLogin_Click(object sender, System.Windows.RoutedEventArgs e){
-
-            //IsHitTestVisible
-            btnLogin.IsEnabled = false;
-
-            TCPClient = new simpleNetwork_Client(server_response, "", IPAddress.Parse("62.138.6.50"),
-                                                13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            if (txtPassword.Password.Length > 3 && txtUser.Text.Length > 3)
-            {
-                if (!TCPClient.connect()) {
-                    MessageBox.Show("Verbindung mit dem Server konnte nicht aufgebaut werden!");
-                    return;
-                }
-                TCPClient.sendMessage("#102;" + txtUser.Text +";" + txtPassword.Password, true);
-                }
-            else
-            {
-                MessageBox.Show("Benutzername oder Passwort ist zu kurz! (mindestens 4 Zeichen)", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-           
-
+        private void BtnLogin_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            LoginManager.Click_LogIn(ref TCPClient, this);
         }
 
-        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                btnLogin_Click(null, null);
+                BtnLogin_Click(null, null);
             }
         }
 
@@ -105,13 +78,27 @@ namespace tbfContentManager
         {
             Application.Current.Shutdown();
         }
+
         [STAThread]
-        private void startMainWindow(object sUserID)
+        public void StartMainWindow(object sUserID)
         {
-            int iUserID = Convert.ToInt32(sUserID);           
+            int iUserID = Convert.ToInt32(sUserID);
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow = new MainContentWindow(ref TCPClient, sUserBuffer, iUserID)));
             txtUser.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.Show()));
             this.Dispatcher.BeginInvoke((Action)(() => this.Hide()));
+        }
+
+        private void Btn_SignUp_SignUp_Click(object sender, RoutedEventArgs e)
+        {
+            SignupManager.SignUp_Btn_Click(ref TCPClient, this);         
+        }
+
+        private void Btn_SignUp_SignUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnLogin_Click(null, null);
+            }
         }
     }
 }

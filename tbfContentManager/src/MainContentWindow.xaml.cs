@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,142 +15,178 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using tbfContentManager.Classes;
 using WhiteCode.Network;
 
 namespace tbfContentManager
 {
     public partial class MainContentWindow
     {
-        simpleNetwork_Client TCPClient;
         string sUserName;
         int iUserId;
+        string sTrennzeichen = ";";
+        DataTable table;
+        SimpleNetwork_Client TCPClient;
 
-        public MainContentWindow(ref simpleNetwork_Client TCPClient, string sUserName, int iUserID)
+        WorkoutManager workoutManager;
+        RoomManager roomManager;
+        
+        public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
-            this.TCPClient = TCPClient;
+
             this.sUserName = sUserName;
-            this.iUserId = iUserId;
+            this.iUserId = iUserID;
+            this.TCPClient = TCPClient;
 
-            
+            roomManager = new RoomManager(ref TCPClient, this, iUserID);
+            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
 
+
+            lblWelcomeMessage.Content = "Willkommen " + sUserName;            
         }
 
-        private void server_response(string message)
-        {
-            List<string> tmp = new List<string>();
-            List<List<string>> lServerData = new List<List<string>>();
-            tmp = message.Split(';').ToList();
-            string prot = message.Split(';')[0];
-            string counter = message.Split(';')[1];
-
-            //MessageBox.Show(message);
-
-            switch (prot)
-            {
-                case "#202":
-                    //tel_202_Room_Data(tmp, lServerData);
-                    string[] room_names = new string[Convert.ToInt32(counter)];
-                    for (int i = 2; i <= Convert.ToInt32(counter); i++)
-                    {
-                        lServerData.Add(tmp[i].Split('|').ToList());
-                    }
-                    for (int j = 0; j < (lServerData.Count); j++)
-                    {
-                            int room_ID = Convert.ToInt32(lServerData[j][0]);
-                            room_names[j] = lServerData[j][1];
-                        MessageBox.Show(room_names[j]);
-                        //string room_description = lServerData[j][2];
-                        //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
-                        //string room_icon_url = lServerData[j][4];
-                    }
-                    for (int d = 0; d < (room_names.Length); d++) {
-                        create_RoomList_item(room_names[d]);
-                    }
-
-                    break;
-            default:
-                    break;
-        }
-    }
-
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             Hide();
             MainWindow newLogin = new MainWindow();
             newLogin.Show();
         }
 
-        private void tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData) {
-           
-            for (int i = 2; i < (Convert.ToInt32(tmp[1]) + 2); i++)
-            {
-                lServerData.Add(tmp[i].Split('|').ToList());
-            }
-            for (int j = 0; j < lServerData.Count; j++) {
-                for (int i = 0; i < lServerData[j].Count; i++)
-                {
-                    int room_ID = Convert.ToInt32(lServerData[j][i]);
-                }
-            }
-        }
-
-
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
-        private void btn_add_room_Click(object sender, RoutedEventArgs e)
-        {
-            //;
-            //{ Int: UserID}
-            //{ String: RoomName}
+        // ----------------------------------------------- Raum Manager -------------------------------------------------------- //
 
-            //TCPClient.sendMessage("#203;" + txtUser.Text + ";" + txtPassword.Password, true);
+        private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.AddRoomClick();
         }
 
-        public void create_RoomList_item(string room_name) {
-            // Populate list
-            MessageBox.Show(room_name);
-            //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-            this.lvRoomList.Items.Add(new lRoomNameEntry { Name = room_name });
+        private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
         }
 
-        #region Support classes
-        public class lRoomNameEntry
+        private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
         {
-            public string Name { get; set; }
-        }
-        #endregion
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //RoomManger Room laden
-            TCPClient.changeProtocolFunction(server_response);
-            TCPClient.sendMessage("#201", true);
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-            var gridView = new GridView();
-            gridView.Columns.Add(new GridViewColumn
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
+
+            //spater fuer video
+            /*
+             dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             */
+             
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
             {
-                Header = "Name",
-                DisplayMemberBinding = new Binding("Name")
-            });
+                // Open document
+                string filename = dlg.FileName;
+                txt_url_pic_room.Text = filename;
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
         }
 
+        private void Btn_cancel_room_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.ClearAllTxtFields();
+        }
 
-        //private void tiRoomManager_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    //    var gridView = new GridView();
+        private void Btn_Delete_room_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.DeleteRoom();
+        }
 
-        //    gridView.Columns.Add(new GridViewColumn
-        //    {
-        //        Header = "Name",
-        //        DisplayMemberBinding = new Binding("Name")
-        //    });
+        private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+           
+            gb_workoutInfos.Visibility = Visibility.Hidden;
+            roomManager.GetAllRoomSend();
 
-        //    // Populate list
-        //    this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-        //
+        }
+        
+        private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+        }
 
+        // --------------------------------------------------------------- Workout Manager ---------------------------------------------------- //
+
+        private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutClick();
+        }
+
+        private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            string roomId = "2";
+            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0", roomId);
+
+        }
+
+        private void B_url_pic_workout_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
+
+            //spater fuer video
+            /*
+             dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             */
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                txt_url_pic_room.Text = filename;
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void Btn_cancel_workout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ClearAllTxtFields();
+        }
+
+        private void Btn_Delete_workout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.DeleteWorkout();
+        }
+
+        private void TiWorkoutManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
+            gb_roomInfos.Visibility = Visibility.Hidden;
+
+            workoutManager.ShowAllRooms();          
+        }
     }
 }
