@@ -208,13 +208,40 @@
                                     <Button x:Name="btn_deleteWorkout" Content="Löschen" Margin="448,2,10,495.8" Click="Btn_Delete_workout_Click" Visibility="Hidden"/>
                                 </Grid>
                                 <GroupBox x:Name="groupBox3" Header="Workout" Margin="10,45,360,138" >
-                                    <Grid>
-                                        <ListView x:Name="_listView_workout" ItemsSource="{Binding}" Margin="0,0,0.4,-0.2">
-                                            <ListView.View >
-                                                <GridView x:Name="_gridView_workout"/>
-                                            </ListView.View>
-                                        </ListView>
-                                    </Grid>
+
+                                    <DockPanel>
+                                        <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
+                                            <ToolBar x:Name="tb_roomShow_workout">
+                                                <ComboBox x:Name="cb_roomChoose_workout" Margin="0,0,0,-0.4" Width="210">
+                                                    <!--<ComboBoxItem IsSelected="True">Bitte Raum auswählen</ComboBoxItem>-->
+                                                    <!--<ComboBoxItem>14</ComboBoxItem>
+                                                    <ComboBoxItem>16</ComboBoxItem>-->
+                                                </ComboBox>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <Grid>
+                                            <ListView x:Name="_listView_workout" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" Visibility="Hidden" >
+                                                <ListView.View >
+                                                    <GridView x:Name="_gridView_workout">
+                                                        <GridViewColumn Header="Löschen">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                        </Grid>
+                                        <!--<Grid>
+                                            <ListView x:Name="_listView_workout" ItemsSource="{Binding}" Margin="0,0,0.4,-0.2">
+                                                <ListView.View >
+                                                    <GridView x:Name="_gridView_workout"/>
+                                                </ListView.View>
+                                            </ListView>
+                                        </Grid>-->
+                                    </DockPanel>                                    
                                 </GroupBox>
                             </Grid>
                         </StackPanel>

@@ -112,31 +112,11 @@ namespace tbfContentManager
             roomManager.DeleteRoom();
         }
 
-        //private void LoadTable_Workout(DataTable dt)
-        //{            
-        //    _listView.Dispatcher.BeginInvoke((Action)(() => _listView.DataContext = dt));
-                       
-        //    _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Clear()));
-
-        //    Binding bind = new Binding();
-            
-        //    _listView.Dispatcher.BeginInvoke((Action)(() => _listView.SetBinding(ListView.ItemsSourceProperty, bind)));
-
-        //    foreach (var colum in dt.Columns)
-        //    {
-        //        DataColumn dc = (DataColumn)colum;
-        //        GridViewColumn column = new GridViewColumn();
-        //        column.DisplayMemberBinding = new Binding(dc.ColumnName);
-             
-        //        column.Header = dc.ColumnName;
-        //        _gridView.Dispatcher.BeginInvoke((Action)(() => _gridView.Columns.Add(column)));
-        //    }
-        //}
-
         private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
-
+           
+            gb_workoutInfos.Visibility = Visibility.Hidden;
             roomManager.GetAllRoomSend();
 
         }
@@ -146,7 +126,7 @@ namespace tbfContentManager
             roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
-        // --------------------------------------------------------------- Workout ---------------------------------------------------- //
+        // --------------------------------------------------------------- Workout Manager ---------------------------------------------------- //
 
         private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
         {
@@ -204,8 +184,9 @@ namespace tbfContentManager
         private void TiWorkoutManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
+            gb_roomInfos.Visibility = Visibility.Hidden;
 
-            workoutManager.GetAllWorkoutSend();
+            workoutManager.ShowAllRooms();          
         }
     }
 }

@@ -25,12 +25,10 @@ namespace tbfContentManager.Classes
         readonly Dictionary<string, List<string>> workoutInformation;
         List<string> keyDelete = new List<string>();
         string IdWorkoutToChange;
+        string roomID;
         bool IsChanged = false;
         Dictionary<string, List<string>> roomInformation;
-
         RoomManager roomManager;
-
-   
 
         public WorkoutManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow, RoomManager roomManager)
         {
@@ -53,7 +51,9 @@ namespace tbfContentManager.Classes
 
             switch (prot)
             {
-                case "#1":
+                case "#206":
+                    //MessageBox.Show(message);
+                    GetAllWorkoutInformation(message, messageList);
                     break;
 
                 case "#2":
@@ -137,9 +137,9 @@ namespace tbfContentManager.Classes
             }
         }
 
-        public void GetAllWorkoutSend()
+        public void GetAllWorkoutSend(String roomId)
         {
-            TCPClient.sendMessage("#201", true);
+            TCPClient.sendMessage("#205;" + roomID , true);
         }
 
         public void GetAllWorkoutInformation(string message, List<string> messageList)
@@ -147,7 +147,7 @@ namespace tbfContentManager.Classes
             workoutTable = new DataTable();
             workoutTable.Columns.Add("ID");
             workoutTable.Columns.Add("Workouts");
-            workoutTable.Columns.Add("Raum");
+
             workoutInformation.Clear();
             for (int i = 2; i < messageList.Count; i++)
             {
@@ -168,9 +168,8 @@ namespace tbfContentManager.Classes
             mainContentWindow._gridView_workout.Dispatcher.BeginInvoke((Action)(() =>
             {
                 //mainContentWindow._gridView_workout.Columns.Clear())
-                //Soo schöner Cooode
                 for (int i = 1; i < mainContentWindow._gridView_workout.Columns.Count; i++)
-                {   //super funktional, traumhaft
+                {   
                     mainContentWindow._gridView_workout.Columns.RemoveAt(i);
                 }
             }
@@ -257,6 +256,46 @@ namespace tbfContentManager.Classes
             }
 
             //MessageBox.Show(sDeleteRoom);
+        }
+
+        public void ShowAllRooms()
+        {
+            mainContentWindow.cb_roomChoose_workout.Dispatcher.BeginInvoke((Action)(() => {
+
+                if(mainContentWindow.cb_roomChoose_workout.Items.Count > 0)
+                {
+                    mainContentWindow.cb_roomChoose_workout.Items.Clear();
+                }
+                
+                mainContentWindow.cb_roomChoose_workout.Items.Add("Bitte Raum auswählen!");
+                mainContentWindow.cb_roomChoose_workout.SelectedIndex = 0;
+
+                for (int i = 0; i < roomInformation.Count; i++)
+                {
+                    mainContentWindow.cb_roomChoose_workout.Items.Add(roomInformation.ElementAt(i).Value.ElementAt(1));
+                    mainContentWindow.cb_roomChoose_workout.SelectionChanged += Cb_roomChoose_workout_SelectionChanged;
+                }
+            }));     
+        }
+
+        private void Cb_roomChoose_workout_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count != 0)
+            {                
+                for (int i = 0; i < roomInformation.Count; i++)
+                {
+                    if (e.AddedItems[0].ToString() == "Bitte Raum auswählen")
+                    {
+                        mainContentWindow._listView_workout.Visibility = Visibility.Visible;
+                    }
+                    if (e.AddedItems[0].ToString() == roomInformation.ElementAt(i).Value.ElementAt(1))
+                    {
+                        mainContentWindow._listView_workout.Visibility = Visibility.Visible;
+                        roomID = roomInformation.ElementAt(i).Value.ElementAt(0);
+                        GetAllWorkoutSend(roomID);
+                    }
+                }                
+            }            
         }
     }
 }
