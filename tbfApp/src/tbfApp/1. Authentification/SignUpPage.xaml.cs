@@ -66,7 +66,7 @@ namespace tbfApp
 
         async void ServerAnswer(string protocol)
         {
-            await DisplayAlert("Servermessage", protocol, "OK");
+            //await DisplayAlert("Servermessage", protocol, "OK");                      //Output of the Server Answer
 
             List<string> list = new List<string>();
             //string [] test  = protocol.Split(';');

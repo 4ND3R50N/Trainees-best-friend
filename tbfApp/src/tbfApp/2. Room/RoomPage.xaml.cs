@@ -10,7 +10,6 @@ namespace tbfApp
 {
     public partial class RoomPage : ContentPage
     {
-        int clickTotal;
         Label label;
         private ScrollView scroll;
         private StackLayout stack;
