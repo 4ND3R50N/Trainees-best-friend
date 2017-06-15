@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Octane.Xam.VideoPlayer;
+using Octane.Xam.VideoPlayer.Constants;
+using tbfApp.Network;
 using Xamarin.Forms;
 
 namespace tbfApp
@@ -29,6 +31,13 @@ namespace tbfApp
                 htmlSource.Html = @"<html><body><div style=""position:relative;height:0;padding-bottom:56.25%""><iframe src=""https://www.youtube.com/embed/TD-v1b_YVpg?ecver=2"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:100%;left:0"" allowfullscreen></iframe></div></body></html>";
                 //htmlSource.Html = @"<html><body><iframe src=""https://www.youtube.com/embed/TD-v1b_YVpg?ecver=2"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:100%;left:0"" allowfullscreen></iframe></body></html>";
                 browser.Source = htmlSource;
+
+                /* Video Player Test
+                VideoPlayer videoPlayer = new VideoPlayer();
+                videoPlayer.Source = "http://62.138.6.50:13010/Seitliche_%C3%9Cbung_Stufe_3.mp4";
+                videoPlayer.FillMode = FillMode.ResizeAspectFill;
+                videoPlayer.DisplayControls = true;
+                */
 
                 ContentPage firstContent = new ContentPage
                 {
@@ -90,36 +99,53 @@ namespace tbfApp
                         exerciseDataList = exerciseList.ElementAt(i).Split(new char[] { '|' }).ToList();
                         //innerList
                         //Element 0 = ID | Element 1 = Name | Element 2 = Description | Element 3 = MediaURL
-                        WebView browser = new WebView();
+                        MyWebView browser = new MyWebView();                       //Use own WebView with own custom renderer
                         HtmlWebViewSource htmlSource = new HtmlWebViewSource();
 
-                        //htmlSource.Html = @"<iframe src=""https://drive.google.com/file/d/0Bx6xdBrmrxARaXVpZmJFdDFuVDQ/preview"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
-                        
-                        //htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
-                        htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
+                        //1.   htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
 
-                        //htmlSource.Html = @"<html><body><div style=""position:relative;height:0;padding-bottom:56.25%""><iframe src=""https://www.youtube.com/embed/TD-v1b_YVpg?ecver=2"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:100%;left:0"" allowfullscreen></iframe></div></body></html>";
-
-                        //browser.Source = htmlSource;
-                        browser.Source = exerciseDataList.ElementAt(3);
+                        htmlSource.Html = @"<video controls autoplay height=""200"" width=""300"" poster=""SeitlicheUebung.jpg""> 
+                                            <source src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" type=""video/mp4"">
+                                            </video>";
+                        /* 2.
+                        htmlSource.Html = @"<!DOCTYPE html>
+                                            <html>
+                                              <head>
+                                                <title>Video mit Vorschau anzeigen</title>
+                                              </head>
+                                              <body>
+                                                <video controls autoplay height=""200"" width=""300"" poster=""SeitlicheUebung.jpg""> 
+                                                <source src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" type=""video/mp4"">
+                                                </video>
+                                              </body>
+                                            </html>";
+                        */
+                        browser.Source = htmlSource;
+                        //browser.Source = exerciseDataList.ElementAt(3);
 
                         Label descriptionLabel = new Label()
                         {
-                            Text = exerciseDataList.ElementAt(2)
+                            Text = exerciseDataList.ElementAt(2),
                         };
 
                         ScrollView scroll = new ScrollView();
 
                         Grid grid = new Grid { RowSpacing = 1, ColumnSpacing = 1, };
-                        grid.Padding = new Thickness(0, 5, 0, 5);
-                        grid.Children.Add(browser);
-                        grid.Children.Add(descriptionLabel);
+                        //grid.Padding = new Thickness(0, 5, 0, 5);
+                        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(300) });            //Videoelemt Height
+                        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50) });            //Space Height between video and description
+                        grid.RowDefinitions.Add(new RowDefinition {  });            //Description Height
+                        //grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                        //grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1 , GridUnitType.Star) });
+
+                        grid.Children.Add(browser, 0, 0);
+                        grid.Children.Add(descriptionLabel, 0, 2);
 
                         scroll.Content = grid;
 
                         ContentPage contentPage = new ContentPage
                         {
-                            Content = grid,
+                            Content = scroll,
                         };
                         Children.Add(contentPage);
                     }
