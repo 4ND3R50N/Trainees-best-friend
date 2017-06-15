@@ -19,7 +19,7 @@ namespace tbfApp
 
             app = this;
 
-            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(), GetServerPort(), GetServerBufferlenght(), 1);
+            endpointConnection = new SimpleNetworkClient(null, "noch nicht benötigt!", GetServerAdress(), GetServerPort(), GetServerBufferlenght(), 0);
         }
 
         protected override void OnStart()

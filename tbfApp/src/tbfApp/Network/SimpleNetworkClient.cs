@@ -83,6 +83,7 @@ namespace Network
             socket.WriteStream.Write(bytes, 0, bytes.Length);
             //await Task.Delay(500);
            
+            //socket.ReadStream.Read(buffer, 0, buffer.Length);
             await socket.ReadStream.ReadAsync(buffer, 0, buffer.Length);
 
             //Timer to wait for Answer from Server
