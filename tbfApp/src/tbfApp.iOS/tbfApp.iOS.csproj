@@ -48,8 +48,10 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchDebug>true</MtouchDebug>
+    <MtouchDebug>True</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <IOSDebugOverWiFi>False</IOSDebugOverWiFi>
+    <IOSDebuggerPort>10000</IOSDebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -118,6 +120,14 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Octane.Xam.VideoPlayer, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Octane.Xam.VideoPlayer.1.2.3.0\lib\Xamarin.iOS10\Octane.Xam.VideoPlayer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Octane.Xam.VideoPlayer.iOS, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Octane.Xam.VideoPlayer.1.2.3.0\lib\Xamarin.iOS10\Octane.Xam.VideoPlayer.iOS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Sockets.Plugin, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\rda.SocketsForPCL.2.0.2\lib\Xamarin.iOS10\Sockets.Plugin.dll</HintPath>
       <Private>True</Private>

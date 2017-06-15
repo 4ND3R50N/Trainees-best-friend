@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Octane.Xam.VideoPlayer.Android;
 
 namespace tbfApp.Droid
 {
@@ -20,6 +21,10 @@ namespace tbfApp.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            //Initialize Xamarin Forms Video Player
+            //FormsVideoPlayer.Init();
+
             LoadApplication(new App());
         }
     }
