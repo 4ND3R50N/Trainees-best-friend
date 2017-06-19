@@ -35,8 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.0.5797.27534, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="TechTalk.SpecFlow, Version=2.1.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
@@ -57,13 +58,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AddLicenseToTraineeSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLicenseAddToUser11.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserLicenseAddToUser1.feature</DependentUpon>
     </Compile>
-    <Compile Include="WorkoutLicenseSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

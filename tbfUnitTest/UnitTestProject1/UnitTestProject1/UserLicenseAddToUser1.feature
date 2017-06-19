@@ -11,3 +11,4 @@ Scenario: Add license to trainee
 	Then I should see error page "User doesn't exist"
 	When licesene is not available or no license left
 	Then I should see error page "No license left"
+	Then I should see error page "Miau2344"

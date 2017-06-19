@@ -79,7 +79,7 @@ namespace tbfController.Classes.Core
             //Get all excercises of workout 1
             //  NetworkProtocol("#209;1", ref dummy);
             //Delete room
-            NetworkProtocol("#213;114", ref dummy);
+            //NetworkProtocol("#213;114", ref dummy);
 
         }
 
