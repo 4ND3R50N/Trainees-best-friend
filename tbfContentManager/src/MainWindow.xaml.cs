@@ -30,7 +30,7 @@ namespace tbfContentManager
         MainContentWindow mainContentWindow = null;
         //Buffer of txt boxes
         public string sUserBuffer = "8000";
-        int Bufferlength = 8000;
+        int Bufferlength = 18000;
         string IpAdress = "62.138.6.50";
         public string sTrennzeichen = ";";
 

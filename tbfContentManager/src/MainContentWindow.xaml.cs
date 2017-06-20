@@ -31,7 +31,7 @@ namespace tbfContentManager
 
         WorkoutManager workoutManager;
         RoomManager roomManager;
-        
+
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
@@ -41,10 +41,10 @@ namespace tbfContentManager
             this.TCPClient = TCPClient;
 
             roomManager = new RoomManager(ref TCPClient, this, iUserID);
-            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
+            //workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
 
 
-            lblWelcomeMessage.Content = "Willkommen " + sUserName;            
+            lblWelcomeMessage.Content = "Willkommen " + sUserName;
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
@@ -69,6 +69,8 @@ namespace tbfContentManager
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
             roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
+            Thread.Sleep(2000);
+            roomManager.GetAllRoomSend();
         }
 
         private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
@@ -86,7 +88,7 @@ namespace tbfContentManager
              "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
              "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
              */
-             
+
             // Display OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = dlg.ShowDialog();
 
@@ -110,24 +112,27 @@ namespace tbfContentManager
         private void Btn_Delete_room_Click(object sender, RoutedEventArgs e)
         {
             roomManager.DeleteRoom();
+            Thread.Sleep(2000);
+            roomManager.GetAllRoomSend();
         }
 
         private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
-           
-            gb_workoutInfos.Visibility = Visibility.Hidden;
+
+            //gb_workoutInfos.Visibility = Visibility.Hidden;
             roomManager.GetAllRoomSend();
+            Thread.Sleep(100);
 
         }
-        
+
         private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
         {
             roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         // --------------------------------------------------------------- Workout Manager ---------------------------------------------------- //
-
+        /*
         private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
         {
             workoutManager.AddWorkoutClick();
@@ -150,11 +155,11 @@ namespace tbfContentManager
             dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
 
             //spater fuer video
-            /*
-             dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
-             "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
-             "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
-             */
+            
+             //dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             //"*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             //"*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             
 
             // Display OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = dlg.ShowDialog();
@@ -186,7 +191,18 @@ namespace tbfContentManager
             TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
             gb_roomInfos.Visibility = Visibility.Hidden;
 
-            workoutManager.ShowAllRooms();          
+            workoutManager.ShowAllRooms();
         }
+
+        //private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    MessageBox.Show("");
+        //}
+
+        //private void workout_grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    MessageBox.Show("mache nichts");
+        //}
+        */
     }
-}
+ }

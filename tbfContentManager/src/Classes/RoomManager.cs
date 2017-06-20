@@ -53,13 +53,14 @@ namespace tbfContentManager.Classes
                 //    break;
 
                 case "#204":
-
                     AddRoomReceive(messageList);
                     break;
 
                 case "#212":
-                    //MessageBox.Show(message);
                     GetAllRoomInformation(message, messageList);
+                    break;
+                case "#214":
+                    DeleteRoomReceive(messageList);
                     break;
 
                 default:
@@ -93,8 +94,7 @@ namespace tbfContentManager.Classes
         }
 
         public bool AddRoomReceive(List<string> messageServer)
-        {
-            
+        {           
             if (messageServer[1] == "1")
             {
                 if (IsChanged)
@@ -110,7 +110,6 @@ namespace tbfContentManager.Classes
                 mainContentWindow.btn_cancelRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_cancelRoom.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_saveChangeRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible));
                 mainContentWindow.btn_deleteRoom.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_deleteRoom.Visibility = Visibility.Visible));
-
                 return true;
             }
             else if (messageServer[1] == "2")
@@ -130,11 +129,11 @@ namespace tbfContentManager.Classes
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+
         }
 
         public void GetAllRoomSend()
         {
-            //TCPClient.sendMessage("#201", true);            
             TCPClient.sendMessage("#211;" + UserId.ToString(), true);
         }
 
@@ -260,16 +259,39 @@ namespace tbfContentManager.Classes
         {
             string sDeleteRoom = "";
             string deleteRoomTrennzeichen = "|";
+
+           
             foreach (string tmp in keyDelete)
             {
-                sDeleteRoom += deleteRoomTrennzeichen + tmp;
-                
+                //sDeleteRoom += deleteRoomTrennzeichen + tmp;
+                TCPClient.sendMessage("#213;" + tmp, true);
+                Thread.Sleep(500);
+
                 //MessageBox.Show(tmp);               
             }
+            keyDelete.Clear();
+            
 
-            MessageBox.Show(sDeleteRoom);
+            //MessageBox.Show(sDeleteRoom);
         }
 
+        public void DeleteRoomReceive(List<string> messageServer)
+        {
+            if (messageServer[1] == "1")
+            {
+                MessageBox.Show("Der Raum wurde erfolgreich gelöscht!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
+            else if (messageServer[1] == "2")
+            {
+                MessageBox.Show("Der Raum konnte nicht gelöscht werden!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            else
+            {
+                MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
     }
 }
