@@ -79,7 +79,7 @@ namespace tbfController.Classes.Core
             //Get all excercises of workout 1
             //  NetworkProtocol("#209;1", ref dummy);
             //Delete room
-            NetworkProtocol("#213;114", ref dummy);
+            //NetworkProtocol("#213;114", ref dummy);
 
         }
 
@@ -105,7 +105,7 @@ namespace tbfController.Classes.Core
 
             switch (sProtocolShortcut)
             {
-                case "#001":
+                case "#001\0":
                     Tel_001_testPackage(ref relatedClient); break;
                 case "#003":
                     Tel_003_testPackage(lDataList, ref relatedClient); break;
@@ -138,7 +138,7 @@ namespace tbfController.Classes.Core
         private void Tel_001_testPackage(ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #001 (TESTPACKET_NORMAL) received from a client!");
-            TcpServer.sendMessage("#002;Greetings from Controller :)", relatedClient);
+            TcpServer.sendMessage("Hello!~", relatedClient);
             Logger.writeInLog(true, "Answered #002 with the greetings message!");
         }
 
