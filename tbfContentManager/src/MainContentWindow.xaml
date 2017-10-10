@@ -142,9 +142,10 @@
                                             <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room"/>
                                             <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="B_url_pic_room_Click"/>
 
+                                            <!--
                                             <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,54">
                                                 <ListBox Margin="0,0,-0.2,1.6">
-                                                    <!--<TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
+                                                    <TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
                                                     <ListBoxItem Content="Lars Pickelin"  Margin="0,0,0,5"/>
                                                     <Button x:Name="btn_delete_trainee" Margin="230,-50,0,5" Width="25" Height="10">
                                                         <TextBlock Text="X" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
@@ -156,9 +157,11 @@
                                                     <ListBoxItem Content="Niko Scheuermann" Margin="0,-25,0,5"/>
                                                     <Button x:Name="btn_delete_trainee3" Margin="230,-50,0,5" Width="25" Height="10">
                                                         <TextBlock Text="X" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
-                                                    </Button>-->
+                                                    </Button>
                                                 </ListBox>
                                             </GroupBox>
+                                            -->
+                                    
                                         </Grid>
                                     </GroupBox>
                                 </Grid>
@@ -174,9 +177,8 @@
             </TabItem>
             <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4" >
                 <!--MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp"-->
-                <!--<Grid Margin="0,4,0,-0.4" >
+                <Grid Margin="0,4,0,-0.4" >
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
-                        --><!--<ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0"/>--><!--
                         <StackPanel VerticalAlignment="Top" Margin="0,0,15,-10">
                             <GroupBox x:Name="gb_workoutInfos" Header="Workout Informationen" Margin="266,-308,9.8,-840" Height="443" Visibility="Hidden">
                                 <Grid>
@@ -186,7 +188,7 @@
                                     <TextBox x:Name="txt_beschreibung_workout" Margin="0,52,10.4,267.8" Text="Beschreibung hier!"  />
                                     <Label x:Name="label_room_workout" Content="Room:" Margin="0,138,177.4,231.8" FontWeight="Bold" />
                                     <ListBox Margin="0,174,4.4,150.8" >
-                                        --><!-- funktion:  hier verwenden!  --><!--
+                                        <!--funktion:  hier verwenden!  -->
                                         <TextBox x:Name="txt_suchen_room_workout" Height="20" TextWrapping="Wrap" Text="Suchen" Width="324" HorizontalAlignment="Left"/>
                                         <ListBoxItem Content="Lars Pickelin" Width="328" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
                                         <ListBoxItem Content="Niko Scheuermann" Width="328" HorizontalAlignment="Left"/>
@@ -214,9 +216,9 @@
                                         <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
                                             <ToolBar x:Name="tb_roomShow_workout">
                                                 <ComboBox x:Name="cb_roomChoose_workout" Margin="0,0,0,-0.4" Width="210">
-                                                    --><!--<ComboBoxItem IsSelected="True">Bitte Raum auswählen</ComboBoxItem>-->
-                                                    <!--<ComboBoxItem>14</ComboBoxItem>
-                                                    <ComboBoxItem>16</ComboBoxItem>--><!--
+                                                    <ComboBoxItem IsSelected="True">Bitte Raum auswählen</ComboBoxItem>
+                                                    <ComboBoxItem>14</ComboBoxItem>
+                                                    <ComboBoxItem>16</ComboBoxItem>
                                                 </ComboBox>
                                             </ToolBar>
                                         </ToolBarTray>
@@ -235,19 +237,19 @@
                                                 </ListView.View>
                                             </ListView>
                                         </Grid>
-                                        --><!--<Grid>
+                                       <!-- <Grid>
                                             <ListView x:Name="_listView_workout" ItemsSource="{Binding}" Margin="0,0,0.4,-0.2">
                                                 <ListView.View >
                                                     <GridView x:Name="_gridView_workout"/>
                                                 </ListView.View>
                                             </ListView>
-                                        </Grid>--><!--
-                                    </DockPanel>                                    
+                                        </Grid> -->
+                                    </DockPanel>
                                 </GroupBox>
                             </Grid>
-                        </StackPanel>
+                        </StackPanel> 
                     </ScrollViewer>
-                </Grid>-->
+                </Grid>
             </TabItem>
             <TabItem Header="Exercise&#xD;&#xA;Manager" Margin="6,0,-5.8,0.4">
                 <Grid VerticalAlignment="Top">

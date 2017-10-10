@@ -20,13 +20,13 @@ namespace tbfContentManager.Classes
         readonly MainContentWindow mainContentWindow;
         DataTable roomTable = new DataTable();
         List<string> roomData = new List<string>();
-        Dictionary<string, List<string>> roomInformation;
+        public Dictionary<string, List<string>> roomInformation;
         List<string> keyDelete = new List<string>();
         string IdRoomToChange;
         bool IsChanged = false;
         int UserId;
 
-        public Dictionary<string, List<string>> RoomInformation { get => roomInformation;}
+        //public Dictionary<string, List<string>> RoomInformation { get  => roomInformation; }
 
         public RoomManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow, int iUserId)
         {
@@ -224,6 +224,7 @@ namespace tbfContentManager.Classes
                 mainContentWindow.txt_name_room.Text = roomDataInformation[1];
                 mainContentWindow.txt_beschreibung_room.Text = roomDataInformation[2];
                 mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
+                mainContentWindow.txt_url_pic_room.Text = roomDataInformation[4];
             }
 
             foreach (DataRowView deleteKeyFormList in e.RemovedItems)

@@ -68,7 +68,8 @@ namespace tbfContentManager
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
+            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,
+                (bool) b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
             Thread.Sleep(2000);
             roomManager.GetAllRoomSend();
         }
@@ -80,8 +81,9 @@ namespace tbfContentManager
 
             // Set filter for file extension and default file extension
             dlg.DefaultExt = ".txt";
-            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
-
+            //dlg.Filter = "Bildformat(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+            dlg.Filter = "Bildformat(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
+            
             //spater fuer video
             /*
              dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
@@ -97,7 +99,25 @@ namespace tbfContentManager
             {
                 // Open document
                 string filename = dlg.FileName;
-                txt_url_pic_room.Text = filename;
+
+                //Upload File via FTP
+                //string source = @"FilePath and FileName of Local File to Upload";
+                //string destination = @"SFTP Server File Destination Folder";
+                //string host = "SFTP Host";
+                //string username = "User Name";
+                //string password = "password";
+                //int port = 22;  //Port 22 is defaulted for SFTP upload
+                try
+                {
+                    Upload.UploadSFTPFile(this, "tbf.spdns.de", "contentmanager", "TBF123", filename, "./", 13002);
+
+                    txt_url_pic_room.Text = filename;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Fehler beim Hochladen der Datei!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
             }
             //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
             //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
@@ -132,7 +152,7 @@ namespace tbfContentManager
         }
 
         // --------------------------------------------------------------- Workout Manager ---------------------------------------------------- //
-        /*
+        
         private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
         {
             workoutManager.AddWorkoutClick();
@@ -203,6 +223,6 @@ namespace tbfContentManager
         //{
         //    MessageBox.Show("mache nichts");
         //}
-        */
+        
     }
  }
