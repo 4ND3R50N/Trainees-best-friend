@@ -89,8 +89,8 @@ namespace tbfContentManager.Classes
                 /*WICHTIG FUER SPAETER!
                     Bild muss vorher auf DB geschickt, der schickt dann URL zurueck, dass ist dann die txt_url_workout
                  */
-                //TCPClient.sendMessage("#203;" + IdWorkout + sTrennzeichen + iUserId + sTrennzeichen + sWorkoutName + sTrennzeichen
-                //   + sBeschreibung + sTrennzeichen + sPicURL + sTrennzeichen, true);
+                TCPClient.sendMessage("#203;" + IdWorkout + sTrennzeichen + iUserId + sTrennzeichen + sWorkoutName + sTrennzeichen
+                   + sBeschreibung + sTrennzeichen + sPicURL + sTrennzeichen, true);
                 return true;
             }
             return false;

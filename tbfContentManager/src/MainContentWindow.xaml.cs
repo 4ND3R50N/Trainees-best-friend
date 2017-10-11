@@ -29,8 +29,8 @@ namespace tbfContentManager
         DataTable table;
         SimpleNetwork_Client TCPClient;
 
-        WorkoutManager workoutManager;
         RoomManager roomManager;
+        WorkoutManager workoutManager;
 
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
@@ -41,7 +41,7 @@ namespace tbfContentManager
             this.TCPClient = TCPClient;
 
             roomManager = new RoomManager(ref TCPClient, this, iUserID);
-            //workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
+            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
 
 
             lblWelcomeMessage.Content = "Willkommen " + sUserName;
@@ -160,7 +160,7 @@ namespace tbfContentManager
 
         private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)
         {
-            string roomId = "2";
+            string roomId = "111";
             workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0", roomId);
 
         }
