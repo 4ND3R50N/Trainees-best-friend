@@ -175,7 +175,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4" >
+            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4" MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp">
                 <!--MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp"-->
                 <Grid Margin="0,4,0,-0.4" >
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
@@ -217,8 +217,6 @@
                                             <ToolBar x:Name="tb_roomShow_workout">
                                                 <ComboBox x:Name="cb_roomChoose_workout" Margin="0,0,0,-0.4" Width="210">
                                                     <ComboBoxItem IsSelected="True">Bitte Raum auswählen</ComboBoxItem>
-                                                    <ComboBoxItem>14</ComboBoxItem>
-                                                    <ComboBoxItem>16</ComboBoxItem>
                                                 </ComboBox>
                                             </ToolBar>
                                         </ToolBarTray>

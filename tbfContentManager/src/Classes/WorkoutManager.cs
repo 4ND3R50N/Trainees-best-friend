@@ -38,6 +38,8 @@ namespace tbfContentManager.Classes
             this.workoutInformation = new Dictionary<string, List<string>>();
             this.roomManager = roomManager;
             roomInformation = roomManager.roomInformation;
+
+            mainContentWindow.cb_roomChoose_workout.SelectionChanged += Cb_roomChoose_workout_SelectionChanged;
         }
 
         public void Server_response_workoutManager(string message)
@@ -273,7 +275,6 @@ namespace tbfContentManager.Classes
                 for (int i = 0; i < roomInformation.Count; i++)
                 {
                     mainContentWindow.cb_roomChoose_workout.Items.Add(roomInformation.ElementAt(i).Value.ElementAt(1));
-                    mainContentWindow.cb_roomChoose_workout.SelectionChanged += Cb_roomChoose_workout_SelectionChanged;
                 }
             }));
         }
@@ -282,17 +283,20 @@ namespace tbfContentManager.Classes
         {
             if (e.AddedItems.Count != 0)
             {
-                for (int i = 0; i < roomInformation.Count; i++)
+                if (e.AddedItems[0].ToString() == "Bitte Raum auswählen")
                 {
-                    if (e.AddedItems[0].ToString() == "Bitte Raum auswählen")
+                    mainContentWindow._listView_workout.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    for (int i = 0; i < roomInformation.Count; i++)
                     {
-                        mainContentWindow._listView_workout.Visibility = Visibility.Visible;
-                    }
-                    if (e.AddedItems[0].ToString() == roomInformation.ElementAt(i).Value.ElementAt(1))
-                    {
-                        mainContentWindow._listView_workout.Visibility = Visibility.Visible;
-                        roomID = roomInformation.ElementAt(i).Value.ElementAt(0);
-                        GetAllWorkoutSend(roomID);
+                        if (e.AddedItems[0].ToString() == roomInformation.ElementAt(i).Value.ElementAt(1))
+                        {
+                            mainContentWindow._listView_workout.Visibility = Visibility.Visible;
+                            roomID = roomInformation.ElementAt(i).Value.ElementAt(0);
+                            GetAllWorkoutSend(roomID);
+                        }
                     }
                 }
             }
