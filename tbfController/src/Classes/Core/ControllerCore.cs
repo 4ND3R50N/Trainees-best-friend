@@ -127,6 +127,10 @@ namespace tbfController.Classes.Core
                     Tel_211_requestRoomOverview(lDataList, ref relatedClient); break;
                 case "#213":
                     Tel_213_requestRoomDelete(lDataList, ref relatedClient); break;
+                case "#215":
+                    Tel_215_requestWorkoutAddorUpdate(lDataList, ref relatedClient); break;
+                case "#217":
+                    Tel_217_requestWorkoutDelete(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -445,6 +449,69 @@ namespace tbfController.Classes.Core
                 //Send message to client
                 TcpServer.sendMessage(sProtocol, relatedClient);
                 Logger.writeInLog(true, "Answered #214 with status code: " + iRoomDeleteStatusCode);
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMDELETE)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+
+
+        private void Tel_215_requestWorkoutAddorUpdate(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            int iWorkoutStatus = 0;
+            string sAddorUpdateText = "";
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #215 (REQ_WORKOUTADDorUPDATE) received from a client!");
+
+                //Check if its a update or a add request
+                //IMPORTANT -> Check length of ldatalistcount
+
+                if (Convert.ToInt32(lDataList[0]) != 0)
+                {
+                    iWorkoutStatus = DatabaseEngine.updateWorkout(Convert.ToInt32(lDataList[0]),
+                                                            Convert.ToInt32(lDataList[1]), lDataList[2],
+                                                            lDataList[3],
+                                                            lDataList[4]);
+                    sAddorUpdateText = "UPDATE";
+                }
+                else
+                {
+                    //Try to add room + add trainer to room
+                    iWorkoutStatus = DatabaseEngine.addNewWorkout(Convert.ToInt32(lDataList[1]),
+                                                                   lDataList[2], lDataList[3],
+                                                                   lDataList[4]);
+                    sAddorUpdateText = "ADD";
+                }
+
+                //Send message to client
+                TcpServer.sendMessage("#216" + cProtocolDelimiter + iWorkoutStatus, relatedClient);
+                Logger.writeInLog(true, "Answered #216. It was a " + sAddorUpdateText + " order with status code " + iWorkoutStatus + "!");
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMADDorUPDATE)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+        private void Tel_217_requestWorkoutDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #217 (REQ_WORKOUTDELETE) received from a client!");
+                //Get room data
+                int iRoomDeleteStatusCode = DatabaseEngine.deleteWorkout(Convert.ToInt32(lDataList[0]));
+                string sProtocol = "#218" + cProtocolDelimiter + iRoomDeleteStatusCode;
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #218 with status code: " + iRoomDeleteStatusCode);
 
             }
             catch (Exception e)

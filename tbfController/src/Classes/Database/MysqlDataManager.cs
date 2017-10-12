@@ -295,8 +295,87 @@ namespace WCDatabaseEngine
                 {
                     return 2;
                 }
-
+                //Delete also the workouts + levels in the room
                 executeQuery(MysqlConn, "DELETE FROM tbf_rooms WHERE tbf_rooms.room_id = " + iRoomID);
+                return 1;
+            }
+        }
+
+        public override int addNewWorkout(int iRoomID, string sName, string sDescription, string sIconURL)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                MySqlDataReader MysqlData = null;
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 3;
+                }
+
+                //Check, if workout name already exist
+                MysqlData = executeQuery(MysqlConn, "SELECT workout_id from tbf_workouts where Name = '" + sName + "'");
+                while (MysqlData.Read())
+                {
+                    return 2;
+                }
+                MysqlData.Close();
+
+                //Add new workout
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO `" + sql_db_default + "`.`tbf_workouts` (`room_id`, `name`, `description`, `room_icon_url`) VALUES ("
+                    + iRoomID + ", '"
+                    + sName + "', '"
+                    + sDescription + "', '"
+                    + sIconURL + "')");
+                MysqlData.Close();
+                return 1;
+
+            }
+        }
+
+        public override int updateWorkout(int iWorkoutID, int iRoomID, string sName, string sDescription, string sIconURL)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //update existing room              
+                executeQuery(MysqlConn, "UPDATE tbf_workouts SET tbf_workouts.name = '" + sName + "', " +
+                                            "tbf_workouts.room_id = " + iRoomID + ", " +
+                                            "tbf_workouts.description = '" + sDescription + "', " +
+                                            "tbf_workouts.room_icon_url = '" + sIconURL + "' WHERE tbf_workouts.workout_id = " + iWorkoutID);
+                return 1;
+            }
+        }
+
+        public override int deleteWorkout(int iWorkoutID)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //Delete also the workouts + levels in the room
+                executeQuery(MysqlConn, "DELETE FROM tbf_workouts WHERE tbf_workouts.workout_id = " + iWorkoutID);
                 return 1;
             }
         }

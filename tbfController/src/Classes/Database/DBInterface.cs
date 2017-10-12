@@ -52,6 +52,10 @@ namespace WCDatabaseEngine
         public abstract int addNewRoom(int iUserID, string sName, string sDecription,short bIs_Private, string sIconURL);
         public abstract int updateRoom(int iRoomID, string sName, string sDecription, short bIs_Private, string sIconURL);
         public abstract int deleteRoom(int iRoomID);
+
+        public abstract int addNewWorkout(int iRoomID, string sName, string sDescription, string sIconURL);
+        public abstract int updateWorkout(int iWorkoutID, int iRoomID, string sName, string sDescription, string sIconURL);
+        public abstract int deleteWorkout(int iWorkoutID);
     }
     
 

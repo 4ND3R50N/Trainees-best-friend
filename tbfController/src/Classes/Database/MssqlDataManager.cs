@@ -109,5 +109,20 @@ namespace WCDatabaseEngine
         {
             throw new NotImplementedException();
         }
+
+        public override int addNewWorkout(int iRoomID, string sName, string sDescription, string sIconURL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int updateWorkout(int iWorkoutID, int iRoomID, string sName, string sDescription, string sIconURL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int deleteWorkout(int iWorkoutID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
