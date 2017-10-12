@@ -208,9 +208,12 @@ namespace tbfContentManager
 
         private void TiWorkoutManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+            roomManager.GetAllRoomSend();
+            Thread.Sleep(400);
+
             TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
             gb_roomInfos.Visibility = Visibility.Hidden;
-
             workoutManager.ShowAllRooms();
         }
 

@@ -30,7 +30,7 @@ namespace tbfContentManager.Classes
             msgWin.Show();
 
             // Run Upload on background thread
-            //Task.Run(() => UploadInOtherThread(host, username, password, sourcefile, destinationpath, port));
+            Task.Run(() => UploadInOtherThread(host, username, password, sourcefile, destinationpath, port));
             
         }
 
