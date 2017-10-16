@@ -326,7 +326,7 @@ namespace WCDatabaseEngine
                 MysqlData.Close();
 
                 //Add new workout
-                MysqlData = executeQuery(MysqlConn, "INSERT INTO `" + sql_db_default + "`.`tbf_workouts` (`room_id`, `name`, `description`, `room_icon_url`) VALUES ("
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO `" + sql_db_default + "`.`tbf_workouts` (`room_id`, `name`, `description`, `workout_icon_url`) VALUES ("
                     + iRoomID + ", '"
                     + sName + "', '"
                     + sDescription + "', '"
@@ -355,7 +355,7 @@ namespace WCDatabaseEngine
                 executeQuery(MysqlConn, "UPDATE tbf_workouts SET tbf_workouts.name = '" + sName + "', " +
                                             "tbf_workouts.room_id = " + iRoomID + ", " +
                                             "tbf_workouts.description = '" + sDescription + "', " +
-                                            "tbf_workouts.room_icon_url = '" + sIconURL + "' WHERE tbf_workouts.workout_id = " + iWorkoutID);
+                                            "tbf_workouts.workout_icon_url = '" + sIconURL + "' WHERE tbf_workouts.workout_id = " + iWorkoutID);
                 return 1;
             }
         }
