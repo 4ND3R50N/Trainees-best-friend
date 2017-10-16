@@ -200,6 +200,7 @@ namespace tbfContentManager.Classes
 
         private void _listView_room_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             if (e.AddedItems.Count != 0)
             {
                 DataRowView row = (DataRowView)e.AddedItems[0];
@@ -226,6 +227,7 @@ namespace tbfContentManager.Classes
                 mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
                 mainContentWindow.txt_url_pic_room.Text = roomDataInformation[4];
             }
+            
 
             foreach (DataRowView deleteKeyFormList in e.RemovedItems)
             {
@@ -267,13 +269,8 @@ namespace tbfContentManager.Classes
                 //sDeleteRoom += deleteRoomTrennzeichen + tmp;
                 TCPClient.sendMessage("#213;" + tmp, true);
                 Thread.Sleep(500);
-
-                //MessageBox.Show(tmp);               
             }
             keyDelete.Clear();
-            
-
-            //MessageBox.Show(sDeleteRoom);
         }
 
         public void DeleteRoomReceive(List<string> messageServer)
@@ -293,6 +290,5 @@ namespace tbfContentManager.Classes
                 MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }

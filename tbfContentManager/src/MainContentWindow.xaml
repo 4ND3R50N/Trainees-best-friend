@@ -114,10 +114,11 @@
                                         <ListView x:Name="_listView_room" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" >
                                             <ListView.View >
                                                 <GridView x:Name="_gridView_room">
-                                                    <GridViewColumn Header="Löschen">
+                                                    <GridViewColumn Header="Auswahl">
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
+                                                                <!--<CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>-->
+                                                                <RadioButton GroupName="loeschenRaum" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
                                                     </GridViewColumn>
@@ -127,7 +128,7 @@
                                     </Grid>
                                 </GroupBox>
                                 <Grid VerticalAlignment="Top" Margin="0,4,-0.4,-12">
-                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,41,9.6,10" Visibility="Hidden">
+                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,37,10,14" Visibility="Visible">
                                         <Grid VerticalAlignment="Top" Height="604">
                                             <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
                                             <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>
@@ -209,8 +210,8 @@
                                     <Button x:Name="btn_addWorkout" Content="Workout hinzufügen" Margin="11,2,0,495.8" Click="btn_addWorkout_Click" HorizontalAlignment="Left" Width="240"/>
                                     <Button x:Name="btn_saveWorkout" Content="Speichern" Margin="270,2,0,495.8" Click="btn_saveWorkout_Click" HorizontalAlignment="Left" Width="158"/>
                                     <Button x:Name="btn_cancelWorkout" Content="Abbrechen" Margin="448,2,0,495.8" Click="Btn_cancel_workout_Click" HorizontalAlignment="Left" Width="156" />
-                                    <Button x:Name="btn_saveChangeWorkout" Content="Änderung Speichern" Margin="270,2,0,495.8" Click="btn_saveChangeRoom_Click" Visibility="Hidden" HorizontalAlignment="Left" Width="195"/>
-                                    <Button x:Name="btn_deleteWorkout" Content="Löschen" Margin="448,2,10,495.8" Click="Btn_Delete_workout_Click" Visibility="Hidden"/>
+                                    <Button x:Name="btn_saveChangeWorkout" Content="Änderung Speichern" Margin="270,2,0,495.8" Click="btn_saveChangeWorkout_Click" Visibility="Hidden" HorizontalAlignment="Left" Width="158"/>
+                                    <Button x:Name="btn_deleteWorkout" Content="Löschen" Margin="448,2,0,495.8" Click="Btn_Delete_workout_Click" Visibility="Hidden" HorizontalAlignment="Left" Width="197"/>
                                 </Grid>
                                 <GroupBox x:Name="groupBox3" Header="Workout" Margin="10,45,0,138" HorizontalAlignment="Left" Width="251" >
 
@@ -218,7 +219,7 @@
                                         <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
                                             <ToolBar x:Name="tb_roomShow_workout">
                                                 <ComboBox x:Name="cb_roomChoose_workout" Margin="0,0,0,-0.4" Width="210">
-                                                    <ComboBoxItem IsSelected="True">Bitte Raum auswählen</ComboBoxItem>
+                                                    <ComboBoxItem x:Name="cbChooseARoom_Workout" IsSelected="True">Bitte Raum auswählen</ComboBoxItem>
                                                 </ComboBox>
                                             </ToolBar>
                                         </ToolBarTray>
@@ -226,10 +227,12 @@
                                             <ListView x:Name="_listView_workout" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" Visibility="Hidden" >
                                                 <ListView.View >
                                                     <GridView x:Name="_gridView_workout">
-                                                        <GridViewColumn Header="Löschen">
+                                                        <GridViewColumn Header="Auswahl">
                                                             <GridViewColumn.CellTemplate>
                                                                 <DataTemplate>
-                                                                    <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
+                                                                    <!--<CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>-->
+                                                                    <RadioButton GroupName="loeschen_Workout" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
+
                                                                 </DataTemplate>
                                                             </GridViewColumn.CellTemplate>
                                                         </GridViewColumn>
@@ -252,31 +255,83 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Exercise&#xD;&#xA;Manager" Margin="6,0,-5.8,0.4">
-                <Grid VerticalAlignment="Top">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="591">
-
-                            <Grid VerticalAlignment="Top" Height="640">
-                                <GroupBox x:Name="label_exercise" Header="Exercise" Margin="10,5,349.2,0">
-                                    <Button x:Name="bt_add_exercise" Content="Neues Exercise hinzufügen" Margin="0,47,0,514.2" Foreground="#CC0050EF"/>
-
-                                </GroupBox>
-                                <Grid VerticalAlignment="Top">
-                                    <GroupBox x:Name="groupBox2" Header="Exercise Informationen" Margin="259,5,-24.8,0">
-                                        <Grid VerticalAlignment="Top" Height="635">
-                                            <Label x:Name="name_headline1" Content="Name:" FontWeight="Bold" Margin="0,0,179.8,609"/>
-                                            <Label x:Name="txt_name1" Content="Testraum" Margin="96,2,83.8,607" RenderTransformOrigin="0.501,0.5"/>
-                                            <Label x:Name="beschreibung_headline1" Content="Beschreibung:" VerticalAlignment="Top" Margin="0,26,180,0" FontWeight="Bold"/>
-                                            <TextBox x:Name="txt_beschreibung1" Margin="0,52,-0.2,506" Text="Beschreibung hier!"/>
-                                            <Label x:Name="private_headline1" Content="Level" Margin="0,134,179.8,475" FontWeight="Bold"/>
-                                            <Label x:Name="name_trainer_headline3" Content="Level 1" Margin="96,134,2.8,475"/>
-                                            <Label x:Name="name_trainer_headline1" Content="Video" Margin="0,166,179.8,443" FontWeight="Bold"/>
-                                            <Button x:Name="url_exercise" Content="Add Video" Margin="172,162,0.6,442" Foreground="#CC0050EF" Click="BtnLogout_Click"/>
-                                            <Label x:Name="name_trainer_headline3_Copy" Content="URL" Margin="96,165,104.8,444"/>
+                <Grid Margin="0,4,0,-0.4">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
+                        <StackPanel VerticalAlignment="Top" Margin="0,0,15,-10">
+                            <Grid Height="629" Margin="0,0,-0.2,0">
+                                <Grid Margin="0,4,-0.2,100">
+                                    <Button x:Name="btn_addExercise" Content="Exercise hinzufügen" Margin="11,2,0,495.8" Click="btn_addExercise_Click" HorizontalAlignment="Left" Width="240"/>
+                                    <Button x:Name="btn_saveExercise" Content="Speichern" Margin="270,2,0,495.8" Click="btn_saveExercise_Click" HorizontalAlignment="Left" Width="158"/>
+                                    <Button x:Name="btn_cancelExercise" Content="Abbrechen" Margin="448,2,0,495.8" Click="Btn_cancel_Exercise_Click" HorizontalAlignment="Left" Width="156" />
+                                    <Button x:Name="btn_saveChangeExercise" Content="Änderung Speichern" Margin="270,2,0,495.8" Click="btn_saveChangeExercise_Click" Visibility="Hidden" HorizontalAlignment="Left" Width="158"/>
+                                    <Button x:Name="btn_deleteExersice" Content="Löschen" Margin="448,2,0,495.8" Click="Btn_Delete_Exercise_Click" Visibility="Hidden" HorizontalAlignment="Left" Width="197"/>
+                                    <GroupBox x:Name="gb_ExerciseInfos" Header="Exercise Informationen" Margin="267,41,0,39.8" HorizontalAlignment="Left" Visibility="Hidden" Width="337">
+                                        <Grid>
+                                            <!-- Click="B_url_pic_Exercise_Click" -->
+                                            <Label x:Name="label_name_Exercise" Content="Name:" FontWeight="Bold" Margin="0,0,196,375" />
+                                            <TextBox x:Name="txt_name_Exercise" Margin="93,2,13,374.6" />
+                                            <Label x:Name="label_beschreibung_Exercise" Content="Beschreibung:" Margin="0,26,67.4,348.8" FontWeight="Bold" />
+                                            <TextBox x:Name="txt_beschreibung_Exercise" Margin="0,52,10.4,267.8" Text="Beschreibung hier!"  />
+                                            <!--<ToolBar x:Name="tb_levelShow_workout" Margin="0,158,10.4,219.8">-->
+                                            <ComboBox x:Name="cb_levelChoose_workout" Margin="0,159,10,220.6">
+                                                <ComboBoxItem x:Name="cbLeve_Auswahl" IsSelected="True" Content="Bitte Level auswählen"/>
+                                                <ComboBoxItem x:Name="cbLevel1" Content="Level 1"/>
+                                                <ComboBoxItem x:Name="cbLevel2" Content="Level 2"/>
+                                                <ComboBoxItem x:Name="cbLevel3" Content="Level 3"/>
+                                                <ComboBoxItem x:Name="cbLevel4" Content="Level 4"/>
+                                                <ComboBoxItem x:Name="cbLevel5" Content="Level 5"/>
+                                            </ComboBox>
+                                            <!--</ToolBar>-->
+                                            <TextBox Margin="0,206,0,168.6" x:Name="txt_url_pic_Exercise" HorizontalAlignment="Left" Width="236" />
+                                            <Button Content="Hochladen" Margin="241,206,0,169.6" x:Name="b_url_pic_Exercise" HorizontalAlignment="Left" Width="73" />
                                         </Grid>
                                     </GroupBox>
                                 </Grid>
+                                <GroupBox x:Name="gbExerice" Header="Exercise" Margin="10,45,0,138" HorizontalAlignment="Left" Width="251" >
+
+                                    <DockPanel>
+                                        <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
+                                            <ToolBar x:Name="tb_roomShow_Exercise">
+                                                <ComboBox x:Name="cb_roomChoose_Exercise" Margin="0,0,0,-0.4" Width="210">
+                                                    <ComboBoxItem x:Name="cbChooseARoom_Exercise" IsSelected="True" Content="Bitte Raum auswählen"/>
+                                                </ComboBox>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
+                                            <ToolBar x:Name="tb_workoutShow_Exercise">
+                                                <ComboBox x:Name="cb_workoutChoose_Exercise" Margin="0,0,0,-0.4" Width="210">
+                                                    <ComboBoxItem x:Name="cbChooseAWorkout_Exercise" IsSelected="True" Content="Bitte Workout auswählen"/>
+                                                </ComboBox>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <Grid>
+                                            <ListView x:Name="_listView_Exercise" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" Visibility="Hidden" >
+                                                <ListView.View >
+                                                    <GridView x:Name="_gridView_Exercise">
+                                                        <GridViewColumn Header="Auswahl">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <!--<CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>-->
+                                                                    <RadioButton GroupName="loeschen_Exercise" IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"/>
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                        </Grid>
+                                        <!-- <Grid>
+                                            <ListView x:Name="_listView_workout" ItemsSource="{Binding}" Margin="0,0,0.4,-0.2">
+                                                <ListView.View >
+                                                    <GridView x:Name="_gridView_workout"/>
+                                                </ListView.View>
+                                            </ListView>
+                                        </Grid> -->
+                                    </DockPanel>
+                                </GroupBox>
                             </Grid>
+
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

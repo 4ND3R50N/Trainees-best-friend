@@ -26,6 +26,7 @@ namespace tbfContentManager.Classes
         List<string> keyDelete = new List<string>();
         string IdWorkoutToChange;
         string roomID;
+        string workoutID;
         bool IsChanged = false;
         Dictionary<string, List<string>> roomInformation;
         RoomManager roomManager;
@@ -57,7 +58,12 @@ namespace tbfContentManager.Classes
                     GetAllWorkoutInformation(message, messageList);
                     break;
 
-                case "#2":
+                case "#216":
+                    AddWorkoutReceive(messageList);
+                    break;
+
+                case "#218":
+                    DeleteWorkoutReceive(messageList);
                     break;
 
                 default:
@@ -84,14 +90,14 @@ namespace tbfContentManager.Classes
             ClearAllTxtFields();
         }
 
-        public bool AddWorkoutSend(int iUserId, string sTrennzeichen, string sBeschreibung, string sPicURL, string sWorkoutName, string IdWorkout, string RoomId)
+        public bool AddWorkoutSend(int iUserId, string sTrennzeichen, string sBeschreibung, string sPicURL, string sWorkoutName, string IdWorkout)
         {
             if (sWorkoutName.Length > 0)
             {
                 /*WICHTIG FUER SPAETER!
                     Bild muss vorher auf DB geschickt, der schickt dann URL zurueck, dass ist dann die txt_url_workout
                  */
-                TCPClient.sendMessage("#215;" + IdWorkout + sTrennzeichen + iUserId + sTrennzeichen + sWorkoutName + sTrennzeichen
+                TCPClient.sendMessage("#215;" + IdWorkout + sTrennzeichen + roomID + sTrennzeichen + sWorkoutName + sTrennzeichen
                    + sBeschreibung + sTrennzeichen + sPicURL + sTrennzeichen, true);
                 return true;
             }
@@ -153,6 +159,7 @@ namespace tbfContentManager.Classes
             for (int i = 2; i < messageList.Count; i++)
             {
                 workoutData = messageList.ElementAt(i).Split('|').ToList();
+                //MessageBox.Show(workoutData[i]);
 
                 workoutInformation.Add(workoutData[0], workoutData);
 
@@ -206,6 +213,7 @@ namespace tbfContentManager.Classes
             {
                 DataRowView row = (DataRowView)e.AddedItems[0];
                 string key = row.Row["ID"] as string;
+                workoutID = key;
                 List<string> workoutDataInformation = new List<string>();
 
                 IdWorkoutToChange = key;
@@ -239,9 +247,9 @@ namespace tbfContentManager.Classes
             }
         }
 
-        public void ChangeWorkoutSend(int iUserId, string sTrennzeichen, string sBeschreibung, string sPicURL, string sWorkoutName, string IdWorkout, string RoomId)
+        public void ChangeWorkoutSend(int iUserId, string sTrennzeichen, string sBeschreibung, string sPicURL, string sWorkoutName)
         {
-            AddWorkoutSend(iUserId, sTrennzeichen, sBeschreibung, sPicURL, sWorkoutName, IdWorkout, RoomId);
+            AddWorkoutSend(iUserId, sTrennzeichen, sBeschreibung, sPicURL, sWorkoutName, workoutID);
             IsChanged = true;
         }
 
@@ -251,12 +259,27 @@ namespace tbfContentManager.Classes
             string deleteWorkoutTrennzeichen = "|";
             foreach (string tmp in keyDelete)
             {
-                sDeleteWorkout += deleteWorkoutTrennzeichen + tmp;
+                //sDeleteWorkout += deleteWorkoutTrennzeichen + tmp;
+                TCPClient.sendMessage("#217;" + tmp, true);
+                Thread.Sleep(500);
+            }
+        }
 
-                //MessageBox.Show(tmp);               
+        public void DeleteWorkoutReceive(List<string> messageServer) {
+            if (messageServer[1] == "1")
+            {
+                MessageBox.Show("Der Workout wurde erfolgreich gelöscht!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
+            else if (messageServer[1] == "2")
+            {
+                MessageBox.Show("Der Workout konnte nicht gelöscht werden!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            //MessageBox.Show(sDeleteRoom);
+            else
+            {
+                MessageBox.Show("Unbekannter Protokolfehler!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void ShowAllRooms()
@@ -275,7 +298,8 @@ namespace tbfContentManager.Classes
                 for (int i = 0; i < roomInformation.Count; i++)
                 {
                     mainContentWindow.cb_roomChoose_workout.Items.Add(roomInformation.ElementAt(i).Value.ElementAt(1));
-                }
+                                    }
+
             }));
         }
 
@@ -295,11 +319,14 @@ namespace tbfContentManager.Classes
                         {
                             mainContentWindow._listView_workout.Visibility = Visibility.Visible;
                             roomID = roomInformation.ElementAt(i).Value.ElementAt(0);
+                            string roomName = roomInformation.ElementAt(i).Value.ElementAt(1);
+                            mainContentWindow.cbChooseARoom_Workout.Content = roomName;
                             GetAllWorkoutSend(roomID);
                         }
                     }
                 }
             }
         }
+        
     }
 }

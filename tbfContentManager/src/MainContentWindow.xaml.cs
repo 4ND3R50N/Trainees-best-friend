@@ -31,6 +31,7 @@ namespace tbfContentManager
 
         RoomManager roomManager;
         WorkoutManager workoutManager;
+        ExerciseManager exerciseManager;
 
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
@@ -42,7 +43,7 @@ namespace tbfContentManager
 
             roomManager = new RoomManager(ref TCPClient, this, iUserID);
             workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
-
+            exerciseManager = new ExerciseManager(ref TCPClient, this, roomManager, workoutManager);
 
             lblWelcomeMessage.Content = "Willkommen " + sUserName;
         }
@@ -160,9 +161,7 @@ namespace tbfContentManager
 
         private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)
         {
-            string roomId = "111";
-            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0", roomId);
-
+            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
         }
 
         private void B_url_pic_workout_Click(object sender, RoutedEventArgs e)
@@ -189,10 +188,16 @@ namespace tbfContentManager
             {
                 // Open document
                 string filename = dlg.FileName;
-                txt_url_pic_room.Text = filename;
+                txt_url_pic_workout.Text = filename;
             }
             //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
             //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void btn_saveChangeWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ChangeWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
 
         }
 
@@ -217,15 +222,74 @@ namespace tbfContentManager
             workoutManager.ShowAllRooms();
         }
 
-        //private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    MessageBox.Show("");
-        //}
+        //------------------------------- Exercise Manager -------------------------------------------------//
 
-        //private void workout_grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    MessageBox.Show("mache nichts");
-        //}
-        
+        private void btn_addExercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutClick();
+        }
+
+        private void btn_saveExercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
+        }
+
+        private void B_url_pic_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
+
+            //spater fuer video
+
+            //dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+            //"*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+            //"*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                txt_url_pic_Exercise.Text = filename;
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void btn_saveChangeExercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ChangeWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
+
+        }
+
+        private void Btn_cancel_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ClearAllTxtFields();
+        }
+
+        private void Btn_Delete_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.DeleteWorkout();
+        }
+
+        private void TiExerciseManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+            roomManager.GetAllRoomSend();
+            Thread.Sleep(400);
+
+            TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
+            gb_roomInfos.Visibility = Visibility.Hidden;
+            workoutManager.ShowAllRooms();
+        }
     }
  }
