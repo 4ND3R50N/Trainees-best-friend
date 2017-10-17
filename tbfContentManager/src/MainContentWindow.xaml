@@ -219,7 +219,7 @@
                                         <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
                                             <ToolBar x:Name="tb_roomShow_workout">
                                                 <ComboBox x:Name="cb_roomChoose_workout" Margin="0,0,0,-0.4" Width="210">
-                                                    <ComboBoxItem x:Name="cbChooseARoom_Workout" IsSelected="True">Bitte Raum auswählen</ComboBoxItem>
+                                                    <ComboBoxItem x:Name="cbChooseARoom_Workout" IsSelected="False">Bitte Raum auswählen</ComboBoxItem>
                                                 </ComboBox>
                                             </ToolBar>
                                         </ToolBarTray>
@@ -254,7 +254,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Exercise&#xD;&#xA;Manager" Margin="6,0,-5.8,0.4">
+            <TabItem Header="Exercise&#xD;&#xA;Manager" Margin="6,0,-5.8,0.4" MouseLeftButtonUp="TiExerciseManager_MouseLeftButtonUp">
                 <Grid Margin="0,4,0,-0.4">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
                         <StackPanel VerticalAlignment="Top" Margin="0,0,15,-10">
@@ -295,10 +295,11 @@
                                                 <ComboBox x:Name="cb_roomChoose_Exercise" Margin="0,0,0,-0.4" Width="210">
                                                     <ComboBoxItem x:Name="cbChooseARoom_Exercise" IsSelected="True" Content="Bitte Raum auswählen"/>
                                                 </ComboBox>
+
                                             </ToolBar>
                                         </ToolBarTray>
                                         <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0.4,0" Width="238">
-                                            <ToolBar x:Name="tb_workoutShow_Exercise">
+                                            <ToolBar x:Name="tb_workoutShow_Exercise" Visibility="Hidden">
                                                 <ComboBox x:Name="cb_workoutChoose_Exercise" Margin="0,0,0,-0.4" Width="210">
                                                     <ComboBoxItem x:Name="cbChooseAWorkout_Exercise" IsSelected="True" Content="Bitte Workout auswählen"/>
                                                 </ComboBox>

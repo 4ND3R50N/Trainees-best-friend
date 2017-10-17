@@ -33,6 +33,9 @@ namespace tbfContentManager
         WorkoutManager workoutManager;
         ExerciseManager exerciseManager;
 
+        enum tabs { Status = 1, Raum= 2, Workout = 3, Exercise = 4, Trainee = 5 };
+        public int aktuellerTab = (int)tabs.Status;
+
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
@@ -139,12 +142,16 @@ namespace tbfContentManager
 
         private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+            if (aktuellerTab != (int)tabs.Raum)
+            {
+                aktuellerTab = (int)tabs.Raum;
 
-            //gb_workoutInfos.Visibility = Visibility.Hidden;
-            roomManager.GetAllRoomSend();
-            Thread.Sleep(100);
+                TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
 
+                //gb_workoutInfos.Visibility = Visibility.Hidden;
+                roomManager.GetAllRoomSend();
+                Thread.Sleep(100);
+            }
         }
 
         private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
@@ -213,12 +220,21 @@ namespace tbfContentManager
 
         private void TiWorkoutManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
-            roomManager.GetAllRoomSend();
-            Thread.Sleep(400);
+            if(aktuellerTab != (int)tabs.Workout)
+            {
+                aktuellerTab = (int)tabs.Workout;
+
+                TCPClient.changeProtocolFunction(this.workout_room_Delegate);
+                roomManager.GetAllRoomSend();
+            }
+
+        }
+
+        private void workout_room_Delegate(string message)
+        {
+            roomManager.Server_response_roomManager(message);
 
             TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
-            gb_roomInfos.Visibility = Visibility.Hidden;
             workoutManager.ShowAllRooms();
         }
 
@@ -283,13 +299,18 @@ namespace tbfContentManager
 
         private void TiExerciseManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
-            roomManager.GetAllRoomSend();
-            Thread.Sleep(400);
+            if (aktuellerTab != (int)tabs.Exercise)
+            {
+                aktuellerTab = (int)tabs.Exercise;
 
-            TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
-            gb_roomInfos.Visibility = Visibility.Hidden;
-            workoutManager.ShowAllRooms();
+                TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+                roomManager.GetAllRoomSend();
+                Thread.Sleep(400);
+
+                TCPClient.changeProtocolFunction(exerciseManager.Server_response_exerciseManager);
+                gb_ExerciseInfos.Visibility = Visibility.Hidden;
+                exerciseManager.ShowAllRooms();
+            }
         }
     }
  }

@@ -22,7 +22,7 @@ namespace tbfContentManager.Classes
         readonly MainContentWindow mainContentWindow;
         DataTable workoutTable = new DataTable();
         List<string> workoutData = new List<string>();
-        readonly Dictionary<string, List<string>> workoutInformation;
+        public Dictionary<string, List<string>> workoutInformation;
         List<string> keyDelete = new List<string>();
         string IdWorkoutToChange;
         string roomID;
@@ -30,6 +30,8 @@ namespace tbfContentManager.Classes
         bool IsChanged = false;
         Dictionary<string, List<string>> roomInformation;
         RoomManager roomManager;
+
+        int test = 0;
 
         public WorkoutManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow, RoomManager roomManager)
         {
@@ -261,7 +263,7 @@ namespace tbfContentManager.Classes
             {
                 //sDeleteWorkout += deleteWorkoutTrennzeichen + tmp;
                 TCPClient.sendMessage("#217;" + tmp, true);
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
             }
         }
 
@@ -295,19 +297,22 @@ namespace tbfContentManager.Classes
                 mainContentWindow.cb_roomChoose_workout.Items.Add("Bitte Raum auswählen!");
                 mainContentWindow.cb_roomChoose_workout.SelectedIndex = 0;
 
+                
                 for (int i = 0; i < roomInformation.Count; i++)
                 {
                     mainContentWindow.cb_roomChoose_workout.Items.Add(roomInformation.ElementAt(i).Value.ElementAt(1));
-                                    }
+                }
 
             }));
         }
 
         private void Cb_roomChoose_workout_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            mainContentWindow.gb_workoutInfos.Visibility = Visibility.Hidden;
+
             if (e.AddedItems.Count != 0)
             {
-                if (e.AddedItems[0].ToString() == "Bitte Raum auswählen")
+                if (mainContentWindow.cb_roomChoose_workout.SelectedIndex == 0)
                 {
                     mainContentWindow._listView_workout.Visibility = Visibility.Hidden;
                 }
