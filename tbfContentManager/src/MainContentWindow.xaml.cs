@@ -164,6 +164,7 @@ namespace tbfContentManager
         private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
         {
             workoutManager.AddWorkoutClick();
+
         }
 
         private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)

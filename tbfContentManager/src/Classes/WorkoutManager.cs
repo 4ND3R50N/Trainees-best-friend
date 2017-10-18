@@ -114,10 +114,13 @@ namespace tbfContentManager.Classes
                 {
                     MessageBox.Show("Der Workout wurde erfolgreich geändert!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                     IsChanged = false;
+                    GetAllWorkoutSend(roomID);
+
                 }
                 else
                 {
                     MessageBox.Show("Der Workout wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    GetAllWorkoutSend(roomID);
                 }
                 mainContentWindow.btn_saveWorkout.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_saveWorkout.Visibility = Visibility.Hidden));
                 mainContentWindow.btn_cancelWorkout.Dispatcher.BeginInvoke((Action)(() => mainContentWindow.btn_cancelWorkout.Visibility = Visibility.Hidden));
@@ -164,6 +167,7 @@ namespace tbfContentManager.Classes
                 //MessageBox.Show(workoutData[i]);
 
                 workoutInformation.Add(workoutData[0], workoutData);
+                Console.WriteLine(workoutInformation);
 
                 workoutTable.Rows.Add(workoutData.ElementAt(0), workoutData.ElementAt(1));
             }

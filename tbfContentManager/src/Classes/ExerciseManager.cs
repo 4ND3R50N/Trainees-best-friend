@@ -68,7 +68,7 @@ namespace tbfContentManager.Classes
                     break;
 
                 default:
-                    MessageBox.Show("Server Kommunikationsproblem!");
+                    MessageBox.Show("Server Kommunikationsproblem! _ExerciseManager");
                     break;
             }
 
@@ -129,7 +129,11 @@ namespace tbfContentManager.Classes
 
             workoutInformation = workoutManager.workoutInformation;
 
-            //Console.WriteLine(workoutInformation);
+
+            //TCPClient.changeProtocolFunction(Server_response_exerciseManager);
+            //Thread.Sleep(400);
+
+            ////Console.WriteLine(workoutInformation);
 
             //mainContentWindow.tb_workoutShow_Exercise.Visibility = Visibility.Visible;
 
