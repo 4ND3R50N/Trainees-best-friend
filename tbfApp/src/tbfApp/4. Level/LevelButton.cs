@@ -35,7 +35,7 @@ namespace tbfApp
                     WinPhone: "Comic Sans MS"
                 ),
         };
-
+            /*
             var webImage = new Image { Aspect = Aspect.AspectFit };
             webImage.Source = new UriImageSource
             {
@@ -44,7 +44,7 @@ namespace tbfApp
                 CachingEnabled = false,
                 CacheValidity = new TimeSpan(5, 0, 0, 0),
             };
-
+            */
             var starsIcon = new Image
             {
                 Aspect = Aspect.AspectFit,
@@ -70,11 +70,11 @@ namespace tbfApp
 
             var info = new Image { Aspect = Aspect.AspectFit };
             info.Source = "info.png";
-
+            /*
             var indicator = new ActivityIndicator { Color = new Color(.5), };
             indicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsLoading");
             indicator.BindingContext = webImage;
-
+            */
             var grid = new Grid { RowSpacing = 1, ColumnSpacing = 1, };
             var gridButton = new Grid { RowSpacing = 0, ColumnSpacing = 10 };
             var gridLableStars = new Grid { RowSpacing = 0, ColumnSpacing = 0, };

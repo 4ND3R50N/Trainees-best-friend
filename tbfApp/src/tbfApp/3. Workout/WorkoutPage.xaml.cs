@@ -12,9 +12,11 @@ namespace tbfApp
     public partial class WorkoutPage : ContentPage
     {
         private ScrollView scroll;
+        private Label label;
         private StackLayout stack;
         static ActivityIndicator activityIndicator;
         private String roomID;
+
         public WorkoutPage(String roomID)
         {
             InitializeComponent();
@@ -23,9 +25,17 @@ namespace tbfApp
 
             scroll = new ScrollView();
 
+            label = new Label
+            {
+                Text = "Hier hat etwas nicht funktioniert, versuchen Sie es noch einmal.",
+                Font = Font.SystemFontOfSize(NamedSize.Large),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+
             activityIndicator = new ActivityIndicator()
             {
-                Color = Color.Accent,
+                Color = Color.Gray,
                 IsRunning = true,
                 WidthRequest = 80,
                 HeightRequest = 80,
@@ -38,9 +48,16 @@ namespace tbfApp
             stack = new StackLayout();
             scroll.Content = stack;
 
-            ServerRequest();
-
-            stack.Children.Add(new WorkoutButton("Every Morning", Navigation, this, "Das Workout für jeden guten Start in den Tag", "workoutID HERE ToDo", "buttonBackground700x100.png"));
+            if (roomID.Equals("XXX"))
+            {
+                stack.Children.Add(new WorkoutButton("Every Morning", Navigation, this,
+                    "Das Workout für jeden guten Start in den Tag", "XXX", "buttonBackground700x100.png"));
+                activityIndicatorSwitch();
+            }
+            else
+            {
+                ServerRequest();
+            }
         }
 
         async void ServerRequest()
@@ -52,35 +69,51 @@ namespace tbfApp
 
         async private void ServerAnswer(string protocol)
         {
-            //await DisplayAlert("Servermessage", protocol, "OK");
-
-            List<string> workoutList = new List<string>();
-            workoutList = protocol.Split(new char[] { ';' }).ToList();
-
-            if (workoutList.ElementAt(0).Equals("#206"))
+            try
             {
-                int workoutAmount;
-                int.TryParse(workoutList.ElementAt(1), out workoutAmount);      //outerList Element 1 Amount
-                if (workoutAmount > 0)
+                List<string> workoutList = new List<string>();
+                workoutList = protocol.Split(new char[] {';'}).ToList();
+
+                if (workoutList.ElementAt(0).Equals("#206"))       //outerList protocolNumber
                 {
-                    for (int i = 2; i < workoutAmount + 2; i++)
+                    int workoutAmountReceived = workoutList.Count - 2;
+
+                    int workoutAmountServer;
+                    int.TryParse(workoutList.ElementAt(1), out workoutAmountServer);      //outerList Element 1 Amount
+
+                    if (workoutAmountServer != workoutAmountReceived)
                     {
-                        List<string> workoutDataList = new List<string>();
-                        workoutDataList = workoutList.ElementAt(i).Split(new char[] { '|' }).ToList();
-                        //innerList
-                        //Element 0 = ID | Element 1 = Name | Element 2 = Description | Element 3 = IconURL
-                        stack.Children.Add(new WorkoutButton(workoutDataList.ElementAt(1), Navigation, this, workoutDataList.ElementAt(2), workoutDataList.ElementAt(0), workoutDataList.ElementAt(3)));
+                        await DisplayAlert("Nicht alle Workouts wurden geladen!", "Pufferlänge in den Einstellungen erhöhen.",
+                            "Fortfahren");
+                    }
+
+                    if (workoutAmountReceived > 0)
+                    {
+                        for (int i = 2; i < workoutAmountReceived + 2; i++)
+                        {
+                            List<string> workoutDataList = new List<string>();
+                            workoutDataList = workoutList.ElementAt(i).Split(new char[] { '|' }).ToList();
+                            //innerList
+                            //Element 0 = ID | Element 1 = Name | Element 2 = Description | Element 3 = IconURL
+                            stack.Children.Add(new WorkoutButton(workoutDataList.ElementAt(1), Navigation, this, workoutDataList.ElementAt(2), workoutDataList.ElementAt(0), workoutDataList.ElementAt(3)));
+                        }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Leer", "Keine Workouts für diesen Raum", "OK");
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Fehler", "Keine Workouts für diesen Raum", "OK");
+                    await DisplayAlert("Fehler", "Kommunikationsproblem, Undefinierte Antwort vom Server! "+workoutList.ElementAt(0), "OK");
                 }
             }
-            else
+            catch (Exception)
             {
-                await DisplayAlert("Fehler", "Kommunikationsproblem, Undefinierte Antwort vom Server! "+workoutList.ElementAt(0), "OK");
+                await DisplayAlert("Workouts konnte nicht geladen werden!", "Bufferlänge in den Einstellungen erhöhen!", "Fortfahren");
+                stack.Children.Add(label);
             }
+
             App.endpointConnection.closeConnection();
 
             activityIndicatorSwitch();
@@ -88,7 +121,7 @@ namespace tbfApp
 
         private void activityIndicatorSwitch()
         {
-            if (activityIndicator.IsRunning == true)
+            if (activityIndicator.IsRunning)
             {
                 activityIndicator.IsRunning = false;
 

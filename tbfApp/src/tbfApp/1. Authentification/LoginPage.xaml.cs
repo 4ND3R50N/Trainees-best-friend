@@ -60,13 +60,41 @@ namespace tbfApp
 
         private void ServerAnswer(string protocol)
         {
-            DisplayAlert("Servermessage", protocol, "OK");
+            //DisplayAlert("Servermessage", protocol, "OK");                    //Output of the Server Answer
 
             List<string> list = new List<string>();
             list = protocol.Split(new char[] { ';' } ).ToList();
 
             if (list.ElementAt(0).Equals("#103"))
             {
+                switch (list.ElementAt(1))
+                {
+                    case "1":
+                        int iD;
+                        int.TryParse(list.ElementAt(2), out iD);
+                        App.SetUserID(iD);
+                        App.SetUsername(usernameEntry.Text);
+                        Application.Current.Properties["IsUserLoggedIn"] = true;
+                        //App.LogInSwitch();
+                        DisplayAlert("Login Erfolgreich!", "Hallo " + usernameEntry.Text + "!", "OK");
+                        break;
+                    case "2":
+                        //messageLabel.Text = "Login fehlgeschlagen, falsches Passwort oder falscher Benutzername!";
+                        DisplayAlert("Login Fehlgeschlagen", "falsches Passwort oder falscher Benutzername!", "OK");
+                        passwordEntry.Text = string.Empty;
+                        usernameEntry.Text = string.Empty;
+                        break;
+                    case "3":
+                        //messageLabel.Text = "Login fehlgeschlagen, Serverproblem!";
+                        DisplayAlert("Login Fehlgeschlagen", "Serverproblem!", "OK");
+                        break;
+                    default:
+                        //messageLabel.Text = "Kommunikationsproblem, Undefinierte Antwort vom Server 1!";
+                        DisplayAlert("Login Fehlgeschlagen", "Kommunikationsproblem, Undefinierte Antwort vom Server 1!", "OK");
+                        break;
+                }
+
+                /*
                 if (list.ElementAt(1).Equals("1"))
                 {
                     int iD;
@@ -91,6 +119,7 @@ namespace tbfApp
                 {
                     messageLabel.Text = "Kommunikationsproblem, Undefinierte Antwort vom Server 1!";
                 }
+                */
             }
             else
             {

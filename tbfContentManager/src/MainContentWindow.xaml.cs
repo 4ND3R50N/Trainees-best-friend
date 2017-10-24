@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,170 +15,85 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using tbfContentManager.Classes;
 using WhiteCode.Network;
 
 namespace tbfContentManager
 {
     public partial class MainContentWindow
     {
-        simpleNetwork_Client TCPClient;
         string sUserName;
         int iUserId;
         string sTrennzeichen = ";";
+        DataTable table;
+        SimpleNetwork_Client TCPClient;
 
-        public MainContentWindow(ref simpleNetwork_Client TCPClient, string sUserName, int iUserID)
+        RoomManager roomManager;
+        WorkoutManager workoutManager;
+        ExerciseManager exerciseManager;
+
+        enum tabs { Status = 1, Raum= 2, Workout = 3, Exercise = 4, Trainee = 5 };
+        public int aktuellerTab = (int)tabs.Status;
+
+        public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
-            this.TCPClient = TCPClient;
+
             this.sUserName = sUserName;
-            this.iUserId = iUserId;
+            this.iUserId = iUserID;
+            this.TCPClient = TCPClient;
+
+            roomManager = new RoomManager(ref TCPClient, this, iUserID);
+            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
+            exerciseManager = new ExerciseManager(ref TCPClient, this, roomManager, workoutManager);
+
+            lblWelcomeMessage.Content = "Willkommen " + sUserName;
         }
 
-        private void server_response(string message)
-        {
-
-            List<string> tmp = new List<string>();
-           
-            tmp = message.Split(';').ToList();
-            string prot = message.Split(';')[0];
-            string counter = message.Split(';')[1];
-            
-            //MessageBox.Show(message);
-
-            switch (prot)
-            {
-                case "#202":
-                    //tel_202_Room_Data(tmp, lServerData);
-                    List<List<string>> lServerData = new List<List<string>>();
-                    string[] room_names = new string[Convert.ToInt32(counter)];
-                    for (int i = 2; i <= Convert.ToInt32(counter); i++)
-                    {
-                        lServerData.Add(tmp[i].Split('|').ToList());
-                    }
-                    for (int j = 0; j < (lServerData.Count); j++)
-                    {
-                            int room_ID = Convert.ToInt32(lServerData[j][0]);
-                            room_names[j] = lServerData[j][1];
-                        MessageBox.Show(room_names[j]);
-                        //string room_description = lServerData[j][2];
-                        //bool is_priavte = Convert.ToBoolean(lServerData[j][3]);
-                        //string room_icon_url = lServerData[j][4];
-                    }
-                    for (int d = 0; d < (room_names.Length); d++) {
-                        create_RoomList_item(room_names[d]);
-                    }
-
-                    break;
-            default:
-                    break;
-                case "#204":
-                    if (tmp[1] == "1") {
-                        MessageBox.Show("Der Raum " + txt_name_room.Text +" wurde erfolgreich angelegt!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    if (tmp[1] == "2")
-                    {
-                        MessageBox.Show("Der Raumname " + txt_name_room.Text + " existiert bereits!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    if (tmp[1] == "3")
-                    {
-                        MessageBox.Show("Der Server hat einen internen Fehler! Bitte kontaktieren Sie einen Administrator!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    break;
-            }
-        }
-
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             Hide();
             MainWindow newLogin = new MainWindow();
             newLogin.Show();
         }
 
-        private void tel_202_Room_Data(List<string> tmp, List<List<string>> lServerData) {
-           
-            for (int i = 2; i < (Convert.ToInt32(tmp[1]) + 2); i++)
-            {
-                lServerData.Add(tmp[i].Split('|').ToList());
-            }
-            for (int j = 0; j < lServerData.Count; j++) {
-                for (int i = 0; i < lServerData[j].Count; i++)
-                {
-                    int room_ID = Convert.ToInt32(lServerData[j][i]);
-                }
-            }
-        }
-
-
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
-        private void btn_add_room_Click(object sender, RoutedEventArgs e)
+        // ----------------------------------------------- Raum Manager -------------------------------------------------------- //
+
+        private void Btn_addRoom_Click(object sender, RoutedEventArgs e)
         {
-            //;
-            //{ Int: UserID}
-            //{ String: RoomName}
-
-            //TCPClient.sendMessage("#203;" + txtUser.Text + ";" + txtPassword.Password, true);
+            roomManager.AddRoomClick();
         }
 
-        public void create_RoomList_item(string room_name) {
-            // Populate list
-            //MessageBox.Show(room_name);
-            //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-            //this.lvRoomList.Items.Add(new lRoomNameEntry { Name = room_name });
-        }
-
-
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            //RoomManger Room laden
-            TCPClient.changeProtocolFunction(server_response);
-            TCPClient.sendMessage("#201", true);
-
-            var gridView = new GridView();
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Header = "Name",
-                DisplayMemberBinding = new Binding("Name")
-            });
+            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,
+                (bool) b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
+            Thread.Sleep(2000);
+            roomManager.GetAllRoomSend();
         }
 
-     
-        private void btn_addRoom_Click(object sender, RoutedEventArgs e)
-        {
-            gb_roomInfos.Visibility = Visibility;
-        }
-
-        private void btn_saveRoom_Click(object sender, RoutedEventArgs e)
-        {
-            int i_isPrivate_room = 0;
-            if(b_isPrivate_room.IsChecked == true) {
-                i_isPrivate_room = 1;
-            }else{
-                i_isPrivate_room = 0;
-            }
-            if (txt_name_room.Text.Length > 0) {
-                // WICHTIG FUER SPAETER!!! //
-                /*
-                    Bild muss vorher auf DB geschickt 
-                    der schickt dann URL zurueck, dass ist dann die txt_url_room 
-                 */
-
-                //MessageBox.Show("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen);
-                TCPClient.sendMessage("#203;" + iUserId + sTrennzeichen + txt_name_room.Text + sTrennzeichen + txt_beschreibung_room.Text + sTrennzeichen + i_isPrivate_room + sTrennzeichen + txt_url_pic_room.Text + sTrennzeichen, true);
-            }
-        }
-
-        private void b_url_pic_room_Click(object sender, RoutedEventArgs e)
+        private void B_url_pic_room_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             // Set filter for file extension and default file extension
             dlg.DefaultExt = ".txt";
-            //dlg.Filter = "Text documents (.txt)|*.txt";
+            //dlg.Filter = "Bildformat(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+            dlg.Filter = "Bildformat(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
+            
+            //spater fuer video
+            /*
+             dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             "*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             "*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             */
 
             // Display OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = dlg.ShowDialog();
@@ -186,31 +103,215 @@ namespace tbfContentManager
             {
                 // Open document
                 string filename = dlg.FileName;
-                txt_url_pic_room.Text = filename;
+
+                //Upload File via FTP
+                //string source = @"FilePath and FileName of Local File to Upload";
+                //string destination = @"SFTP Server File Destination Folder";
+                //string host = "SFTP Host";
+                //string username = "User Name";
+                //string password = "password";
+                //int port = 22;  //Port 22 is defaulted for SFTP upload
+                try
+                {
+                    Upload.UploadSFTPFile(this, "tbf.spdns.de", "contentmanager", "TBF123", filename, "./", 13002);
+
+                    txt_url_pic_room.Text = filename;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Fehler beim Hochladen der Datei!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void Btn_cancel_room_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.ClearAllTxtFields();
+        }
+
+        private void Btn_Delete_room_Click(object sender, RoutedEventArgs e)
+        {
+            roomManager.DeleteRoom();
+            Thread.Sleep(2000);
+            roomManager.GetAllRoomSend();
+        }
+
+        private void TiRoomManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (aktuellerTab != (int)tabs.Raum)
+            {
+                aktuellerTab = (int)tabs.Raum;
+
+                TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+
+                //gb_workoutInfos.Visibility = Visibility.Hidden;
+                roomManager.GetAllRoomSend();
+                Thread.Sleep(100);
             }
         }
 
-        private void btn_cancel_Click(object sender, RoutedEventArgs e)
+        private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
         {
-            txt_name_room.Text = "";
-            txt_beschreibung_room.Text = "";
-            b_isPrivate_room.IsChecked = false;
-            txt_url_pic_room.Text = "";
+            roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
-        //private void tiRoomManager_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    //    var gridView = new GridView();
+        // --------------------------------------------------------------- Workout Manager ---------------------------------------------------- //
+        
+        private void btn_addWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutClick();
 
-        //    gridView.Columns.Add(new GridViewColumn
-        //    {
-        //        Header = "Name",
-        //        DisplayMemberBinding = new Binding("Name")
-        //    });
+        }
 
-        //    // Populate list
-        //    this.lvRoomList.Items.Add(new lRoomNameEntry { Name = "David" });
-        //
+        private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
+        }
 
+        private void B_url_pic_workout_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
+
+            //spater fuer video
+            
+             //dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+             //"*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+             //"*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+             
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                txt_url_pic_workout.Text = filename;
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void btn_saveChangeWorkout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ChangeWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
+
+        }
+
+        private void Btn_cancel_workout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ClearAllTxtFields();
+        }
+
+        private void Btn_Delete_workout_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.DeleteWorkout();
+        }
+
+        private void TiWorkoutManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(aktuellerTab != (int)tabs.Workout)
+            {
+                aktuellerTab = (int)tabs.Workout;
+
+                TCPClient.changeProtocolFunction(this.workout_room_Delegate);
+                roomManager.GetAllRoomSend();
+            }
+
+        }
+
+        private void workout_room_Delegate(string message)
+        {
+            roomManager.Server_response_roomManager(message);
+
+            TCPClient.changeProtocolFunction(workoutManager.Server_response_workoutManager);
+            workoutManager.ShowAllRooms();
+        }
+
+        //------------------------------- Exercise Manager -------------------------------------------------//
+
+        private void btn_addExercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutClick();
+        }
+
+        private void btn_saveExercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
+        }
+
+        private void B_url_pic_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Bildformat (*.JPG; *.PNG; )|*.JPG, *.PNG";
+
+            //spater fuer video
+
+            //dlg.Filter = "Videoformat (...) |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso;" + 
+            //"*.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4;" + 
+            //"*.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm";
+
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                txt_url_pic_Exercise.Text = filename;
+            }
+            //System.Drawing.Image img = System.Drawing.Image.FromFile(@ + filename);
+            //MessageBox.Show("Width: " + .Width + ", Height: " + img.Height);
+
+        }
+
+        private void btn_saveChangeExercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ChangeWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
+
+        }
+
+        private void Btn_cancel_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.ClearAllTxtFields();
+        }
+
+        private void Btn_Delete_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            workoutManager.DeleteWorkout();
+        }
+
+        private void TiExerciseManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (aktuellerTab != (int)tabs.Exercise)
+            {
+                aktuellerTab = (int)tabs.Exercise;
+
+                TCPClient.changeProtocolFunction(roomManager.Server_response_roomManager);
+                roomManager.GetAllRoomSend();
+                Thread.Sleep(400);
+
+                TCPClient.changeProtocolFunction(exerciseManager.Server_response_exerciseManager);
+                gb_ExerciseInfos.Visibility = Visibility.Hidden;
+                exerciseManager.ShowAllRooms();
+            }
+        }
     }
-}
+ }

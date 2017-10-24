@@ -14,7 +14,9 @@ namespace tbfApp
 
         private String description;
         private String _workoutId;
-        public WorkoutButton(String text, INavigation navigation, ContentPage page, String description, String workoutId, String backgroundImagePath)
+
+        public WorkoutButton(String text, INavigation navigation, ContentPage page, String description, String workoutId,
+            String backgroundImagePath)
         {
             Navigation = navigation;
             Page = page;
@@ -28,32 +30,69 @@ namespace tbfApp
                 Font = Font.BoldSystemFontOfSize(20),
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.End,
+                TextColor = Color.Gray,
+                FontFamily = "DK_Black_Mark_Heavy.ttf",
+                /*
                 FontFamily = Device.OnPlatform
                 (
                     iOS: "DK_Black_Mark_Heavy",
                     Android: "DK_Black_Mark_Heavy.ttf",
                     WinPhone: "Comic Sans MS"
                 ),
+                */
             };
-
-            var webImage = new Image { Aspect = Aspect.AspectFit };
-            webImage.Source = new UriImageSource
+            /*
+            var webImage = new Image {Aspect = Aspect.AspectFit};
+            try
             {
-                //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
-                Uri = new Uri("https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"),
-                CachingEnabled = false,
-                CacheValidity = new TimeSpan(5, 0, 0, 0),
-            };
-
+                webImage.Source = new UriImageSource
+                {
+                    //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
+                    Uri = new Uri("https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"),
+                    CachingEnabled = false,
+                    CacheValidity = new TimeSpan(5, 0, 0, 0),
+                };
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            */
             var backgroundImage = new Image
             {
-                Aspect = Aspect.AspectFit,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                VerticalOptions = LayoutOptions.Center,
-                WidthRequest = 700,
-                HeightRequest = 100,
+                Aspect = Aspect.AspectFill,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                //WidthRequest = 700,
+                //HeightRequest = 80,
+                //MinimumWidthRequest = 700,
+                //MinimumHeightRequest = 80,
             };
-            backgroundImage.Source = backgroundImagePath;
+            try
+            {
+                //Try to show picture from Database
+                backgroundImage.Source = new UriImageSource
+                {
+                    //Uri = new Uri("http://image.flaticon.com/teams/new/1-freepik.jpg"),
+                    Uri = new Uri(backgroundImagePath),
+                    CachingEnabled = true,
+                    CacheValidity = new TimeSpan(0, 0, 5, 0),
+                };
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    //catch with standard picture not available
+                    backgroundImage.Source = backgroundImagePath;
+                }
+                catch (Exception)
+                {
+                    Page.DisplayAlert("Bildfehler", "WorkoutID: " + _workoutId, "OK");
+                    throw;
+                }
+            }
 
             /*
             Button button = new Button
@@ -75,7 +114,7 @@ namespace tbfApp
 
             var indicator = new ActivityIndicator { Color = new Color(.5), };
             indicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsLoading");
-            indicator.BindingContext = webImage;
+            indicator.BindingContext = backgroundImage;
 
             var grid = new Grid { RowSpacing = 1, ColumnSpacing = 1, };
             var gridButton = new Grid { RowSpacing = 0, ColumnSpacing = 10 };

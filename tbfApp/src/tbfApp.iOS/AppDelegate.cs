@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Octane.Xam.VideoPlayer.iOS;
 using UIKit;
 
 namespace tbfApp.iOS
@@ -23,6 +24,10 @@ namespace tbfApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            //Initialize Xamarin Forms Video Player
+            //FormsVideoPlayer.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

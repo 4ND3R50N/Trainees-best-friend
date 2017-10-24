@@ -6,35 +6,34 @@ using System.Threading.Tasks;
 
 namespace logClass
 {
-    class logWriter{
+    class LogWriter{
+        readonly String path;
 
-        String path;
-
-        public logWriter(String path) {
+        public LogWriter(String path) {
             this.path = path;    
         }
 
-        public void logFunc(Boolean consoleOutput, String text)
+        public void LogFunc(Boolean consoleOutput, String text)
         {
             if (consoleOutput)
             {
-                conOut(text);
-                logFile(text);
+                ConOut(text);
+                LogFile(text);
             }
             else
             {
-                logFile(text);
+                LogFile(text);
             }
         }
 
-        private void conOut(String text)
+        private void ConOut(String text)
         {
             DateTime DateTime = DateTime.Now;
             Console.WriteLine("[" + DateTime + "]: " + text);
             Console.ReadKey();
         }
 
-        private void logFile(String text)
+        private void LogFile(String text)
         {
             DateTime DateTime = DateTime.Now;
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))

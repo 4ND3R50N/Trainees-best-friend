@@ -83,10 +83,12 @@ namespace Network
             socket.WriteStream.Write(bytes, 0, bytes.Length);
             //await Task.Delay(500);
            
+            //socket.ReadStream.Read(buffer, 0, buffer.Length);
             await socket.ReadStream.ReadAsync(buffer, 0, buffer.Length);
 
-
+            //Timer to wait for Answer from Server
             await Task.Delay(new TimeSpan(0, 0, waitingTimeSeconds));
+
             protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length).Replace("\0",string.Empty));
             Array.Clear(buffer, 0, buffer.Length);
 
