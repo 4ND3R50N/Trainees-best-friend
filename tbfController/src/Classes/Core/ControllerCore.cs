@@ -131,6 +131,12 @@ namespace tbfController.Classes.Core
                     Tel_215_requestWorkoutAddorUpdate(lDataList, ref relatedClient); break;
                 case "#217":
                     Tel_217_requestWorkoutDelete(lDataList, ref relatedClient); break;
+                case "#219":
+                    Tel_219_requestExerciseAddorUpdate(lDataList, ref relatedClient); break;
+                case "#221":
+                    Tel_221_requestExerciseDelete(lDataList, ref relatedClient); break;
+                case "#305":
+                    Tel_305_requestLevelDelete(lDataList, ref relatedClient); break;
                 default:
                     Logger.writeInLog(true, "Unknown package protocol/data received: " + message);
                     break;
@@ -142,7 +148,7 @@ namespace tbfController.Classes.Core
         private void Tel_001_testPackage(ref networkServer.networkClientInterface relatedClient)
         {
             Logger.writeInLog(true, "Message #001 (TESTPACKET_NORMAL) received from a client!");
-            TcpServer.sendMessage("Hello!~", relatedClient);
+            TcpServer.sendMessage("001;Hello!~", relatedClient);
             Logger.writeInLog(true, "Answered #002 with the greetings message!");
         }
 
@@ -521,6 +527,89 @@ namespace tbfController.Classes.Core
             }
         }
 
+
+
+
+
+
+        private void Tel_219_requestExerciseAddorUpdate(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            int iExerciseStatus = 0;
+            string sAddorUpdateText = "";
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #219 (REQ_EXERCISEADDorUPDATE) received from a client!");
+
+                //Check if its a update or a add request
+                //IMPORTANT -> Check length of ldatalistcount
+
+                if (Convert.ToInt32(lDataList[0]) != 0 && Convert.ToInt32(lDataList[1]) != 0)
+                {
+                    iExerciseStatus = DatabaseEngine.updateExercise(Convert.ToInt32(lDataList[0]),
+                                                            Convert.ToInt32(lDataList[1]), Convert.ToInt32(lDataList[2]),
+                                                            Convert.ToInt32(lDataList[3]), lDataList[4], lDataList[5], lDataList[6], lDataList[7]);
+                    sAddorUpdateText = "UPDATE";
+                }
+                else
+                {
+                    //Try to add room + add trainer to room
+                    iExerciseStatus = DatabaseEngine.addNewExercise(Convert.ToInt32(lDataList[2]),
+                                                                   Convert.ToInt32(lDataList[3]), lDataList[3], lDataList[4], lDataList[5], lDataList[6]);
+                    sAddorUpdateText = "ADD";
+                }
+
+                //Send message to client
+                TcpServer.sendMessage("#220" + cProtocolDelimiter + iExerciseStatus, relatedClient);
+                Logger.writeInLog(true, "Answered #220. It was a " + sAddorUpdateText + " order with status code " + iExerciseStatus + "!");
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMADDorUPDATE)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+        private void Tel_221_requestExerciseDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #221 (REQ_EXERCISEDELETE) received from a client!");
+                //Get room data
+                int iExerciseDeleteStatusCode = DatabaseEngine.deleteExercise(Convert.ToInt32(lDataList[0]));
+                string sProtocol = "#222" + cProtocolDelimiter + iExerciseDeleteStatusCode;
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #222 with status code: " + iExerciseDeleteStatusCode);
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMDELETE)! Message: " + e.ToString());
+                return;
+            }
+        }
+        private void Tel_305_requestLevelDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #305 (REQ_LevelDELETE) received from a client!");
+                //Get room data
+                int iLevelDeleteStatusCode = DatabaseEngine.deleteLevel(Convert.ToInt32(lDataList[0]));
+                string sProtocol = "#306" + cProtocolDelimiter + iLevelDeleteStatusCode;
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #306 with status code: " + iLevelDeleteStatusCode);
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMDELETE)! Message: " + e.ToString());
+                return;
+            }
+        }
         #endregion
 
 

@@ -380,6 +380,125 @@ namespace WCDatabaseEngine
             }
         }
 
+        public override int addNewExercise(int iWorkoutID, int iLevelNumber, string sName, string sLevelDescription, string sExerciseDescription, string sMediaURL)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                MySqlDataReader MysqlData = null;
+                int iExerciseID = 0;
+                int iLevelID = 0;
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 3;
+                }
+
+                //Add new exercise
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO tbf_exercise (name, media_url, description) " +
+                                                    "VALUES('"+ sName +"', '"+sMediaURL+"', '"+ sExerciseDescription +"');");
+                MysqlData.Close();
+                //Add new level
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO tbf_level (workout_id, level_grade, description) " +
+                                                    "VALUES(" + iWorkoutID + ", " + iLevelNumber + ", '" + sLevelDescription + "');");
+                MysqlData.Close();
+
+                //get exercise id
+                MysqlData = executeQuery(MysqlConn, "SELECT exercise_id from tbf_exercise where name = '"+ sName + "' AND media_url = '"+ sMediaURL +"' AND description = '"+ sExerciseDescription +"'");
+                while (MysqlData.Read())
+                {
+                    iExerciseID = Convert.ToInt32(MysqlData.GetValue(0));
+                }
+                MysqlData.Close();
+
+                //get level id
+                MysqlData = executeQuery(MysqlConn, "SELECT level_id from tbf_level where workout_id = " + iWorkoutID + " AND level_grade = " + iLevelNumber + " AND description = '" + sLevelDescription + "'");
+                while (MysqlData.Read())
+                {
+                    iLevelID = Convert.ToInt32(MysqlData.GetValue(0));
+                }
+                MysqlData.Close();
+
+                // add level - exercise relation
+                MysqlData = executeQuery(MysqlConn, "INSERT INTO tbf_level_exercise_relation (exercise_id, level_id) " +
+                                                    "VALUES(" + iExerciseID + ", " + iLevelID + ");");
+                MysqlData.Close();
+
+                return 1;
+
+            }
+        }
+
+        public override int updateExercise(int iLevelID, int iExerciseID, int iWorkoutID, int iLevelNumber, string sName, string sLevelDescription, string sExerciseDescription, string sMediaURL)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //update exercise + level data        
+                executeQuery(MysqlConn, "UPDATE tbf_exercise SET tbf_exercise.name = '" + sName + "', " +
+                                            "tbf_exercise.description = '" + sExerciseDescription + "', " +
+                                            "tbf_exercise.media_url = '" + sMediaURL + "' WHERE tbf_exercise.exercise_id = " + iExerciseID);
+                executeQuery(MysqlConn, "UPDATE tbf_level SET tbf_level.workout_id = " + iWorkoutID + ", " +
+                                            "tbf_level.level_grade = " + iLevelID + ", " +
+                                            "tbf_level.description = '" + sLevelDescription + "' WHERE tbf_level.level_id = " + iLevelID);
+                return 1;
+            }
+        }
+
+        public override int deleteExercise(int iExerciseID)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //Delete also the workouts + levels in the room
+                executeQuery(MysqlConn, "DELETE FROM tbf_exercise WHERE tbf_exercise.exercise_id = " + iExerciseID);
+                return 1;
+            }
+        }
+
+        public override int deleteLevel(int iLevelID)
+        {
+            using (MySqlConnection MysqlConn =
+               new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //Delete also the workouts + levels in the room
+                executeQuery(MysqlConn, "DELETE FROM tbf_level WHERE tbf_level.level_id = " + iLevelID);
+                return 1;
+            }
+        }
+
+
         #region Support functions
         private List<List<string>> createDataMatrix(MySqlDataReader MysqlData)
         {

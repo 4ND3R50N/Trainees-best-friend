@@ -124,5 +124,25 @@ namespace WCDatabaseEngine
         {
             throw new NotImplementedException();
         }
+
+        public override int addNewExercise(int iWorkoutID, int iLevelNumber, string sName, string sLevelDescription, string sExerciseDescription, string sMediaURL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int updateExercise(int iLevelID, int iExerciseID, int iWorkoutID, int iLevelNumber, string sName, string sLevelDescription, string sExerciseDescription, string sMediaURL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int deleteExercise(int iExerciseID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int deleteLevel(int iLevelID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

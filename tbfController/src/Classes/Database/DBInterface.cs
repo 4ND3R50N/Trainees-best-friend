@@ -56,7 +56,12 @@ namespace WCDatabaseEngine
         public abstract int addNewWorkout(int iRoomID, string sName, string sDescription, string sIconURL);
         public abstract int updateWorkout(int iWorkoutID, int iRoomID, string sName, string sDescription, string sIconURL);
         public abstract int deleteWorkout(int iWorkoutID);
-    }
+
+        public abstract int addNewExercise(int iWorkoutID, int iLevelNumber, string sName, string sLevelDescription, string sExerciseDescription, string sMediaURL);
+        public abstract int updateExercise(int iLevelID, int iExerciseID, int iWorkoutID, int iLevelNumber, string sName, string sLevelDescription, string sExerciseDescription, string sMediaURL);
+        public abstract int deleteExercise(int iExerciseID);
+        public abstract int deleteLevel(int iLevelID);
+}
     
 
 }
