@@ -10,19 +10,21 @@ namespace tbfApp
     class WorkoutButton : Grid
     {
         private INavigation Navigation;
-        private ContentPage Page;
+        private WorkoutPage Page;
 
-        private String description;
+        private String _description;
         private String _workoutId;
+        private String _backgroundImagePath;
 
-        public WorkoutButton(String text, INavigation navigation, ContentPage page, String description, String workoutId,
+        public WorkoutButton(String text, INavigation navigation, WorkoutPage page, String description, String workoutId,
             String backgroundImagePath)
         {
             Navigation = navigation;
             Page = page;
 
-            this.description = description;
+            this._description = description;
             this._workoutId = workoutId;
+            this._backgroundImagePath = backgroundImagePath;
 
             Label lableButton = new Label
             {
@@ -162,7 +164,7 @@ namespace tbfApp
 
         void OnButtonClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new LevelPage(_workoutId)
+            Navigation.PushAsync(new LevelPage(_workoutId, _backgroundImagePath)
             {
                 Title = "Level"
             });
@@ -170,7 +172,7 @@ namespace tbfApp
 
         void OnInfoClicked(object sender, EventArgs e)
         {
-            Page.DisplayAlert("Workoutinfo", description, "OK");
+            Page.DisplayAlert("Workoutinfo", _description, "OK");
         }
     }
 }

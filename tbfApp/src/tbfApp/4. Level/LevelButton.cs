@@ -10,15 +10,15 @@ namespace tbfApp
     class LevelButton : Grid
     {
         private INavigation Navigation;
-        private ContentPage Page;
+        private LevelPage Page;
 
         private String description;
         private String _levelId;
-        public LevelButton(String text, INavigation navigation, ContentPage page, String description, String levelID, String starsPath)
+        public LevelButton(String text, INavigation navigation, LevelPage page, String description, String levelID, String starsPath)
         {
             Navigation = navigation;
             Page = page;
-
+            
             this.description = description;
             this._levelId = levelID;
 
@@ -121,7 +121,7 @@ namespace tbfApp
 
         void OnButtonClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new ExercisePage(_levelId)
+            Navigation.PushAsync(new ExercisePage(_levelId, Page)
             {
                 Title = "Excercise"
             });

@@ -15,13 +15,16 @@ namespace tbfApp
         private Label label;
         private StackLayout stack;
         static ActivityIndicator activityIndicator;
-        private String workoutID;
 
-        public LevelPage(String workoutId)
+        private String workoutID;
+        public String _workoutImage;
+
+        public LevelPage(String workoutId, String workoutImage)
         {
             InitializeComponent();
-
+            
             this.workoutID = workoutId;
+            this._workoutImage = workoutImage;
 
             scroll = new ScrollView();
 
@@ -84,11 +87,11 @@ namespace tbfApp
                     {
                         for (int i = 1; i < levelAmountReceived + 1; i++)
                         {
-                            List<string> levelDataList = new List<string>();
+                           List<string> levelDataList = new List<string>();
                             levelDataList = levelList.ElementAt(i).Split(new char[] { '|' }).ToList();
                             //innerList
                             //Element 0 = ID | Element 1 = LevelGrade | Element 2 = Description not implemented now TODO
-
+                            
                             switch (levelDataList.ElementAt(1))
                             {
                                 case "1":

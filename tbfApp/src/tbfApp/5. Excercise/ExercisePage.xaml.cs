@@ -12,13 +12,17 @@ namespace tbfApp
 {
     public partial class ExercisePage : CarouselPage
     {
+        private LevelPage parrentLevelPage;
+
         private ScrollView scroll;
         //private StackLayout stack;
         private String levelID;
 
-        public ExercisePage(String levelID)
+        public ExercisePage(String levelID, LevelPage parrentLevelPage)
         {
             InitializeComponent();
+
+            this.parrentLevelPage = parrentLevelPage;
 
             this.levelID = levelID;
 
@@ -104,7 +108,7 @@ namespace tbfApp
 
                         //1.   htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
 
-                        htmlSource.Html = @"<video controls autoplay height=""200"" width=""300"" poster=""SeitlicheUebung.jpg""> 
+                        htmlSource.Html = @"<video controls autoplay width=100% height=100% poster=" + "\"" + parrentLevelPage._workoutImage + "\"" + @"> 
                                             <source src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" type=""video/mp4"">
                                             </video>";
                         /* 2.
