@@ -36,7 +36,7 @@ namespace tbfApp
                 //htmlSource.Html = @"<html><body><iframe src=""https://www.youtube.com/embed/TD-v1b_YVpg?ecver=2"" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:100%;left:0"" allowfullscreen></iframe></body></html>";
                 browser.Source = htmlSource;
 
-                /* Video Player Test
+                /* //Video Player Test
                 VideoPlayer videoPlayer = new VideoPlayer();
                 videoPlayer.Source = "http://62.138.6.50:13010/Seitliche_%C3%9Cbung_Stufe_3.mp4";
                 videoPlayer.FillMode = FillMode.ResizeAspectFill;
@@ -106,11 +106,12 @@ namespace tbfApp
                         MyWebView browser = new MyWebView();                       //Use own WebView with own custom renderer
                         HtmlWebViewSource htmlSource = new HtmlWebViewSource();
 
-                        //1.   htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
+                        string testVideo = "http://tbf.spdns.de/betatest_videos/uebung_03.mp4";
 
-                        htmlSource.Html = @"<video controls autoplay width=100% height=100% poster=" + "\"" + parrentLevelPage._workoutImage + "\"" + @"> 
-                                            <source src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" type=""video/mp4"">
-                                            </video>";
+                        //1.   htmlSource.Html = @"<iframe src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" width=""640"" height=""360"" frameborder=""0"" style=""position:absolute;width:100%;height:35%;left:0"" allowfullscreen></iframe>";
+                        
+                        htmlSource.Html = $"<video controls width=100% height=300 poster=\"{parrentLevelPage._workoutImage}\"> <source src=\"{exerciseDataList.ElementAt(3)}\" type=\"video/mp4\"> </video>";
+
                         /* 2.
                         htmlSource.Html = @"<!DOCTYPE html>
                                             <html>
@@ -124,6 +125,13 @@ namespace tbfApp
                                               </body>
                                             </html>";
                         */
+
+                        /* 3.
+                         htmlSource.Html = @"<video controls autoplay width=""340"" height=""160"" poster=" + "\"" + parrentLevelPage._workoutImage + "\"" + @"> 
+                                            <source src=" + "\"" + exerciseDataList.ElementAt(3) + "\"" + @" type=""video/mp4"">
+                                            </video>";
+                         */
+
                         browser.Source = htmlSource;
                         //browser.Source = exerciseDataList.ElementAt(3);
 
