@@ -26,6 +26,8 @@ namespace tbfApp.Droid
             //FormsVideoPlayer.Init();
 
             LoadApplication(new App());
+
+            Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));        //change Status Bar Color to Black
         }
     }
 }
