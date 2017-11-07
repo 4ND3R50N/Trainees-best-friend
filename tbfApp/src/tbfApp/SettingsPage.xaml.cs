@@ -23,6 +23,8 @@ namespace tbfApp
         {
             InitializeComponent();
 
+            Title = "Einstellungen";
+
             scroll = new ScrollView();
             Content = scroll;
 

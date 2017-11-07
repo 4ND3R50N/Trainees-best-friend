@@ -74,6 +74,9 @@
     <Compile Include="3. Workout\WorkoutPage.xaml.cs">
       <DependentUpon>WorkoutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserPage\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
@@ -168,6 +171,12 @@
     <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.5.10.1.1411\analyzers\Google.Protobuf.dll" />
     <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.5.10.1.1411\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.5.10.1.1411\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UserPage\UserPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

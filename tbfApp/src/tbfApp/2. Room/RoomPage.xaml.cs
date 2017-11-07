@@ -18,6 +18,8 @@ namespace tbfApp
         {
             InitializeComponent();
 
+            Title = "Räume";
+
             scroll = new ScrollView();
 
             //Content.BackgroundColor = Color.Aqua;
@@ -50,7 +52,7 @@ namespace tbfApp
 
             ServerRequest();
 
-            stack.Children.Add(new RoomButton("TSG Fitness", Navigation, this, "Der virtuelle Fitnessraum für die Profis der TSG.", "XXX", "https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"));
+            //stack.Children.Add(new RoomButton("TSG Fitness", Navigation, this, "Der virtuelle Fitnessraum für die Profis der TSG.", "XXX", "https://upload.wikimedia.org/wikipedia/bar/thumb/e/e7/Logo_TSG_Hoffenheim.svg/510px-Logo_TSG_Hoffenheim.svg.png"));
         }
 
         async void ServerRequest()

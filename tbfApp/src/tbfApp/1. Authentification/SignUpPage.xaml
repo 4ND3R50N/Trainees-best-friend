@@ -12,17 +12,17 @@
                           Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
                  >
       <Label Text="Benutzername" />
-      <Entry x:Name="usernameEntry" Placeholder="username" />
+      <Entry x:Name="usernameEntry" Placeholder="Benutzername" />
       <Label Text="Vorname" />
-      <Entry x:Name="forenameEntry" Placeholder="username" />
+      <Entry x:Name="forenameEntry" Placeholder="Vorname" />
       <Label Text="Nachname" />
-      <Entry x:Name="secondnameEntry" Placeholder="username" />
+      <Entry x:Name="secondnameEntry" Placeholder="Nachname" />
       <Label Text="Passwort" />
-      <Entry x:Name="passwordEntry" IsPassword="true" />
+      <Entry x:Name="passwordEntry" IsPassword="true" Placeholder="***"/>
       <Label Text="Passwort wiederholen" />
-      <Entry x:Name="passwordEntry2" IsPassword="true" />
+      <Entry x:Name="passwordEntry2" IsPassword="true" Placeholder="***"/>
       <Label Text="Emailaddress" />
-      <Entry x:Name="emailEntry" />
+      <Entry x:Name="emailEntry" Placeholder="Email"/>
       <Button x:Name="buttonSignUp" Text="Sign Up" Clicked="OnSignUpButtonClicked" />
       <Label x:Name="messageLabel" TextColor="Red" FontSize="20" HorizontalOptions="CenterAndExpand"/>
     </StackLayout>

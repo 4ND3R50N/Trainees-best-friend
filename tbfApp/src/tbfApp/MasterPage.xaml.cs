@@ -45,7 +45,7 @@ namespace tbfApp
             {
                 Title = App.GetUsername(),
                 IconSource = "contacts.png",
-                TargetType = typeof(RoomPage)
+                TargetType = typeof(UserPage)
             });
             masterPageItems.Add(new MasterPageItem
             {

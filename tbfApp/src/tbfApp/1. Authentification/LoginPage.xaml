@@ -20,7 +20,7 @@
             <Label Text="Benutzername" />
             <Entry x:Name="usernameEntry" Placeholder="Benutzername" />
             <Label Text="Passwort" />
-            <Entry x:Name="passwordEntry" IsPassword="true" />
+            <Entry x:Name="passwordEntry" IsPassword="true" Placeholder="***"/>
             <Button x:Name="buttonLoginin" Text="Login" Clicked="OnLoginButtonClicked" />
             <Label x:Name="messageLabel" TextColor="Red" FontSize="20" HorizontalOptions="CenterAndExpand"/>
             <Label Text="Sign up if you have no account!" HorizontalOptions="Center"/>
