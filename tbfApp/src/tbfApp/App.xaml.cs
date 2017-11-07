@@ -62,6 +62,7 @@ namespace tbfApp
                 app.MainPage = new NavigationPage(new LoginPage()
                 {
                     Title = "Login",
+                    
                 })
                 {
                     BarBackgroundColor = Color.FromHex(App.GetMenueColor()), //#009acd

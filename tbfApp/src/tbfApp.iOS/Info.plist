@@ -9,6 +9,12 @@
     <key>NSAllowsArbitraryLoads</key>
     <true/>
   </dict>
+
+  <!--Added because of allowing Status Bar color change-->
+  <key>UIStatusBarStyle</key>
+  <string>UIStatusBarStyleLightContent</string>
+  <key>UIViewControllerBasedStatusBarAppearance</key>
+  <false/>
   
 	<key>UIDeviceFamily</key>
 	<array>
