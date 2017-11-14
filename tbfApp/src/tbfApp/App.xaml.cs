@@ -164,7 +164,7 @@ namespace tbfApp
         {
             if (!Application.Current.Properties.ContainsKey("serverAdress"))
             {
-                Application.Current.Properties["serverAdress"] = "62.138.6.50";
+                Application.Current.Properties["serverAdress"] = "tbf.spdns.de";
                 System.Diagnostics.Debug.WriteLine("First serverAdress set");
             }
             return Convert.ToString(Application.Current.Properties["serverAdress"]);
