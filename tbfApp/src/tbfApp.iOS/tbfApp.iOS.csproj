@@ -265,6 +265,21 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\tbf_76x76.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\tbf_152x152.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\tbf_167x167.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1920x1080.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1242X2208.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\750X1334.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2208x1242.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048x2732.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1024x768.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1024x748.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048x1496.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048x1536.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\640x960.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\640x1136.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\768x1024.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1536x2048.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\768x1004.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1536x2008.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
