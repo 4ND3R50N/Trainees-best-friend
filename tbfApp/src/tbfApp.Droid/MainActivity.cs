@@ -10,7 +10,8 @@ using Octane.Xam.VideoPlayer.Android;
 
 namespace tbfApp.Droid
 {
-    [Activity(Label = "TBF", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "TBF", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true,
+         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -27,7 +28,14 @@ namespace tbfApp.Droid
 
             LoadApplication(new App());
 
-            Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));        //change Status Bar Color to Black
+            try
+            {
+                Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));        //change Status Bar Color to Black
+            }
+            catch (Exception exception)
+            {
+                //throw exception;
+            }
         }
     }
 }
