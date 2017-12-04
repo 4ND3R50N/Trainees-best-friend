@@ -51,7 +51,8 @@ namespace tbfApp
             {
                 Title = "Abmelden",
                 IconSource = "logoff.png",
-                TargetType = typeof(LogOut)
+                //TargetType = typeof(LogOut)
+                TargetType = typeof(LoginPage)
             });
             
             listView.ItemsSource = masterPageItems;

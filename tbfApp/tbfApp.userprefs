@@ -1,10 +1,17 @@
 ﻿<Properties StartupConfiguration="{22B395B1-C16A-4802-AA94-4B287FA13D2A}|Default">
-  <MonoDevelop.Ide.Workbench />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Ad-Hoc" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../Library/Frameworks/Xamarin.Android.framework/Versions/8.0.2-1/lib/xbuild/Xamarin/Android/Xamarin.Android.Common.targets">
+    <Files>
+      <File FileName="src/tbfApp/Network/SimpleNetworkClient.cs" Line="94" Column="37" />
+      <File FileName="src/tbfApp.Droid/MainActivity.cs" Line="32" Column="69" />
+      <File FileName="src/tbfApp.iOS/AppDelegate.cs" Line="5" Column="7" />
+      <File FileName="../../../../Library/Frameworks/Xamarin.Android.framework/Versions/8.0.2-1/lib/xbuild/Xamarin/Android/Xamarin.Android.Common.targets" Line="570" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.tbfApp.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.83016AB6-8411-4C93-9CC5-BDE0C0E1510D" />
+  <MonoDevelop.Ide.ItemProperties.tbfApp.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.02043FF6-A654-4167-B3E5-FEE09E88D82B" />
   <MultiItemStartupConfigurations />
 </Properties>

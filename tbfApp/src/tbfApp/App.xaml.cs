@@ -10,7 +10,7 @@ namespace tbfApp
 {
     public partial class App : Application
     {
-        protected static App app;
+        public static App app;
         public static SimpleNetworkClient endpointConnection;
 
         public App()
@@ -92,7 +92,7 @@ namespace tbfApp
                 await App.endpointConnection.sendMessage(protocolMessage, false);
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 try
                 {
@@ -164,7 +164,7 @@ namespace tbfApp
         {
             if (!Application.Current.Properties.ContainsKey("serverAdress"))
             {
-                Application.Current.Properties["serverAdress"] = "tbf.spdns.de";
+                Application.Current.Properties["serverAdress"] = "tbf.spdns.de";     //2a03:4000:1d:11a::3  tbf.spdns.de
                 System.Diagnostics.Debug.WriteLine("First serverAdress set");
             }
             return Convert.ToString(Application.Current.Properties["serverAdress"]);

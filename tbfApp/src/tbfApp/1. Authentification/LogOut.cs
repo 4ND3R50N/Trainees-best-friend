@@ -8,12 +8,13 @@ using Xamarin.Forms;
 
 namespace tbfApp
 {
-    class LogOut:ContentPage
+    class LogOut: ContentPage
     {
         public LogOut()
         {
             Application.Current.Properties["IsUserLoggedIn"] = false;
-            App.LogInSwitch();
+            //App.LogInSwitch();
+            Device.BeginInvokeOnMainThread(() => App.LogInSwitch());
         }
     }
 }

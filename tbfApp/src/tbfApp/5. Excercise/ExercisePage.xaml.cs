@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Octane.Xam.VideoPlayer;
-using Octane.Xam.VideoPlayer.Constants;
 using tbfApp.Network;
 using Xamarin.Forms;
 

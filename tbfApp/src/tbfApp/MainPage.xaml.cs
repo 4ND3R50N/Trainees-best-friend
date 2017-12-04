@@ -35,7 +35,7 @@ namespace tbfApp
             var item = e.SelectedItem as MasterPageItem;
             if (item != null)
             {
-                var page = (Page) Activator.CreateInstance(item.TargetType);
+                var page = (Page)Activator.CreateInstance(item.TargetType);
                 Detail = new NavigationPage(page)
                 {
                     BarBackgroundColor = Color.FromHex(App.GetMenueColor()),
@@ -44,6 +44,15 @@ namespace tbfApp
                 //page.Title = item.TargetType.Name; //Titel anpassen, funktionieren
                 masterPage.ListView.SelectedItem = null;
                 IsPresented = false;
+
+                
+                if (item.Title == "Abmelden")
+                {
+                    Application.Current.Properties["IsUserLoggedIn"] = false;
+                    //App.LogInSwitch();
+                    Device.BeginInvokeOnMainThread(() => App.LogInSwitch());
+                }
+                
             }
         }
     }

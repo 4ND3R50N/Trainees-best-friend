@@ -5,9 +5,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Sockets.Plugin;
 using System.Diagnostics;
-using Sockets.Plugin.Abstractions;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace Network
 {
@@ -18,10 +18,12 @@ namespace Network
         public delegate void protocolFunction(string prot);
         public bool bMessageReceived = false;
         //--Private
-        private TcpSocketClient socket;
-        private byte[] buffer {get;}
+        private Socket socket;
+        private byte[] byteBuffer { get; }
+        private ArraySegment<byte> arrayBuffer {get;}
         private string ip;
         private short port;
+        private short bufferSize;
         private string network_AKey;
         private short waitingTimeSeconds;
         private event protocolFunction protAnalyseFunction;
@@ -35,11 +37,12 @@ namespace Network
 
         public SimpleNetworkClient(protocolFunction protAnalyseFunction, string network_AKey, string ip, short port, short bufferSize, short waitingTimeSeconds)
         {
-            this.network_AKey = network_AKey;
-            socket = new TcpSocketClient();
+            this.network_AKey = network_AKey;           
             this.ip = ip;
             this.port = port;
-            buffer = new byte[bufferSize];
+            byteBuffer = new byte[bufferSize];
+            arrayBuffer = new ArraySegment<byte>(byteBuffer);
+            this.bufferSize = bufferSize;
             this.waitingTimeSeconds = waitingTimeSeconds;
         }
 
@@ -54,11 +57,15 @@ namespace Network
         {
             try
             {
+                socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
+
+                //await socket.ConnectAsync(ip, port);
+                //socket.Connect(ip, port);
                 await socket.ConnectAsync(ip, port);
-               
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine("Socket.Connect failed!");
                 return false;
             }
             return true;
@@ -79,18 +86,36 @@ namespace Network
                 bytes = Encoding.UTF8.GetBytes(message);
             }
 
-            
-            socket.WriteStream.Write(bytes, 0, bytes.Length);
-            //await Task.Delay(500);
-           
-            //socket.ReadStream.Read(buffer, 0, buffer.Length);
-            await socket.ReadStream.ReadAsync(buffer, 0, buffer.Length);
 
+            //socket.WriteStream.Write(bytes, 0, bytes.Length);
+            socket.Send(bytes);
+            //await Task.Delay(500);
+
+            //socket.ReadStream.Read(buffer, 0, buffer.Length);
+            //await socket.ReadStream.ReadAsync(buffer, 0, buffer.Length);
+            //await socket.Receive(buffer, SocketFlags.None);
+            //socket.Receive(buffer);
+            await socket.ReceiveAsync(arrayBuffer, SocketFlags.None);
+            /*
+            var readEvent = new AutoResetEvent(false);
+            var recieveArgs = new SocketAsyncEventArgs()
+            {
+                UserToken = readEvent
+            };
+            int totalRecieved = 0;
+            recieveArgs.SetBuffer(buffer, totalRecieved, bufferSize - totalRecieved);//Receive bytes from x to total - x, x is the number of bytes already recieved
+            socket.ReceiveAsync(recieveArgs);
+            */
             //Timer to wait for Answer from Server
             await Task.Delay(new TimeSpan(0, 0, waitingTimeSeconds));
-
-            protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length).Replace("\0",string.Empty));
-            Array.Clear(buffer, 0, buffer.Length);
+            /*
+            protAnalyseFunction(Encoding.UTF8.GetString(byteBuffer, 0, byteBuffer.Length).Replace("\0", string.Empty));
+            Array.Clear(byteBuffer, 0, byteBuffer.Length);
+            */
+            
+            protAnalyseFunction(Encoding.UTF8.GetString(arrayBuffer.Array, 0, arrayBuffer.Count()).Replace("\0",string.Empty));
+            Array.Clear(arrayBuffer.Array, 0, arrayBuffer.Count());
+            
 
             //Temporary usage (Must be tested)
             //protAnalyseFunction(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
@@ -100,12 +125,13 @@ namespace Network
         }
 
     
-        
+
         public async void closeConnection()
         {
             //if (isConnected())
             //{
-                await socket.DisconnectAsync();
+                socket.Shutdown(SocketShutdown.Both); 
+                socket.Dispose();
             //}
         }
 
