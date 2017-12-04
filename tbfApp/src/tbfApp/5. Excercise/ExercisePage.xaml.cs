@@ -11,10 +11,12 @@ namespace tbfApp
     public partial class ExercisePage : CarouselPage
     {
         private LevelPage parrentLevelPage;
+        private ContentPage contentPage;
 
         private ScrollView scroll;
         //private StackLayout stack;
         private String levelID;
+        static ActivityIndicator activityIndicator;
 
         public ExercisePage(String levelID, LevelPage parrentLevelPage)
         {
@@ -25,6 +27,17 @@ namespace tbfApp
             this.levelID = levelID;
 
             scroll = new ScrollView();
+
+            activityIndicator = new ActivityIndicator()
+            {
+                Color = Color.Gray,
+                IsRunning = false,
+                WidthRequest = 80,
+                HeightRequest = 80,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+            };
+            activityIndicatorSwitch();
 
             if (levelID.Equals("XXX"))
             {
@@ -58,6 +71,8 @@ namespace tbfApp
                 };
                 descriptionLabel.Text = "Beschreibender Text \nmehrere Zeilen lang";
                 secondContent.Content = descriptionLabel;
+
+                activityIndicatorSwitch();
             }
             else
             {
@@ -153,7 +168,7 @@ namespace tbfApp
 
                         scroll.Content = grid;
 
-                        ContentPage contentPage = new ContentPage
+                        contentPage = new ContentPage
                         {
                             Content = scroll,
                         };
@@ -170,6 +185,29 @@ namespace tbfApp
                 await DisplayAlert("Fehler", "Kommunikationsproblem, Undefinierte Antwort vom Server! " + exerciseList.ElementAt(0), "OK");
             }
             App.endpointConnection.closeConnection();
+
+            activityIndicatorSwitch();
+        }
+        private void activityIndicatorSwitch()
+        {
+            if (activityIndicator.IsRunning)
+            {
+                activityIndicator.IsRunning = false;
+
+                //Content = scroll;
+                Children.RemoveAt(0);
+            }
+            else
+            {
+                activityIndicator.IsRunning = true;
+
+                //Content = activityIndicator;
+                ContentPage activityIndicatorPage = new ContentPage
+                {
+                    Content = activityIndicator,
+                };
+                Children.Insert(0, activityIndicatorPage);
+            }
         }
     }
 }

@@ -13,6 +13,13 @@ namespace tbfApp
         public SignUpPage()
         {
             InitializeComponent();
+            
+            // Positioning of the ActivityIndicator in Center
+            activityIndicator.WidthRequest = 80;
+            activityIndicator.HeightRequest = 80;
+            Constraint centerX = Constraint.RelativeToParent(parent => (parent.Width / 2) - (activityIndicator.Width / 2));
+            Constraint centerY = Constraint.RelativeToParent(parent => (parent.Height / 2) - (activityIndicator.Height / 2));
+            relativeLayout.Children.Add(activityIndicator, centerX, centerY);
         }
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {

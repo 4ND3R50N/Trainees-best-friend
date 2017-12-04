@@ -16,6 +16,13 @@ namespace tbfApp
         {
             InitializeComponent();
 
+            // Positioning of the ActivityIndicator in Center
+            activityIndicator.WidthRequest = 80;
+            activityIndicator.HeightRequest = 80;
+            Constraint centerX = Constraint.RelativeToParent(parent => (parent.Width / 2) - (activityIndicator.Width / 2));
+            Constraint centerY = Constraint.RelativeToParent(parent => (parent.Height / 2) - (activityIndicator.Height / 2));
+            relativeLayout.Children.Add(activityIndicator, centerX, centerY);
+
             Title = "Benutzereinstellungen";
 
             userIDEntry.Text = "BenutzerID: " + App.GetUserID().ToString();

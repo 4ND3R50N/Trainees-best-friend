@@ -14,6 +14,13 @@ namespace tbfApp
         public LoginPage()
         {
             InitializeComponent();
+            
+            // Positioning of the ActivityIndicator in Center
+            activityIndicator.WidthRequest = 80;
+            activityIndicator.HeightRequest = 80;
+            Constraint centerX = Constraint.RelativeToParent(parent => (parent.Width / 2) - (activityIndicator.Width / 2));
+            Constraint centerY = Constraint.RelativeToParent(parent => (parent.Height / 2) - (activityIndicator.Height / 2));
+            relativeLayout.Children.Add(activityIndicator, centerX, centerY);
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -34,6 +41,7 @@ namespace tbfApp
                 //Login Request
                 App.endpointConnection.SetProtocolFunction(this.ServerAnswer);
                 await App.Communicate("#102;" + usernameEntry.Text + ";" + passwordEntry.Text, this);
+                //await Task.Run(() => { App.Communicate("#102;" + usernameEntry.Text + ";" + passwordEntry.Text, this); });    //try to wait for answer and play the activityindicator but solved it in SimpleNetwork Client
             }
 
             //Application.Current.Properties["IsUserLoggedIn"] = true;

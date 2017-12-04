@@ -61,7 +61,8 @@ namespace Network
 
                 //await socket.ConnectAsync(ip, port);
                 //socket.Connect(ip, port);
-                await socket.ConnectAsync(ip, port);
+                //await socket.ConnectAsync(ip, port);
+                await Task.Run(() => { socket.ConnectAsync(ip, port); });
             }
             catch (Exception e)
             {
@@ -96,6 +97,7 @@ namespace Network
             //await socket.Receive(buffer, SocketFlags.None);
             //socket.Receive(buffer);
             await socket.ReceiveAsync(arrayBuffer, SocketFlags.None);
+
             /*
             var readEvent = new AutoResetEvent(false);
             var recieveArgs = new SocketAsyncEventArgs()

@@ -55,7 +55,7 @@ namespace tbfApp
 
             // Build the page1.        
             var stack = new StackLayout();
-            stack.Spacing = 1;
+            stack.Margin = 10;
             scroll.Content = stack;
             stack.Children.Add(boxSpace);
             stack.Children.Add(lablePass);
@@ -126,7 +126,7 @@ namespace tbfApp
 
             // Build the page1.
             stackExpand = new StackLayout();
-            stackExpand.Spacing = 1;
+            stackExpand.Margin = 10;
             stackExpand.Children.Add(boxSpace2);
             stackExpand.Children.Add(lableColor);
             stackExpand.Children.Add(entryColor);
