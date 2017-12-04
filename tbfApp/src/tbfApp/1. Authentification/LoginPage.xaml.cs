@@ -140,7 +140,8 @@ namespace tbfApp
             }
             else
             {
-                messageLabel.Text = "Kommunikationsproblem, Undefinierte Antwort vom Server 2!";
+                //messageLabel.Text = "Kommunikationsproblem, Undefinierte Antwort vom Server 2!";
+                DisplayAlert("Login Fehlgeschlagen", "Kommunikationsproblem, Undefinierte Antwort vom Server 2!", "OK");
             }
             App.endpointConnection.closeConnection();
         }
