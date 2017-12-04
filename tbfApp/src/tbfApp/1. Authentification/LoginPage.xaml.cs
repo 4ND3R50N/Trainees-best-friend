@@ -57,6 +57,16 @@ namespace tbfApp
             activityIndicator.IsRunning = false;
         }
 
+        async void OnStandardSettingsButtonClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayAlert("Standardeinstellungen ", "Wollen Sie die Standardeinstellungen wieder herstellen?", "Ja", "Nein");
+            if (answer)
+            {
+                SettingsPage settingsPage = new SettingsPage();
+                settingsPage.StandardSettingsClicked(new object(), new EventArgs());
+            }
+        }
+
         private void ServerAnswer(string protocol)
         {
             //DisplayAlert("Servermessage", protocol, "OK");                    //Output of the Server Answer

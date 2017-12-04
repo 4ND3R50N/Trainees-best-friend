@@ -225,16 +225,32 @@ namespace tbfApp
                     return;
                 }
             }
-            var answer = await DisplayAlert("Erfolgreich gespeichert", "App muss neu gestartet werden", "Später", "App beenden");
+            await displaySettingsSaved();
+        }
+
+        public async void StandardSettingsClicked(object sender, EventArgs e)
+        {
+            App.SetMenueColor("009acd");
+            entryColor.Placeholder = App.GetMenueColor();
+            App.SetServerAdress("tbf.spdns.de");
+            entryServerAdress.Placeholder = App.GetServerAdress();
+            App.SetServerPort(13001);
+            entryServerPort.Placeholder = App.GetServerPort().ToString();
+            App.SetServerBufferlenght(8000);
+            entryServerBufferlenght.Placeholder = App.GetServerBufferlenght().ToString();
+
+            await displaySettingsSaved();
+        }
+
+        async Task<bool> displaySettingsSaved()
+        {
+            var answer = await DisplayAlert("Erfolgreich gespeichert", "App muss neu gestartet werden, dass die Einstellungen wirksam werden!", "Ok", "Ok");
             if (!answer)
             {
                 //Restart App TODO
             }
-        }
 
-        void StandardSettingsClicked(object sender, EventArgs e)
-        {
-            //TODO
+            return true;
         }
     }
 }

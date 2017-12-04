@@ -25,6 +25,7 @@
             <Label x:Name="messageLabel" TextColor="Red" FontSize="20" HorizontalOptions="CenterAndExpand"/>
             <Label Text="Sign up if you have no account!" HorizontalOptions="Center"/>
             <Button x:Name="buttonSignUp" Text="Sign up" Clicked="OnSignUpButtonClicked"/>
+            <Button x:Name="buttonStandardSettings" Text="Standardeinstellungen wiederherstellen" Clicked="OnStandardSettingsButtonClicked"/>
           </StackLayout>
 
           <ActivityIndicator x:Name="activityIndicator" Color="Gray" IsRunning="false"
