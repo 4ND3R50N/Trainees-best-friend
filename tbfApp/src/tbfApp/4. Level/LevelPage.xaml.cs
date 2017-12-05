@@ -49,7 +49,7 @@ namespace tbfApp
 
             // Build the page.        
             stack = new StackLayout();
-            stack.Padding = new Thickness(0, 5, 0, 5);
+            stack.Margin = 10;
             scroll.Content = stack;
 
             if (workoutID.Equals("XXX"))

@@ -90,6 +90,7 @@ namespace tbfApp
             {
                 await App.endpointConnection.connect();
                 await App.endpointConnection.sendMessage(protocolMessage, false);
+
                 return true;
             }
             catch (Exception e)
@@ -124,7 +125,7 @@ namespace tbfApp
                         await page.DisplayAlert("Verbindungsproblem", "Server nicht erreichbar!", "OK", "Wiederholen");
                     if (!answer)
                     {
-                        System.Diagnostics.Debug.WriteLine("Reload");
+                        System.Diagnostics.Debug.WriteLine("Reload NoServer");
                         //reload Site TODO
                         await App.Communicate(protocolMessage, page);
                     }
@@ -135,7 +136,7 @@ namespace tbfApp
                         await page.DisplayAlert("Verbindungsproblem", "Keine Internetverbindung!", "OK", "Wiederholen");
                     if (!answer)
                     {
-                        System.Diagnostics.Debug.WriteLine("Reload");
+                        System.Diagnostics.Debug.WriteLine("Reload NoInternet");
                         //reload Site TODO
                         await App.Communicate(protocolMessage, page);
                     }

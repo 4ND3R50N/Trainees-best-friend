@@ -1,6 +1,5 @@
 {
-  "locked": false,
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETStandard,Version=v1.3": {
       "Microsoft.NETCore.Jit/1.0.2": {
@@ -133,6 +132,9 @@
         },
         "runtime": {
           "lib/netstandard1.0/_._": {}
+        },
+        "build": {
+          "build/NETStandard.Library.targets": {}
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -954,6 +956,10 @@
           "lib/netstandard1.0/Xamarin.Forms.Core.dll": {},
           "lib/netstandard1.0/Xamarin.Forms.Platform.dll": {},
           "lib/netstandard1.0/Xamarin.Forms.Xaml.dll": {}
+        },
+        "build": {
+          "build/netstandard1.0/Xamarin.Forms.props": {},
+          "build/netstandard1.0/Xamarin.Forms.targets": {}
         }
       }
     }
@@ -3963,9 +3969,8 @@
     "Xamarin.Forms/2.4.0.280": {
       "sha512": "YzXTyRvhMv2kHgs6CGA89OVwUWrS05i7GW/OXl0vcn77OeJ4Zj08tErhc5bL6TAJYg4vWi+uMTWryO+J65U0yA==",
       "type": "package",
+      "path": "xamarin.forms/2.4.0.280",
       "files": [
-        "Xamarin.Forms.2.4.0.280.nupkg.sha512",
-        "Xamarin.Forms.nuspec",
         "build/netstandard1.0/Mono.Cecil.Mdb.dll",
         "build/netstandard1.0/Mono.Cecil.Pdb.dll",
         "build/netstandard1.0/Mono.Cecil.Rocks.dll",
@@ -4143,7 +4148,9 @@
         "lib/wpa81/Xamarin.Forms.Platform.WinRT/Xamarin.Forms.Platform.WinRT.xr.xml",
         "lib/wpa81/Xamarin.Forms.Platform.dll",
         "lib/wpa81/Xamarin.Forms.Xaml.dll",
-        "lib/wpa81/Xamarin.Forms.Xaml.xml"
+        "lib/wpa81/Xamarin.Forms.Xaml.xml",
+        "xamarin.forms.2.4.0.280.nupkg.sha512",
+        "xamarin.forms.nuspec"
       ]
     }
   },
@@ -4154,5 +4161,32 @@
       "Xamarin.Forms >= 2.4.0.280"
     ],
     ".NETStandard,Version=v1.3": []
+  },
+  "packageFolders": {
+    "/Users/avelina/.nuget/packages/": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "/Users/avelina/Trainees-best-friend/tbfApp/src/tbfApp/tbfApp.csproj",
+      "projectName": "tbfApp",
+      "projectPath": "/Users/avelina/Trainees-best-friend/tbfApp/src/tbfApp/tbfApp.csproj",
+      "projectJsonPath": "/Users/avelina/Trainees-best-friend/tbfApp/src/tbfApp/project.json",
+      "packagesPath": "/Users/avelina/.nuget/packages/",
+      "projectStyle": "ProjectJson",
+      "configFilePaths": [
+        "/Users/avelina/.config/NuGet/NuGet.Config"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      }
+    },
+    "dependencies": {
+      "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+      "NETStandard.Library": "2.0.1",
+      "Xamarin.Forms": "2.4.0.280"
+    },
+    "frameworks": {
+      "netstandard1.3": {}
+    }
   }
 }

@@ -26,7 +26,7 @@ namespace tbfApp
             //await DisplayAlert("Sign Up erfolgreich!", "Sie können sich jetzt einloggen", "OK");
             //Navigation.PopToRootAsync();
 
-            activityIndicator.IsRunning = true;
+            activityIndicator.IsVisible = true;
             buttonSignUp.IsEnabled = false;
 
             if (usernameEntry.Text == null || forenameEntry.Text == null || secondnameEntry.Text == null || passwordEntry.Text == null || passwordEntry2.Text == null || emailEntry.Text == null)
@@ -68,7 +68,7 @@ namespace tbfApp
             }
 
             buttonSignUp.IsEnabled = true;
-            activityIndicator.IsRunning = false;
+            activityIndicator.IsVisible = false;
         }
 
         async void ServerAnswer(string protocol)

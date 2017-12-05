@@ -14,7 +14,7 @@ namespace tbfApp
         public LoginPage()
         {
             InitializeComponent();
-            
+
             // Positioning of the ActivityIndicator in Center
             activityIndicator.WidthRequest = 80;
             activityIndicator.HeightRequest = 80;
@@ -25,7 +25,7 @@ namespace tbfApp
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            activityIndicator.IsRunning = true;
+            activityIndicator.IsVisible = true;
             buttonLoginin.IsEnabled = false;
 
             if (usernameEntry.Text == null)
@@ -48,12 +48,12 @@ namespace tbfApp
             App.LogInSwitch();
 
             buttonLoginin.IsEnabled = true;
-            activityIndicator.IsRunning = false;
+            activityIndicator.IsVisible = false;
         }
 
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            activityIndicator.IsRunning = true;
+            activityIndicator.IsVisible = true;
             buttonSignUp.IsEnabled = false;
 
             //Greatings from Server
@@ -62,7 +62,7 @@ namespace tbfApp
             App.NavigateToSignUp();
 
             buttonSignUp.IsEnabled = true;
-            activityIndicator.IsRunning = false;
+            activityIndicator.IsVisible = false;
         }
 
         async void OnStandardSettingsButtonClicked(object sender, EventArgs e)

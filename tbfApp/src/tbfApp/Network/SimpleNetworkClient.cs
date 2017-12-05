@@ -61,8 +61,8 @@ namespace Network
 
                 //await socket.ConnectAsync(ip, port);
                 //socket.Connect(ip, port);
-                //await socket.ConnectAsync(ip, port);
-                await Task.Run(() => { socket.ConnectAsync(ip, port); });
+                await socket.ConnectAsync(ip, port);
+                //await Task.Run(async () => { await socket.ConnectAsync(ip, port); });
             }
             catch (Exception e)
             {

@@ -62,7 +62,7 @@ namespace tbfApp
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.Center,
                 //Image = "contacts.png",
-                WidthRequest = 700,
+                WidthRequest = 1000,
                 HeightRequest = 100,
                 BackgroundColor = Color.FromHex("DADADA"),
             };
