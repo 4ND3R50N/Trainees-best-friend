@@ -27,8 +27,8 @@ namespace tbfController
                 Console.ReadLine();
                 return;
             }
-            iniManager iniFile = new iniManager(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
-            Console.WriteLine(iniFile.IniReadValue("Database", "IP"));
+            // iniManager iniFile = new iniManager(AppDomain.CurrentDomain.BaseDirectory + "config.ini");       //Not Compatible with Mono
+            //Console.WriteLine(iniFile.IniReadValue("Database", "IP"));                                        //Not Compatible with Mono
             displayCommands();
            
 
