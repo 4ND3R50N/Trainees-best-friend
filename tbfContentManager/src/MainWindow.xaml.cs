@@ -31,14 +31,15 @@ namespace tbfContentManager
         //Buffer of txt boxes
         public string sUserBuffer = "8000";
         int Bufferlength = 18000;
-        string IpAdress = "62.138.6.50";
+        string domain = "tbf.spdns.de";        //194.55.12.202
         public string sTrennzeichen = ";";
 
         public MainWindow()
         {
             InitializeComponent();
-           
-            TCPClient = new SimpleNetwork_Client(Server_response, Bufferlength, "", IPAddress.Parse(IpAdress),
+
+            //IPAddress.Parse(ipAddress)
+            TCPClient = new SimpleNetwork_Client(Server_response, Bufferlength, "", domain,
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 

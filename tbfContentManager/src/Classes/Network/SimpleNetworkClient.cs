@@ -27,24 +27,39 @@ namespace WhiteCode.Network
         private socketEndpointCommunication endpoint;        
         private event protocolFunction protAnalyseFunction;
         private Object thisLock = new Object();
+        
 
         //Constructor
         public SimpleNetwork_Client()
         {
-
+            
         }
         public SimpleNetwork_Client(protocolFunction protAnalyseFunction, string network_AKey)
         {
             this.protAnalyseFunction = protAnalyseFunction;
             this.Network_AKey = network_AKey;
         }
-        public SimpleNetwork_Client(protocolFunction protAnalyseFunction, int iBufferlength,string network_AKey, IPAddress ip, short port,AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
+        public SimpleNetwork_Client(protocolFunction protAnalyseFunction, int iBufferlength,string network_AKey, string domain, short port,AddressFamily familyType, SocketType socketType, ProtocolType protocolType)
         {
             this.protAnalyseFunction = protAnalyseFunction;
             this.Network_AKey = network_AKey;
-            endpoint = new socketEndpointCommunication(iBufferlength, ip, port, familyType, socketType, protocolType);
-            endpointCommunicationIsDeclared = true;
-           
+
+            try
+            {
+                IPAddress ipAddress;
+                if (!IPAddress.TryParse(domain, out ipAddress))
+                    ipAddress = Dns.GetHostEntry(domain).AddressList[0];
+
+                endpoint = new socketEndpointCommunication(iBufferlength, ipAddress, port, familyType, socketType, protocolType);
+                endpointCommunicationIsDeclared = true;
+            }
+            catch
+            {
+                MessageBox.Show("Internetadresse des Server konnte nicht aufgelöst werden!");
+
+            }
+                       
+
         }
         
         public void changeProtocolFunction(protocolFunction protAnalyseFunction)
