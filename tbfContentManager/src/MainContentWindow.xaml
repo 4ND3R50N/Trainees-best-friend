@@ -42,7 +42,7 @@
                     <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="16" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Status" Margin="0,-1,0.2,21.4">
+            <TabItem Header="Status" Margin="0,-1,0.2,21.4" Visibility="Collapsed">
                 <Grid VerticalAlignment="Top">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -103,7 +103,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="tiRoomManager" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" MouseLeftButtonUp="TiRoomManager_MouseLeftButtonUp"  >
+            <TabItem x:Name="tiRoomManager" Visibility="Collapsed" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" MouseLeftButtonUp="TiRoomManager_MouseLeftButtonUp"  >
                 <Grid VerticalAlignment="Top">
 
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
@@ -176,7 +176,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Workout &#xD;&#xA;Manager" Margin="3.4,0,-3,0.4" MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp">
+            <TabItem Header="Workout &#xD;&#xA;Manager" Visibility="Collapsed" Margin="3.4,0,-3,0.4" MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp">
                 <!--MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp"-->
                 <Grid Margin="0,4,0,-0.4" >
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
@@ -254,7 +254,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Exercise&#xD;&#xA;Manager" Margin="6,0,-5.8,0.4" MouseLeftButtonUp="TiExerciseManager_MouseLeftButtonUp">
+            <TabItem Header="Exercise&#xD;&#xA;Manager" Visibility="Collapsed" Margin="6,0,-5.8,0.4" MouseLeftButtonUp="TiExerciseManager_MouseLeftButtonUp">
                 <Grid Margin="0,4,0,-0.4">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
                         <StackPanel VerticalAlignment="Top" Margin="0,0,15,-10">
@@ -337,7 +337,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Trainee&#xD;&#xA;Manager" Margin="7.8,1,-7.6,-0.6">
+            <TabItem x:Name="traineeManager" Header="Trainee&#xD;&#xA;Manager" Margin="7.8,1,-7.6,-0.6">
                 <Grid Margin="0,0,0,15.6">
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Auto">-->
                     <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,316,23">

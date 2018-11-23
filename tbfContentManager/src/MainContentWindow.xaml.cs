@@ -34,11 +34,16 @@ namespace tbfContentManager
         ExerciseManager exerciseManager;
 
         enum tabs { Status = 1, Raum= 2, Workout = 3, Exercise = 4, Trainee = 5 };
-        public int aktuellerTab = (int)tabs.Status;
+        public int aktuellerTab;                              
+        
 
         public MainContentWindow(ref SimpleNetwork_Client TCPClient, string sUserName, int iUserID)
         {
             InitializeComponent();
+
+            //StartTab
+            aktuellerTab = (int)tabs.Trainee;
+            traineeManager.IsSelected = true;
 
             this.sUserName = sUserName;
             this.iUserId = iUserID;
