@@ -53,7 +53,7 @@ namespace WhiteCode.Network
                 endpoint = new socketEndpointCommunication(iBufferlength, ipAddress, port, familyType, socketType, protocolType);
                 endpointCommunicationIsDeclared = true;
             }
-            catch
+            catch(Exception e)
             {
                 MessageBox.Show("Internetadresse des Server konnte nicht aufgelöst werden!");
 
@@ -111,7 +111,14 @@ namespace WhiteCode.Network
                 reloadConnection();
                 if (enableEncryption) { bytes = Encoding.UTF8.GetBytes(message); }
                 else { bytes = Encoding.UTF8.GetBytes(message); }
-                endpoint.getSocket().Send(bytes, bytes.Length, SocketFlags.None);
+                try
+                {
+                    endpoint.getSocket().Send(bytes, bytes.Length, SocketFlags.None);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Probleme mit der Internetverbindung!");
+                }
                
             });
             tSend.Start();
