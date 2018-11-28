@@ -32,6 +32,7 @@ namespace tbfContentManager
         RoomManager roomManager;
         WorkoutManager workoutManager;
         ExerciseManager exerciseManager;
+        TraineeManager traineeManager;
 
         enum tabs { Status = 1, Raum= 2, Workout = 3, Exercise = 4, Trainee = 5 };
         public int aktuellerTab;                              
@@ -41,17 +42,22 @@ namespace tbfContentManager
         {
             InitializeComponent();
 
+            roomManager = new RoomManager(ref TCPClient, this, iUserID);
+            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
+            exerciseManager = new ExerciseManager(ref TCPClient, this, roomManager, workoutManager);
+            traineeManager = new TraineeManager(ref TCPClient, this, iUserID);
+
             //StartTab
             aktuellerTab = (int)tabs.Trainee;
-            traineeManager.IsSelected = true;
+            traineeManagerTab.IsSelected = true;
+            //While start get room list
+            TCPClient.changeProtocolFunction(traineeManager.Server_response_traineeManager);
+            roomManager.GetAllRoomSend();
+
 
             this.sUserName = sUserName;
             this.iUserId = iUserID;
             this.TCPClient = TCPClient;
-
-            roomManager = new RoomManager(ref TCPClient, this, iUserID);
-            workoutManager = new WorkoutManager(ref TCPClient, this, roomManager);
-            exerciseManager = new ExerciseManager(ref TCPClient, this, roomManager, workoutManager);
 
             lblWelcomeMessage.Content = "Willkommen " + sUserName;
         }
@@ -316,6 +322,19 @@ namespace tbfContentManager
                 TCPClient.changeProtocolFunction(exerciseManager.Server_response_exerciseManager);
                 gb_ExerciseInfos.Visibility = Visibility.Hidden;
                 exerciseManager.ShowAllRooms();
+            }
+        }
+
+        private void TiTraineeManager_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (aktuellerTab != (int)tabs.Trainee)
+            {
+                aktuellerTab = (int)tabs.Trainee;
+
+                TCPClient.changeProtocolFunction(traineeManager.Server_response_traineeManager);
+
+                roomManager.GetAllRoomSend();
+                Thread.Sleep(100);
             }
         }
     }
