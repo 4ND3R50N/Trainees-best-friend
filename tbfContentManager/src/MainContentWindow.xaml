@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:tbfContentManager"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="MainContentWindow" Height="500" Width="700" Closing="MetroWindow_Closing" VerticalAlignment="Top">
+        ResizeMode="NoResize"
+        Title="TBF - Content Manager" Height="500" Width="700" Closing="MetroWindow_Closing" VerticalAlignment="Top">
     <!--Title="MainContentWindow"  DataContext="{x:Static local:PropertyClass.Instance}">-->
 
     <Grid>
@@ -103,47 +104,51 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="tiRoomManager" Visibility="Collapsed" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" MouseLeftButtonUp="TiRoomManager_MouseLeftButtonUp"  >
+            <TabItem x:Name="tiRoomManager" Visibility="Visible" Header="Raum&#xD;&#xA;Manager" Margin="1.8,0,-1.6,0.4" MouseLeftButtonUp="TiRoomManager_MouseLeftButtonUp"  >
                 <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="127*"/>
+                        <ColumnDefinition Width="559*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="626">
-                            <Grid VerticalAlignment="Top" Height="640">
-                                <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
-                                    <Grid>
-                                        <ListView x:Name="_listView_room" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" >
-                                            <ListView.View >
-                                                <GridView x:Name="_gridView_room">
-                                                    <GridViewColumn Header="Auswahl">
-                                                        <GridViewColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <!--<CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>-->
-                                                                <RadioButton GroupName="loeschenRaum" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
-                                                            </DataTemplate>
-                                                        </GridViewColumn.CellTemplate>
-                                                    </GridViewColumn>
-                                                </GridView>
-                                            </ListView.View>
-                                        </ListView>
-                                    </Grid>
-                                </GroupBox>
-                                <Grid VerticalAlignment="Top" Margin="0,4,-0.4,-12">
-                                    <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,37,10,14" Visibility="Visible">
-                                        <Grid VerticalAlignment="Top" Height="604">
-                                            <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
-                                            <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>
-                                            <Label x:Name="label_beschreibung_room" Content="Beschreibung:" Margin="0,26,180,552" FontWeight="Bold"/>
-                                            <TextBox x:Name="txt_beschreibung_room" Margin="0,52,0,475"/>
-                                            <Label x:Name="label_private_headline_room" Content="Privater Raum?" Margin="0,130,180,449" FontWeight="Bold"/>
-                                            <CheckBox x:Name="b_isPrivate_room" Margin="246,134,10,452"/>
-                                            <Label x:Name="label_Bild_Raum" Content="Bild des Raumes:" Margin="0,156,180,422" FontWeight="Bold"/>
-                                            <ListBox x:Name="listbox_trainer_room" Margin="140,156,10,418">
-                                                <ListBoxItem x:Name="listboxitem_trainer_room" VerticalAlignment="Top" Content="Noch kein Bild vorhanden!" Width="182"/>
-                                            </ListBox>
-                                            <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room"/>
-                                            <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="B_url_pic_room_Click"/>
+                    <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-0.4">-->
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="626" Grid.ColumnSpan="2" Margin="0,0,0,-276">
+                        <Grid VerticalAlignment="Top" Height="640">
+                            <GroupBox x:Name="label_rooms" Header="Rooms" Margin="10,41,367.6,10">
+                                <Grid>
+                                    <ListView x:Name="_listView_room" ItemsSource="{Binding}"  Margin="0,0,0,-0.4" >
+                                        <ListView.View >
+                                            <GridView x:Name="_gridView_room">
+                                                <GridViewColumn Header="Auswahl"  Width="72">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <!--<CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>-->
+                                                            <RadioButton GroupName="loeschenRaum" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </Grid>
+                            </GroupBox>
+                            <Grid VerticalAlignment="Top" Margin="0,4,-0.4,-12">
+                                <GroupBox x:Name="gb_roomInfos" Header="Raum Informationen" Margin="268,37,10,14" Visibility="Visible">
+                                    <Grid VerticalAlignment="Top" Height="604">
+                                        <Label x:Name="lable_name_room" Content="Name:" FontWeight="Bold" Margin="0,0,180,578"/>
+                                        <TextBox x:Name="txt_name_room" Margin="78,2,0,576"/>
+                                        <Label x:Name="label_beschreibung_room" Content="Beschreibung:" Margin="0,26,180,552" FontWeight="Bold"/>
+                                        <TextBox x:Name="txt_beschreibung_room" Margin="0,52,0,475"/>
+                                        <Label x:Name="label_private_headline_room" Content="Privater Raum?" Margin="0,130,180,449" FontWeight="Bold"/>
+                                        <CheckBox x:Name="b_isPrivate_room" Margin="246,134,10,452"/>
+                                        <Label x:Name="label_Bild_Raum" Content="Bild des Raumes:" Margin="0,156,180,422" FontWeight="Bold"/>
+                                        <ListBox x:Name="listbox_trainer_room" Margin="140,156,10,418">
+                                            <ListBoxItem x:Name="listboxitem_trainer_room" VerticalAlignment="Top" Content="Noch kein Bild vorhanden!" Width="182"/>
+                                        </ListBox>
+                                        <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room"/>
+                                        <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="B_url_pic_room_Click"/>
 
-                                            <!--
+                                        <!--
                                             <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,54">
                                                 <ListBox Margin="0,0,-0.2,1.6">
                                                     <TextBox x:Name="txt_suchen_trainee_exe_" Height="23" TextWrapping="Wrap" Text="Suchen" Width="303"/>
@@ -163,17 +168,17 @@
                                             </GroupBox>
                                             -->
 
-                                        </Grid>
-                                    </GroupBox>
-                                </Grid>
-                                <Button x:Name="btn_addRoom" Content="Raum hinzufügen" Margin="10,6,367.6,607" Click="Btn_addRoom_Click"/>
-                                <Button x:Name="btn_saveRoom" Content="Speichern" Margin="263,6,194.6,607" Click="Btn_saveRoom_Click"/>
-                                <Button x:Name="btn_saveChangeRoom" Content="Änderung Speichern" Margin="263,6,194.6,607" Click="btn_saveChangeRoom_Click" Visibility="Hidden"/>
-                                <Button x:Name="btn_cancelRoom" Content="Abbrechen" Margin="448,6,9.6,607" Click="Btn_cancel_room_Click"/>
-                                <Button x:Name="btn_deleteRoom" Content="Löschen" Margin="448,6,9.6,607" Click="Btn_Delete_room_Click" Visibility="Hidden"/>
+                                    </Grid>
+                                </GroupBox>
                             </Grid>
-                        </StackPanel>
-                    </ScrollViewer>
+                            <Button x:Name="btn_addRoom" Content="Raum hinzufügen" Margin="10,6,367.6,607" Click="Btn_addRoom_Click"/>
+                            <Button x:Name="btn_saveRoom" Content="Speichern" Margin="263,6,194.6,607" Click="Btn_saveRoom_Click"/>
+                            <Button x:Name="btn_saveChangeRoom" Content="Änderung Speichern" Margin="263,6,194.6,607" Click="btn_saveChangeRoom_Click" Visibility="Hidden"/>
+                            <Button x:Name="btn_cancelRoom" Content="Abbrechen" Margin="448,6,9.6,607" Click="Btn_cancel_room_Click"/>
+                            <Button x:Name="btn_deleteRoom" Content="Löschen" Margin="448,6,9.6,607" Click="Btn_Delete_room_Click" Visibility="Hidden"/>
+                        </Grid>
+                    </StackPanel>
+                    <!--</ScrollViewer>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Workout &#xD;&#xA;Manager" Visibility="Collapsed" Margin="3.4,0,-3,0.4" MouseLeftButtonUp="TiWorkoutManager_MouseLeftButtonUp">
@@ -337,40 +342,69 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="traineeManager" Header="Trainee&#xD;&#xA;Manager" Margin="7.8,1,-7.6,-0.6">
+            <TabItem x:Name="traineeManagerTab" Header="Trainee&#xD;&#xA;Manager" Margin="7.667,1,-7.333,0.7" MouseLeftButtonUp="TiTraineeManager_MouseLeftButtonUp">
                 <Grid Margin="0,0,0,15.6">
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Auto">-->
-                    <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,316,23">
-                        <ListBox>
-                            <TextBox x:Name="txt_suchenRooms_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Width="287"/>
-                            <ListBoxItem Content="Raum1"/>
-                            <ListBoxItem Content="Raum2"/>
-                            <ListBoxItem Content="Raum3"/>
-                        </ListBox>
+                    <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,370.333,-0.267">
+                        <ItemsControl Margin="0,0,-1.667,-2.333" >
+                            <TextBox x:Name="txt_suchenRooms_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="0,0,28,0"/>
+                            <ListView x:Name="_listView_traineeRoom" ItemsSource="{Binding}" Height="283" Margin="0,0,0.333,0" >
+                                <ListView.View >
+                                    <GridView x:Name="_gridView_traineeRoom">
+                                        <GridViewColumn Header="Auswahl" Width="72">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton GroupName="loeschenRaum" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ItemsControl>
                     </GroupBox>
-                    <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="325,5,10,60">
-                        <ListBox Margin="0,0,-0.2,1.6">
-                            <TextBox x:Name="txt_suchen_trainee_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Width="282"/>
-                            <ListBoxItem Content="Lars Pickelin"  Margin="0,0,0,5"/>
-                            <Button x:Name="btn_add_trainee" Margin="230,-50,0,5" Width="25" Height="10">
-                                <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
-                            </Button>
-                            <ListBoxItem Content="Avelina Ott" Margin="0,-25,0,5"/>
-                            <Button x:Name="btn_add_trainee1" Margin="230,-50,0,5" Width="25" Height="10">
-                                <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
-                            </Button>
-                            <ListBoxItem Content="Niko Scheuermann" Margin="0,-25,0,5"/>
-                            <Button x:Name="btn_add_trainee2" Margin="230,-50,0,5" Width="25" Height="10">
-                                <TextBlock Text="+" FontSize="20" Margin="0,-5,0,0" FontFamily="Gill Sans MT Condensed"/>
-                            </Button>
-
-                        </ListBox>
+                    <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="325,5,10.333,-0.267">
+                        <ItemsControl Margin="0,0,0,33.667">
+                            <TextBox x:Name="txt_suchen_trainee_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="1,0,50,0"/>
+                            <ListBox ItemsSource="{Binding TopicList}" Height="237" Margin="10,0" x:Name="listTopics" VerticalAlignment="Top" Background="#0B000000">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <CheckBox FlowDirection="RightToLeft">
+                                    <TextBlock FlowDirection="LeftToRight" Text="CheckBox Content:" />
+                                </CheckBox>
+                                <CheckBox Content="Name" IsChecked="True"/>
+                                <ListBoxItem Content="Item 2"/>
+                                <ListBoxItem Content="Item 3"/>
+                                <ListBoxItem Content="Item 4"/>
+                                <ListBoxItem Content="Item 5"/>
+                                <ListBoxItem Content="Item 6"/>
+                                <ListBoxItem Content="Item 7"/>
+                                <ListBoxItem Content="Item 8"/>
+                                <ListBoxItem Content="Item 9"/>
+                                <ListBoxItem Content="Item 10"/>
+                                <ListBoxItem Content="Item 1"/>
+                                <ListBoxItem Content="Item 2"/>
+                                <ListBoxItem Content="Item 3"/>
+                                <ListBoxItem Content="Item 4"/>
+                                <ListBoxItem Content="Item 5"/>
+                                <ListBoxItem Content="Item 6"/>
+                                <ListBoxItem Content="Item 7"/>
+                                <ListBoxItem Content="Item 8"/>
+                                <ListBoxItem Content="Item 9"/>
+                                <ListBoxItem Content="Item 10"/>
+                            </ListBox>
+                        </ItemsControl>
                     </GroupBox>
                     <!--<Button Margin="335,281,169,16.4">
                         <TextBlock Text="Speichern" FontSize="20" FontFamily="Gill Sans MT Condensed"/>
                     </Button>-->
-                    <Button x:Name="bt_add_trainee" Content="Speichern"  Margin="325,279,179,18" Foreground="#CC0050EF"/>
-                    <Button x:Name="bt_abbrechen_trainee" Content="Abbrechen"  Margin="494,279,10,18" Foreground="#CC0050EF"/>
+                    <Button x:Name="bt_add_trainee" Content="Speichern"  Margin="342,312,197.333,0" Foreground="#CC0050EF" Height="25" VerticalAlignment="Top"/>
+                    <Button x:Name="bt_abbrechen_trainee" Content="Abbrechen"  Margin="505,312,34.333,0" Foreground="#CC0050EF" Height="25" VerticalAlignment="Top"/>
                     <!--<Button Margin="491,279,22,18.4">
                         <TextBlock Text="Abbrechen" FontSize="20" FontFamily="Gill Sans MT Condensed"/>
                     </Button>-->
