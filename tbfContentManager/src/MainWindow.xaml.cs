@@ -38,9 +38,11 @@ namespace tbfContentManager
         {
             InitializeComponent();
 
-            //IPAddress.Parse(ipAddress)
+            //IPAddress.Parse(ipAddress)    Old
             TCPClient = new SimpleNetwork_Client(Server_response, Bufferlength, "", domain,
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.Hide();
+            StartMainWindow("18");
         }
 
         public void Server_response(string message) {
