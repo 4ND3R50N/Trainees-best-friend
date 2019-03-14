@@ -214,6 +214,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-tbfContentManager/.vs/tbfContentManager/v15/Server/sqlite3/storage.ide
-tbfContentManager/.vs/tbfContentManager/v15/Server/sqlite3/storage.ide-shm
-tbfContentManager/.vs/tbfContentManager/v15/Server/sqlite3/storage.ide-wal
+tbfContentManager/.vs/
+tbfController/.vs/
