@@ -71,6 +71,16 @@ namespace WCDatabaseEngine
             throw new NotImplementedException();
         }
 
+        public override List<List<string>> getUserList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<List<string>> getUserMemberData(int iRoomID)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int loginUser(string sUserName, string sPassword, ref int iUserID)
         {
             throw new NotImplementedException();

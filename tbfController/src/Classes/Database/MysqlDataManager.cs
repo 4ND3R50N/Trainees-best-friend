@@ -214,6 +214,46 @@ namespace WCDatabaseEngine
             }
         }
 
+        public override List<List<string>> getUserList()
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get tbl_users matrix
+                return createDataMatrix(executeQuery(MysqlConn, "Select user_id, nickname, name, forename, email, is_trainer from tbf_users"));
+            }
+        }
+
+        public override List<List<string>> getUserMemberData(int iRoomID)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                //Get tbl_users matrix
+                return createDataMatrix(executeQuery(MysqlConn, "Select u.user_id, nickname, email, ur.room_id " +
+                    "from tbf_users u left join (Select * from tbf_user_room_relation where tbf_user_room_relation.room_id = " +
+                    iRoomID + ") ur on u.user_id = ur.user_id;"));
+            }
+        }
+
         public override int addNewRoom(int iUserID, string sName, string sDecription, short iIsPrivate, string sIconURL)
         {
             using (MySqlConnection MysqlConn =

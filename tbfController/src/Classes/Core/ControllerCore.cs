@@ -135,6 +135,10 @@ namespace tbfController.Classes.Core
                     Tel_219_requestExerciseAddorUpdate(lDataList, ref relatedClient); break;
                 case "#221":
                     Tel_221_requestExerciseDelete(lDataList, ref relatedClient); break;
+                case "#223":
+                    Tel_223_requestUserList(ref relatedClient); break;
+                case "#225":
+                    Tel_225_requestUserMemberList(lDataList, ref relatedClient); break;
                 case "#305":
                     Tel_305_requestLevelDelete(lDataList, ref relatedClient); break;
                 default:
@@ -526,12 +530,7 @@ namespace tbfController.Classes.Core
                 return;
             }
         }
-
-
-
-
-
-
+        
         private void Tel_219_requestExerciseAddorUpdate(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             int iExerciseStatus = 0;
@@ -590,6 +589,81 @@ namespace tbfController.Classes.Core
                 return;
             }
         }
+
+        private void Tel_223_requestUserList(ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #223 (REQ_USERLIST) received from a client!");
+                //Get user data
+                List<List<string>> llUserData = new List<List<string>>();
+                llUserData = DatabaseEngine.getUserList();
+                //Build protocol
+                string sProtocol = "#224" + cProtocolDelimiter.ToString();
+                sProtocol += llUserData.Count + cProtocolDelimiter.ToString();
+                for (int i = 0; i < llUserData.Count; i++)
+                {
+                    for (int d = 0; d < llUserData[i].Count; d++)
+                    {
+                        sProtocol += llUserData[i][d] + cDataDelimiter.ToString();
+                    }
+                    //Remove the last cDataDelimiter
+                    sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+                    sProtocol += cProtocolDelimiter.ToString();
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #224 with all User data. " + llUserData.Count + " User entries sent!");
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_USERLIST)! Message: " + e.ToString());
+                return;
+            }
+        }
+
+        private void Tel_225_requestUserMemberList(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #225 (REQ_USERMEMBERLIST) received from a client!");
+                //Get user and member data
+                List<List<string>> llUserMemberData = new List<List<string>>();
+                llUserMemberData = DatabaseEngine.getUserMemberData(Convert.ToInt32(lDataList[0]));
+                //Build protocol
+                string sProtocol = "#226" + cProtocolDelimiter.ToString();
+                sProtocol += llUserMemberData.Count + cProtocolDelimiter.ToString();
+                for (int i = 0; i < llUserMemberData.Count; i++)
+                {
+                    for (int d = 0; d < llUserMemberData[i].Count; d++)
+                    {
+                        sProtocol += llUserMemberData[i][d] + cDataDelimiter.ToString();
+                    }
+                    //Remove the last cDataDelimiter
+                    sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+                    sProtocol += cProtocolDelimiter.ToString();
+                }
+                //Remove last cProtocolDelimiter
+                sProtocol = sProtocol.Remove(sProtocol.Length - 1);
+
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #226 with user and room member data. " + llUserMemberData.Count + " user entries sent!");
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_USERMEMBERLIST)! Message: " + e.ToString());
+                return;
+            }
+        }
+
         private void Tel_305_requestLevelDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
             try

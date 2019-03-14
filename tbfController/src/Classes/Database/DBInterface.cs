@@ -48,6 +48,8 @@ namespace WCDatabaseEngine
         public abstract List<List<string>> getWorkoutOverViewData(int iRoomID);
         public abstract List<List<string>> getLevelOverviewData(int iWorkoutID);
         public abstract List<List<string>> getFullExerciseData(int iLevelID);
+        public abstract List<List<string>> getUserList();
+        public abstract List<List<string>> getUserMemberData(int iRoomID);
 
         public abstract int addNewRoom(int iUserID, string sName, string sDecription,short bIs_Private, string sIconURL);
         public abstract int updateRoom(int iRoomID, string sName, string sDecription, short bIs_Private, string sIconURL);
