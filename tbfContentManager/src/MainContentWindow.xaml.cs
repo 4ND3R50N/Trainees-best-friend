@@ -24,7 +24,7 @@ namespace tbfContentManager
     public partial class MainContentWindow
     {
         string sUserName;
-        int iUserId;
+        int iUserID;
         string sTrennzeichen = ";";
         DataTable table;
         SimpleNetwork_Client TCPClient;
@@ -56,7 +56,7 @@ namespace tbfContentManager
 
 
             this.sUserName = sUserName;
-            this.iUserId = iUserID;
+            this.iUserID = iUserID;
             this.TCPClient = TCPClient;
 
             lblWelcomeMessage.Content = "Willkommen " + sUserName;
@@ -83,7 +83,7 @@ namespace tbfContentManager
 
         private void Btn_saveRoom_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.AddRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,
+            roomManager.AddRoomSend(iUserID, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text,
                 (bool) b_isPrivate_room.IsChecked, txt_name_room.Text, "0");
             Thread.Sleep(2000);
             roomManager.GetAllRoomSend();
@@ -167,7 +167,7 @@ namespace tbfContentManager
 
         private void btn_saveChangeRoom_Click(object sender, RoutedEventArgs e)
         {
-            roomManager.ChangeRoomSend(iUserId, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
+            roomManager.ChangeRoomSend(iUserID, sTrennzeichen, txt_beschreibung_room.Text, txt_url_pic_room.Text, (bool)b_isPrivate_room.IsChecked, txt_name_room.Text);
         }
 
         // --------------------------------------------------------------- Workout Manager ---------------------------------------------------- //
@@ -180,7 +180,7 @@ namespace tbfContentManager
 
         private void btn_saveWorkout_Click(object sender, RoutedEventArgs e)
         {
-            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
+            workoutManager.AddWorkoutSend(iUserID, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
         }
 
         private void B_url_pic_workout_Click(object sender, RoutedEventArgs e)
@@ -216,7 +216,7 @@ namespace tbfContentManager
 
         private void btn_saveChangeWorkout_Click(object sender, RoutedEventArgs e)
         {
-            workoutManager.ChangeWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
+            workoutManager.ChangeWorkoutSend(iUserID, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
 
         }
 
@@ -259,7 +259,7 @@ namespace tbfContentManager
 
         private void btn_saveExercise_Click(object sender, RoutedEventArgs e)
         {
-            workoutManager.AddWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
+            workoutManager.AddWorkoutSend(iUserID, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text, "0");
         }
 
         private void B_url_pic_Exercise_Click(object sender, RoutedEventArgs e)
@@ -295,7 +295,7 @@ namespace tbfContentManager
 
         private void btn_saveChangeExercise_Click(object sender, RoutedEventArgs e)
         {
-            workoutManager.ChangeWorkoutSend(iUserId, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
+            workoutManager.ChangeWorkoutSend(iUserID, sTrennzeichen, txt_beschreibung_workout.Text, txt_url_pic_workout.Text, txt_name_workout.Text);
 
         }
 
