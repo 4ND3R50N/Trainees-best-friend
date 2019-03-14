@@ -16,21 +16,19 @@ namespace tbfContentManager.Classes
     {
         readonly SimpleNetwork_Client TCPClient;
         readonly MainContentWindow mainContentWindow;
-        DataTable roomTable = new DataTable();
-        List<string> roomData = new List<string>();
-        public Dictionary<string, List<string>> roomInformation;
-        List<string> keyDelete = new List<string>();
-        string IdRoomToChange;
-        bool IsChanged = false;
         int UserId;
+
+        private List<Trainee> lstOfTrainees;
 
         public TraineeManager(ref SimpleNetwork_Client TCPClient, MainContentWindow mainContentWindow, int iUserId)
         {
             this.TCPClient = TCPClient;
             this.TCPClient.changeProtocolFunction(Server_response_traineeManager);
+
             this.mainContentWindow = mainContentWindow;
-            this.roomInformation = new Dictionary<string, List<string>>();
             this.UserId = iUserId;
+
+            lstOfTrainees = new List<Trainee>();
         }
 
         public void Server_response_traineeManager(string message)
@@ -47,29 +45,54 @@ namespace tbfContentManager.Classes
                     GetAllRoomInformation(message, messageList);
                     break;
 
+                case "#224":
+                    GetAllTraineeInformation(message, messageList);
+                    break;
+
+                case "#226":
+                    GetAllTraineeInformation(message, messageList);
+                    break;
+
                 default:
                     MessageBox.Show("Server Kommunikationsproblem!");
+
+                    mainContentWindow._listView_trainees.Dispatcher.BeginInvoke((Action)(() =>
+                        mainContentWindow.grid_traineeManagerTab.IsEnabled = true));
                     break;
             }
+        }
+        /*
+        public void GetAllTraineeSend()
+        {
+            TCPClient.sendMessage("#223;", true);
+        }
+        */
+        public void GetAllTraineeFromRoomSend(int roomID)
+        {
+            TCPClient.sendMessage("#225;" + roomID.ToString(), true);
         }
 
         public void GetAllRoomInformation(string message, List<string> messageList)
         {
-            roomTable = new DataTable();
-            roomTable.Columns.Add("ID");
-            roomTable.Columns.Add("Räume");
-            roomInformation.Clear();
+            List<string> roomData = new List<string>();
+
+            DataTable traineeTable = new DataTable();
+            traineeTable.Columns.Add("ID");
+            traineeTable.Columns.Add("Räume");
+
+            Dictionary<string, List<string>> roomInformation = new Dictionary<string, List<string>>();
+
             for (int i = 2; i < messageList.Count; i++)
             {
                 roomData = messageList.ElementAt(i).Split('|').ToList();
 
                 roomInformation.Add(roomData[0], roomData);
 
-                roomTable.Rows.Add(roomData.ElementAt(0), roomData.ElementAt(1));
+                traineeTable.Rows.Add(roomData.ElementAt(0), roomData.ElementAt(1));
             }
 
-            roomTable.AcceptChanges();
-            LoadTable_Room(roomTable);
+            traineeTable.AcceptChanges();
+            LoadTable_Room(traineeTable);
         }
 
         private void LoadTable_Room(DataTable dt)
@@ -110,34 +133,46 @@ namespace tbfContentManager.Classes
 
         private void _listView_traineeRoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*
+            mainContentWindow.grid_traineeManagerTab.IsEnabled = false;
+            lstOfTrainees = new List<Trainee>();
+
             if (e.AddedItems.Count != 0)
             {
                 DataRowView row = (DataRowView)e.AddedItems[0];
                 string key = row.Row["ID"] as string;
-                List<string> roomDataInformation = new List<string>();
+                int roomID = Int32.Parse(key);
 
-                IdRoomToChange = key;
+                GetAllTraineeFromRoomSend(roomID);
+            }
+            else
+            {
+                mainContentWindow._listView_trainees.ItemsSource = lstOfTrainees;
+                mainContentWindow.grid_traineeManagerTab.IsEnabled = true;
+            }
+        }
 
-                roomInformation.TryGetValue(key, out roomDataInformation);
+        public void GetAllTraineeInformation(string message, List<string> messageList)
+        {
+            for (int i = 2; i < messageList.Count; i++)
+            {
+                List<string> traineeData = messageList.ElementAt(i).Split('|').ToList();
 
-                bool isPrivate = false;
-                if (roomDataInformation[3] == "1")
+                bool isInRoomSelection = false;
+                if (!traineeData.ElementAt(3).Equals(""))
                 {
-                    isPrivate = true;
+                    isInRoomSelection = true;
                 }
 
-                mainContentWindow.gb_roomInfos.Visibility = Visibility.Visible;
-                mainContentWindow.btn_saveRoom.Visibility = Visibility.Hidden;
-                mainContentWindow.btn_saveChangeRoom.Visibility = Visibility.Visible;
-                mainContentWindow.btn_deleteRoom.Visibility = Visibility.Visible;
+                Trainee trainee = new Trainee(i, isInRoomSelection, traineeData.ElementAt(1), traineeData.ElementAt(2));
 
-                mainContentWindow.txt_name_room.Text = roomDataInformation[1];
-                mainContentWindow.txt_beschreibung_room.Text = roomDataInformation[2];
-                mainContentWindow.b_isPrivate_room.IsChecked = isPrivate;
-                mainContentWindow.txt_url_pic_room.Text = roomDataInformation[4];
+                lstOfTrainees.Add(trainee);
             }
-            */
+
+            mainContentWindow._listView_trainees.Dispatcher.BeginInvoke((Action) (() =>
+                mainContentWindow._listView_trainees.ItemsSource = lstOfTrainees));
+
+            mainContentWindow._listView_trainees.Dispatcher.BeginInvoke((Action)(() =>
+                mainContentWindow.grid_traineeManagerTab.IsEnabled = true));
         }
     }
 }

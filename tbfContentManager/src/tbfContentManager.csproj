@@ -101,6 +101,7 @@
     <Compile Include="Classes\SignupManager.cs" />
     <Compile Include="Classes\StatusManager.cs" />
     <Compile Include="Classes\Support\logWriter.cs" />
+    <Compile Include="Classes\Trainee.cs" />
     <Compile Include="Classes\TraineeManager.cs" />
     <Compile Include="Classes\Upload.cs" />
     <Compile Include="Classes\WorkoutManager.cs" />

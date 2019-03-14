@@ -343,7 +343,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="traineeManagerTab" Header="Trainee&#xD;&#xA;Manager" Margin="7.667,1,-7.333,0.7" MouseLeftButtonUp="TiTraineeManager_MouseLeftButtonUp">
-                <Grid Margin="0,0,0,15.6">
+                <Grid Margin="0,0,0,15.6" x:Name="grid_traineeManagerTab">
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Auto">-->
                     <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,370.333,-0.267">
                         <ItemsControl Margin="0,0,-1.667,-2.333" >
@@ -365,39 +365,24 @@
                     </GroupBox>
                     <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="325,5,10.333,-0.267">
                         <ItemsControl Margin="0,0,0,33.667">
-                            <TextBox x:Name="txt_suchen_trainee_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="1,0,50,0"/>
-                            <ListBox ItemsSource="{Binding TopicList}" Height="237" Margin="10,0" x:Name="listTopics" VerticalAlignment="Top" Background="#0B000000">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                <CheckBox FlowDirection="RightToLeft">
-                                    <TextBlock FlowDirection="LeftToRight" Text="CheckBox Content:" />
-                                </CheckBox>
-                                <CheckBox Content="Name" IsChecked="True"/>
-                                <ListBoxItem Content="Item 2"/>
-                                <ListBoxItem Content="Item 3"/>
-                                <ListBoxItem Content="Item 4"/>
-                                <ListBoxItem Content="Item 5"/>
-                                <ListBoxItem Content="Item 6"/>
-                                <ListBoxItem Content="Item 7"/>
-                                <ListBoxItem Content="Item 8"/>
-                                <ListBoxItem Content="Item 9"/>
-                                <ListBoxItem Content="Item 10"/>
-                                <ListBoxItem Content="Item 1"/>
-                                <ListBoxItem Content="Item 2"/>
-                                <ListBoxItem Content="Item 3"/>
-                                <ListBoxItem Content="Item 4"/>
-                                <ListBoxItem Content="Item 5"/>
-                                <ListBoxItem Content="Item 6"/>
-                                <ListBoxItem Content="Item 7"/>
-                                <ListBoxItem Content="Item 8"/>
-                                <ListBoxItem Content="Item 9"/>
-                                <ListBoxItem Content="Item 10"/>
-                            </ListBox>
+                            <TextBox x:Name="txt_suchen_trainee_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="9,0,42,0"/>
+                            <ListView ItemsSource="{Binding}" Height="237" Margin="10,0" x:Name="_listView_trainees" VerticalAlignment="Top">
+                                <ListView.View>
+                                    <GridView x:Name="_gridview_trainees">
+                                        <GridView.Columns>
+                                            <GridViewColumn>
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Tag="{Binding ID}"  IsChecked="{Binding IsInRoomSelection}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Nickname}" Header="Nickname" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Mailadress}" Header="Mailadress" />
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </ItemsControl>
                     </GroupBox>
                     <!--<Button Margin="335,281,169,16.4">
