@@ -31,7 +31,7 @@ namespace tbfContentManager
         //Buffer of txt boxes
         public string sUserBuffer = "8000";
         int Bufferlength = 18000;
-        string domain = "tbf.spdns.de";        //194.55.12.202
+        string domain = "projectURL.de or IP";
         public string sTrennzeichen = ";";
 
         public MainWindow()
