@@ -139,6 +139,8 @@ namespace tbfController.Classes.Core
                     Tel_223_requestUserList(ref relatedClient); break;
                 case "#225":
                     Tel_225_requestUserMemberList(lDataList, ref relatedClient); break;
+                case "#227":
+                    Tel_227_requestRoomTraineesChange(lDataList, ref relatedClient); break;
                 case "#305":
                     Tel_305_requestLevelDelete(lDataList, ref relatedClient); break;
                 default:
@@ -590,6 +592,27 @@ namespace tbfController.Classes.Core
             }
         }
 
+        private void Tel_305_requestLevelDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        {
+            try
+            {
+                //log
+                Logger.writeInLog(true, "Message #305 (REQ_LevelDELETE) received from a client!");
+                //Get room data
+                int iLevelDeleteStatusCode = DatabaseEngine.deleteLevel(Convert.ToInt32(lDataList[0]));
+                string sProtocol = "#306" + cProtocolDelimiter + iLevelDeleteStatusCode;
+                //Send message to client
+                TcpServer.sendMessage(sProtocol, relatedClient);
+                Logger.writeInLog(true, "Answered #306 with status code: " + iLevelDeleteStatusCode);
+
+            }
+            catch (Exception e)
+            {
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMDELETE)! Message: " + e.ToString());
+                return;
+            }
+        }
+
         private void Tel_223_requestUserList(ref networkServer.networkClientInterface relatedClient)
         {
             try
@@ -664,26 +687,50 @@ namespace tbfController.Classes.Core
             }
         }
 
-        private void Tel_305_requestLevelDelete(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
+        private void Tel_227_requestRoomTraineesChange(List<string> lDataList, ref networkServer.networkClientInterface relatedClient)
         {
+            int iRoomTraineesChangeStatusCode = 0;
             try
             {
                 //log
-                Logger.writeInLog(true, "Message #305 (REQ_LevelDELETE) received from a client!");
-                //Get room data
-                int iLevelDeleteStatusCode = DatabaseEngine.deleteLevel(Convert.ToInt32(lDataList[0]));
-                string sProtocol = "#306" + cProtocolDelimiter + iLevelDeleteStatusCode;
+                Logger.writeInLog(true, "Message #227 (REQ_ROOMTRAINEESCHANGE) received from a client!");
+
+                //IMPORTANT -> Check length of ldatalistcount
+                if (Convert.ToInt32(lDataList[0]) <= 0)                         //Check if roomID is bigger than 0
+                {
+                    throw new ArgumentOutOfRangeException(nameof(lDataList), "roomID invalid, must be bigger than 0");
+                }
+                else if (Convert.ToInt32(lDataList[1]) <= 0)                    //Check if userCount is bigger than 0
+                {
+                    throw new ArgumentOutOfRangeException(nameof(lDataList), "userCount invalid, must be bigger than 0");
+                }
+                else if (Convert.ToInt32(lDataList[1]) != lDataList.Count - 2)  //Check if userCount is same as users in the lDataList
+                {
+                    throw new ArgumentOutOfRangeException(nameof(lDataList), "userList number invalid, must be same as userCount");
+                }
+                else
+                {
+                    List<string> traineesToChange = new List<string>();
+                    for (int i = 2; i < lDataList.Count; i++)
+                    {
+                        traineesToChange.Add(lDataList[i]);
+                    }
+
+                    iRoomTraineesChangeStatusCode = DatabaseEngine.changeRoomTrainees(Convert.ToInt32(lDataList[0]), traineesToChange);
+                }
+
                 //Send message to client
-                TcpServer.sendMessage(sProtocol, relatedClient);
-                Logger.writeInLog(true, "Answered #306 with status code: " + iLevelDeleteStatusCode);
+                TcpServer.sendMessage("#228" + cProtocolDelimiter + iRoomTraineesChangeStatusCode, relatedClient);
+                Logger.writeInLog(true, "Answered #228 with status code: " + iRoomTraineesChangeStatusCode);
 
             }
             catch (Exception e)
             {
-                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMDELETE)! Message: " + e.ToString());
+                Logger.writeInLog(true, "ERROR: Something went wrong with telegram (REQ_ROOMTRAINEESCHANGE)! Message: " + e.ToString());
                 return;
             }
         }
+
         #endregion
 
 

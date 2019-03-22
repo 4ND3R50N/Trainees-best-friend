@@ -537,7 +537,56 @@ namespace WCDatabaseEngine
                 return 1;
             }
         }
+        
+        public override int changeRoomTrainees(int iRoomID, List<string> iTraineesToChange)
+        {
+            using (MySqlConnection MysqlConn =
+                new MySqlConnection("server=" + host_ip + ";database=" + sql_db_default + ";uid=" + sql_user + ";pwd=" + sql_pass + ";"))
+            {
+                MySqlDataReader MysqlData = null;
+                //Connect
+                try
+                {
+                    MysqlConn.Open();
+                }
+                catch (Exception e)
+                {
+                    return 2;
+                }
+                //Change all trainees in the room with iRoomID
+                foreach (string traineeIDToChange in iTraineesToChange)
+                {
+                    // get room - user relation
+                    MysqlData = executeQuery(MysqlConn, "SELECT user_id from tbf_user_room_relation WHERE " +
+                                                        "room_id = '" + iRoomID + "' AND user_id = '" + traineeIDToChange + "'");
 
+                    List<List<string>> dataMatrix = createDataMatrix(MysqlData);
+                    MysqlData.Close();
+
+                    if (dataMatrix.Count == 0)
+                    {
+                        //if no relation exists, add relation
+                        MysqlData = executeQuery(MysqlConn, "INSERT INTO tbf_user_room_relation (room_id, user_id) " +
+                                                "VALUES(" + iRoomID + ", " + traineeIDToChange + ");");
+                        MysqlData.Close();
+                    }
+                    else if (dataMatrix.Count == 1)
+                    {
+                        //if relation exist, remove relation
+                        MysqlData = executeQuery(MysqlConn, "DELETE FROM tbf_user_room_relation WHERE " +
+                                                "room_id = '" + iRoomID + "' AND user_id = '" + traineeIDToChange + "'");
+                        MysqlData.Close();
+                    }
+                    else
+                    {
+                        //something went wrong, maybe to many entries found in room - user relation
+                        return 2;
+                    }
+                }
+                return 1;
+            }
+        }
+        
 
         #region Support functions
         private List<List<string>> createDataMatrix(MySqlDataReader MysqlData)

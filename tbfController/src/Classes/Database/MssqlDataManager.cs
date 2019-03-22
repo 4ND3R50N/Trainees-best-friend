@@ -154,5 +154,10 @@ namespace WCDatabaseEngine
         {
             throw new NotImplementedException();
         }
+
+        public override int changeRoomTrainees(int iRoomID, List<string> iTraineesToChange)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
