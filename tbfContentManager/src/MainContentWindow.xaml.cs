@@ -25,7 +25,7 @@ namespace tbfContentManager
     {
         string sUserName;
         int iUserID;
-        string sTrennzeichen = ";";
+        public string sTrennzeichen = ";";
         DataTable table;
         SimpleNetwork_Client TCPClient;
 
@@ -336,6 +336,42 @@ namespace tbfContentManager
                 roomManager.GetAllRoomSend();
                 Thread.Sleep(100);
             }
+        }
+
+        private void Txt_suchen_trainee_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (txt_suchen_trainee.Text.Equals("Suchen"))
+            {
+                txt_suchen_trainee.Text = "";
+            }
+        }
+
+        private void Txt_suchen_rooms_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (txt_suchen_rooms.Text.Equals("Suchen"))
+            {
+                txt_suchen_rooms.Text = "";
+            }
+        }
+
+        private void CheckBox_trainee_OnChecked(object sender, RoutedEventArgs e)
+        {
+            traineeManager.traineeCheckBoxChanged(sender);
+        }
+
+        private void CheckBox_trainee_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            traineeManager.traineeCheckBoxChanged(sender);
+        }
+
+        private void Bt_add_trainee_OnClick(object sender, RoutedEventArgs e)
+        {
+            traineeManager.SendRoomTraineesChanges();
+        }
+
+        private void Bt_abbrechen_trainee_OnClick(object sender, RoutedEventArgs e)
+        {
+            _listView_traineeRoom.SelectedItems.Clear();
         }
     }
  }

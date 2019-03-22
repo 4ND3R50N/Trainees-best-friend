@@ -344,10 +344,14 @@
             </TabItem>
             <TabItem x:Name="traineeManagerTab" Header="Trainee&#xD;&#xA;Manager" Margin="7.667,1,-7.333,0.7" MouseLeftButtonUp="TiTraineeManager_MouseLeftButtonUp">
                 <Grid Margin="0,0,0,15.6" x:Name="grid_traineeManagerTab">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="119*"/>
+                        <ColumnDefinition Width="568*"/>
+                    </Grid.ColumnDefinitions>
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Auto">-->
-                    <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,370.333,-0.267">
+                    <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,370.333,-0.267" Grid.ColumnSpan="2">
                         <ItemsControl Margin="0,0,-1.667,-2.333" >
-                            <TextBox x:Name="txt_suchenRooms_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="0,0,28,0"/>
+                            <TextBox x:Name="txt_suchen_rooms" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="0,0,28,0" GotKeyboardFocus="Txt_suchen_rooms_OnGotKeyboardFocus"/>
                             <ListView x:Name="_listView_traineeRoom" ItemsSource="{Binding}" Height="283" Margin="0,0,0.333,0" >
                                 <ListView.View >
                                     <GridView x:Name="_gridView_traineeRoom">
@@ -363,17 +367,17 @@
                             </ListView>
                         </ItemsControl>
                     </GroupBox>
-                    <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="325,5,10.333,-0.267">
+                    <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="205.667,5,10.333,-0.267" Grid.Column="1">
                         <ItemsControl Margin="0,0,0,33.667">
-                            <TextBox x:Name="txt_suchen_trainee_exe" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="9,0,42,0"/>
-                            <ListView ItemsSource="{Binding}" Height="237" Margin="10,0" x:Name="_listView_trainees" VerticalAlignment="Top">
+                            <TextBox x:Name="txt_suchen_trainee" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="9,0,42,0" GotKeyboardFocus="Txt_suchen_trainee_OnGotKeyboardFocus"/>
+                            <ListView ItemsSource="{Binding}" Height="237" Margin="10,0" x:Name="_listView_trainees" VerticalAlignment="Top" >
                                 <ListView.View>
                                     <GridView x:Name="_gridview_trainees">
                                         <GridView.Columns>
                                             <GridViewColumn>
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <CheckBox Tag="{Binding ID}"  IsChecked="{Binding IsInRoomSelection}" />
+                                                        <CheckBox Tag="{Binding ID}"  IsChecked="{Binding IsInRoomSelection}" Checked="CheckBox_trainee_OnChecked" Unchecked="CheckBox_trainee_OnUnchecked" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -388,8 +392,8 @@
                     <!--<Button Margin="335,281,169,16.4">
                         <TextBlock Text="Speichern" FontSize="20" FontFamily="Gill Sans MT Condensed"/>
                     </Button>-->
-                    <Button x:Name="bt_add_trainee" Content="Speichern"  Margin="342,312,197.333,0" Foreground="#CC0050EF" Height="25" VerticalAlignment="Top"/>
-                    <Button x:Name="bt_abbrechen_trainee" Content="Abbrechen"  Margin="505,312,34.333,0" Foreground="#CC0050EF" Height="25" VerticalAlignment="Top"/>
+                    <Button x:Name="bt_add_trainee" Content="Speichern"  Margin="222.667,312,197.333,0" Foreground="#CC0050EF" Height="25" VerticalAlignment="Top" Click="Bt_add_trainee_OnClick" IsEnabled="False" Grid.Column="1"/>
+                    <Button x:Name="bt_abbrechen_trainee" Content="Abbrechen"  Margin="385.667,312,34.333,0" Foreground="#CC0050EF" Height="25" VerticalAlignment="Top" Click="Bt_abbrechen_trainee_OnClick" IsEnabled="False" Grid.Column="1" />
                     <!--<Button Margin="491,279,22,18.4">
                         <TextBlock Text="Abbrechen" FontSize="20" FontFamily="Gill Sans MT Condensed"/>
                     </Button>-->
