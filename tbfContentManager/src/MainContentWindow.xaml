@@ -141,12 +141,12 @@
                                         <TextBox x:Name="txt_beschreibung_room" Margin="0,52,0,475"/>
                                         <Label x:Name="label_private_headline_room" Content="Privater Raum?" Margin="0,130,180,449" FontWeight="Bold"/>
                                         <CheckBox x:Name="b_isPrivate_room" Margin="246,134,10,452"/>
-                                        <Label x:Name="label_Bild_Raum" Content="Bild des Raumes:" Margin="0,156,180,422" FontWeight="Bold"/>
-                                        <ListBox x:Name="listbox_trainer_room" Margin="140,156,10,418">
+                                        <Label x:Name="label_Bild_Raum" Content="Bild des Raumes:" Margin="0,156,180,422" FontWeight="Bold" Visibility="Hidden"/>
+                                        <ListBox x:Name="listbox_trainer_room" Margin="140,156,10,418" Visibility="Hidden">
                                             <ListBoxItem x:Name="listboxitem_trainer_room" VerticalAlignment="Top" Content="Noch kein Bild vorhanden!" Width="182"/>
                                         </ListBox>
-                                        <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room"/>
-                                        <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="B_url_pic_room_Click"/>
+                                        <TextBox Margin="4,186,111,386" x:Name="txt_url_pic_room" Visibility="Hidden"/>
+                                        <Button Content="Hochladen" Margin="238,186,10,386" Name="b_url_pic_room" Click="B_url_pic_room_Click" Visibility="Hidden"/>
 
                                         <!--
                                             <GroupBox x:Name="label_trainees" Header="Trainee's" Margin="0,224,10,54">
@@ -351,7 +351,7 @@
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Auto">-->
                     <GroupBox x:Name="groupBox9" Header="Rooms" Margin="10,5,370.333,-0.267" Grid.ColumnSpan="2">
                         <ItemsControl Margin="0,0,-1.667,-2.333" >
-                            <TextBox x:Name="txt_suchen_rooms" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="0,0,28,0" GotKeyboardFocus="Txt_suchen_rooms_OnGotKeyboardFocus"/>
+                            <TextBox x:Name="txt_suchen_rooms" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="0,0,28,0" GotKeyboardFocus="Txt_suchen_rooms_OnGotKeyboardFocus" Visibility="Hidden"/>
                             <ListView x:Name="_listView_traineeRoom" ItemsSource="{Binding}" Height="283" Margin="0,0,0.333,0" >
                                 <ListView.View >
                                     <GridView x:Name="_gridView_traineeRoom">
@@ -369,7 +369,7 @@
                     </GroupBox>
                     <GroupBox x:Name="groupBox100" Header="Trainee's" Margin="205.667,5,10.333,-0.267" Grid.Column="1">
                         <ItemsControl Margin="0,0,0,33.667">
-                            <TextBox x:Name="txt_suchen_trainee" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="9,0,42,0" GotKeyboardFocus="Txt_suchen_trainee_OnGotKeyboardFocus"/>
+                            <TextBox x:Name="txt_suchen_trainee" Height="23" TextWrapping="Wrap" Text="Suchen" Margin="9,0,42,0" GotKeyboardFocus="Txt_suchen_trainee_OnGotKeyboardFocus" Visibility="Hidden"/>
                             <ListView ItemsSource="{Binding}" Height="237" Margin="10,0" x:Name="_listView_trainees" VerticalAlignment="Top" >
                                 <ListView.View>
                                     <GridView x:Name="_gridview_trainees">

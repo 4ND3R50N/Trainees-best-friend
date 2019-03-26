@@ -41,8 +41,10 @@ namespace tbfContentManager
             //IPAddress.Parse(ipAddress)    Old
             TCPClient = new SimpleNetwork_Client(Server_response, Bufferlength, "", domain,
                                                 13001, AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.Hide();
-            StartMainWindow("18");
+
+            //Used for login automatically with user test (userID = 18) and hide this login window
+            //this.Hide();
+            //StartMainWindow("18");
         }
 
         public void Server_response(string message) {
