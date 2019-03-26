@@ -227,8 +227,14 @@ namespace tbfContentManager.Classes
 
         public void GetRoomTraineesChangedStatusCode(string message, List<string> messageList)
         {
-            //TODO
-            MessageBox.Show(message);
+            if (messageList[1].Equals("1"))
+            {
+                MessageBox.Show("Änderungen der Trainees am Raum erfolgreich durchgeführt");
+            }
+            else
+            {
+                MessageBox.Show("Fehlgeschlagen, Änderungen konnten nicht durchgeführt werden");
+            }
         }
 
         public void traineeCheckBoxChanged(Object sender)
